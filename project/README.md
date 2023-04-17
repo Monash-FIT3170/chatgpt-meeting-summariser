@@ -11,9 +11,13 @@ attended so that people do not miss out on important meeting points again.
 
 Clone the project
 
+Github -> profile -> settings -> Developer Settings -> Personal Access Tokens -> Tokens (Classic)
+Generate and save token
 ```bash
   git clone https://github.com/Monash-FIT3170/chatgpt-meeting-summariser
 ```
+Username: Github Username
+Password: Personal Access Token
 
 Go to the project directory
 
