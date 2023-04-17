@@ -16,7 +16,7 @@ Generate and save token
 ```bash
   git clone https://github.com/Monash-FIT3170/chatgpt-meeting-summariser
 ```
-Username: Github Username
+Username: Github Username 
 Password: Personal Access Token
 
 Go to the project directory
