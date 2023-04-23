@@ -38,6 +38,7 @@ Note: Make sure you delcare your MongoDB URI in .env before starting the project
 Start the frontend server
 
 ```bash
+  cd meeting-summariser
   npm install
   npm start
 ```
