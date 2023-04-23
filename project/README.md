@@ -25,16 +25,27 @@ Go to the project directory
   cd /user/..../chatgpt-meeting-summariser/project
 ```
 
+To run the back end server application
+
+```bash
+  cd backend
+  npm install
+  npm install nodemon 
+  nodemon server.js
+```
+Note: Make sure you delcare your MongoDB URI in .env before starting the project
+
+Start the frontend server
+
+```bash
+  npm install
+  npm start
+```
+
 Install dependencies
 
 ```bash
   npm install 'package name'
-```
-
-Start the server
-
-```bash
-  npm run
 ```
 
 
