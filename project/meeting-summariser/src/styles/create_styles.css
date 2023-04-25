@@ -1,0 +1,58 @@
+
+
+.card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* set the height of the container to the full viewport height */
+  }
+  
+  .create-card {
+    padding: 20%;
+    width: 50%;
+    height: 80%;
+    background: rgba(217, 217, 217, 1);
+    padding: 4rem;
+    border-radius: 10px;
+    opacity: 100%;
+    position: fixed;
+    z-index: 100;
+    display: block;
+    opacity: 100%;
+    border: solid;
+    border-color: black;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    justify-items: center;
+    flex-direction: column;
+  }
+
+  .title {
+    font-family: Raleway;
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 47px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: rgba(99, 55, 17, 1);
+    top: 0%;
+  }
+
+.login-card-form {
+    margin-top: 20rem; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-item {
+
+}
+
+.form-item-icon {
+    background: linear-gradient(0deg, #F1E7E7, #F1E7E7),
+    linear-gradient(0deg, #000000, #000000);
+}
