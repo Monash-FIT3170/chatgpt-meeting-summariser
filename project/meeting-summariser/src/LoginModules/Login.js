@@ -1,7 +1,7 @@
 import React, { Component, useState } from 'react';
 import "../styles/login_styles.css"
 import "../styles/create_styles.css"
-import CreateAccount from './CreateAccount';
+import CreateAccount from './CreateAccount.js';
 
 // Define Login component
 function LoginCanvas (){
@@ -22,7 +22,7 @@ function LoginCanvas (){
                     <img src="../img/logo.png" alt="logo"/>
                 </div>
                 <div class="login-card-container">
-                {PopUp && <CreateAccount/>}
+                {PopUp && <CreateAccount onClose={togglePopUp}/>}
                     <div class="login-card">
                         <div class="login-card-title">
                             <h1>Login</h1>
