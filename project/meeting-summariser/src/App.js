@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import { Home } from './pages'
+import { Home, Summarizer } from './pages'
 import './App.css';
 
 function App() {
@@ -7,6 +7,7 @@ function App() {
     <>
        <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/summarizer" element={<Summarizer />} />
        </Routes>
     </>
   );

@@ -1,0 +1,14 @@
+::-webkit-file-upload-button {
+    display: none;
+}
+
+.button {
+    color: rgb(8, 53, 217);
+    font-size: 60px;
+    height: 65px;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    margin: 2rem;
+    cursor: pointer;
+}
