@@ -14,7 +14,6 @@ app.use(cors());
 app.use(express.json());
 app.use(passport.initialize());
 app.use('/users', usersRouter);
-app.use(express.static("uploads"));
 app.use(uploadRoute);
 
 const uri = process.env.ATLAS_URI;
