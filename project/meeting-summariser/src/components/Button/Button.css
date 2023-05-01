@@ -3,12 +3,17 @@
 }
 
 .button {
-    color: rgb(8, 53, 217);
-    font-size: 60px;
-    height: 65px;
+    border-style: solid; 
+    border-radius:10px; 
+    border-color: black;
+    background-color:#EDD7A0;
+    text-align: center;
+    color: rgb(49, 52, 69);
+    font-size: 20px;
+    height: 40px;
+    width:400px;
     position: fixed;
-    right: 0;
-    bottom: 0;
-    margin: 2rem;
+    margin-top: 500px;
+    margin-left: 50px;
     cursor: pointer;
 }
