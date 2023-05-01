@@ -1,6 +1,8 @@
 const router = require("express").Router();
 let MeetingSummary = require("../models/meetingSummary.model");
 
+require("dotenv").config();
+
 const { Configuration, OpenAIApi } = require("openai");
 
 const configuration = new Configuration({
@@ -17,19 +19,30 @@ router.route("/").get((req, res) => {
 router.route("/add").post(async (req, res) => {
   const transcript = req.body.transcript;
   // const summaryPoints = req.body.summaryPoints;
-  
-  const completion = await openai.createCompletion({
-    model: "gpt-turbo-3.5",
-    messages: [
-      {role: "system", content:"You are a meeting assistant that is tasked to summarize meeting transcripts."},
-      {role: "user", content:"Please generate a meeting summary for the following transcript."},
-      {role: "assistant", content:"Sure, I will generate a summary for your meeting transcript."},
-      {role: "user", content: transcript},
-    ]
-  });
-  console.log(completion.data.choices[0].text);
 
-  const summaryPoints = completion.data.choices[0].text;
+  const completion = await openai.createChatCompletion({
+    model: "gpt-3.5-turbo",
+    messages: [
+      {
+        role: "system",
+        content:
+          "You are a meeting assistant that is tasked to summarize meeting transcripts.",
+      },
+      {
+        role: "user",
+        content:
+          "Please generate a meeting summary for the following transcript.",
+      },
+      {
+        role: "assistant",
+        content: "Sure, I will generate a summary for your meeting transcript.",
+      },
+      { role: "user", content: transcript },
+    ],
+  });
+  // console.log(completion.data.choices[0].message.content);
+
+  const summaryPoints = completion.data.choices[0].message.content;
 
   const newMeetingSummary = new MeetingSummary({ transcript, summaryPoints });
 
