@@ -35,7 +35,7 @@ router.delete('/api/delete/:id', async (req, res) => {
         }
         const filePath = path.join(__dirname, '..', 'uploads', transcript.transcript);
         fs.unlinkSync(filePath); // Delete the file from the server
-        await transcript.remove(); // Delete the transcript from the database
+        await UploadModel.deleteOne({ _id: transcript._id }); // Delete the transcript from the database
         res.send('Transcript deleted successfully');
     } catch (err) {
         console.log(err);
