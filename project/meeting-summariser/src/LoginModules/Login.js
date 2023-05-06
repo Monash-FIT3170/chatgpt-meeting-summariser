@@ -73,7 +73,7 @@ function LoginCanvas() {
                             <button type="submit">Sign In</button>
                         </form>
                         <div class="login-card-footer">
-                            Don't have an account?
+                            Don't have an account? <br />
                             <button onClick={togglePopUp}>
                                 Create an account.
                             </button>
