@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import "../styles/login_styles.css"
 import "../styles/create_styles.css"
 import CreateAccount from './CreateAccount.js';
