@@ -4,20 +4,14 @@ import axios from 'axios';
 // Define Board component
 const CreateAccount = ({onClose}) => {
 
-    const [firstName, setFirstName] = useState("")
-    const [lastName, setLastName] = useState("")
+    const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
 
     //Functions that change the target vals
-    const handleFirstNameChange = (event) => {
-        setFirstName(event.target.value)
-        console.log(event.target.value)
-        console.log(firstName)
-    }
-    const handleLastNameChange = (event) => {
-        setLastName(event.target.value)
+    const handleUsernameChange = (event) => {
+        setUsername(event.target.value)
     }
     const handleEmailChange = (event) => {
         setEmail(event.target.value)
@@ -31,13 +25,12 @@ const CreateAccount = ({onClose}) => {
         event.preventDefault();
 
         const newUser = {
-            firstName: firstName,
-            lastName: lastName,
+            username: username,
             email: email,
             password: password
         }
 
-        axios.post('http://localhost:5000/users/signup', newUser)
+        axios.post('http://localhost:5001/users/create', newUser)
             .then(res => {
                 console.log(res.data);
             })
@@ -63,13 +56,8 @@ const CreateAccount = ({onClose}) => {
                     <form class="create-card-form">
                         <div class="form-item">
                             <span class="form-item-icon material-symbols-rounded"></span>
-                                <input type="text" placeholder="please enter your first name" id="firstNameForm" 
-                                autofocus required onChange={handleFirstNameChange}/>
-                        </div>
-                        <div class="form-item">
-                        <span class="form-item-icon material-symbols-rounded"></span>
-                                <input type="text" placeholder="please enter your last name" id="lastNameForm" 
-                                autofocus required onChange={handleLastNameChange}/>
+                                <input type="text" placeholder="please enter your username" id="usernameForm" 
+                                autofocus required onChange={handleUsernameChange}/>
                         </div>
                         <div class="form-item">
                             <span class="form-item-icon material-symbols-rounded"></span>
