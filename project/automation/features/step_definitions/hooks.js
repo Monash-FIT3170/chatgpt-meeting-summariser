@@ -1,4 +1,4 @@
-const { Given, When, Then, After } = require('@cucumber/cucumber');
+const { After } = require('@cucumber/cucumber');
 
 
 require("chromedriver");
