@@ -3,6 +3,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const usersRouter = require('./routes/user');
+const meetingSummariesRouter = require('./routes/meetingSummaries');
 
 require('dotenv').config();
 
@@ -13,6 +14,7 @@ app.use(cors());
 app.use(express.json());
 app.use(passport.initialize());
 app.use('/users', usersRouter);
+app.use('/meetingSummaries', meetingSummariesRouter);
 
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, { useNewUrlParser: true }
