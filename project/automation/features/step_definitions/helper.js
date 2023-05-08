@@ -10,10 +10,6 @@ class CustomWorld  extends World{
         capabilities.set('chromeOptions', { "w3c": false });
         this.driver = new Builder().withCapabilities(capabilities).build();
     }
-
-    // async quitWebdriver() {
-    //     await this.driver.quit()
-    // }
 }
 
 setWorldConstructor(CustomWorld);

@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const { Given, When, Then, AfterAll } = require('@cucumber/cucumber');
+const { Given, When, Then, After } = require('@cucumber/cucumber');
 
 const { Builder, By, Capabilities, Key } = require('selenium-webdriver');
 
@@ -13,8 +13,10 @@ Given('I am on the Google search page', async function () {
 
 When('I search for {string}', async function (searchTerm) {
     const element = await this.driver.findElement(By.name('q'));
-    element.sendKeys(searchTerm, Key.RETURN);
-    element.submit();
+    await element.click()
+    await element.clear()
+    await element.sendKeys(searchTerm);
+    await element.submit();
 });
 
 Then('the page title should start with {string}', { timeout: 60 * 1000 }, async function (searchTerm) {
@@ -23,6 +25,3 @@ Then('the page title should start with {string}', { timeout: 60 * 1000 }, async 
     expect(isTitleStartWithCheese).to.equal(true);
 });
 
-// AfterAll(async function () {
-//     await this.driver.quit()
-// })

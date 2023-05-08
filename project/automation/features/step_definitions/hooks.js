@@ -1,8 +1,9 @@
-// const { After, AfterAll } = require("@cucumber/cucumber");
-// const { Builder, By, Capabilities, Key } = require('selenium-webdriver');
+const { Given, When, Then, After } = require('@cucumber/cucumber');
 
-// require('chromedriver')
 
-// AfterAll( function() {
-//     this..
-// })
+require("chromedriver");
+
+After({tags: "@Web"},async function () {
+    await this.driver.quit()
+})
+
