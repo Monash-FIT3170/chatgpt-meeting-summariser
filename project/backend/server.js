@@ -6,6 +6,8 @@ const usersRouter = require('./routes/user');
 const uploadRoute = require('./routes/upload');
 const meetingSummariesRouter = require('./routes/meetingSummaries');
 
+const summary = require('./routes/summary');
+
 require('dotenv').config();
 
 const app = express();
@@ -16,7 +18,7 @@ app.use(express.json());
 app.use(passport.initialize());
 app.use('/users', usersRouter);
 app.use('/meetingSummaries', meetingSummariesRouter);
-app.use(uploadRoute);
+app.use(summary);
 
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, { useNewUrlParser: true }

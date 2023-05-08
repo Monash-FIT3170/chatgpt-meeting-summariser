@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { Home, Summarizer } from './pages'
 import CreateMeetingSummary from './components/createMeetingSummary.component'
-import { Home } from './pages'
+
 import './App.css';
 
 function App() {
