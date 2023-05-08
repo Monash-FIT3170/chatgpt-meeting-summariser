@@ -8,9 +8,8 @@ const Navbar = ({ title }) => {
             <div className='navbar-title'>
                 {title}
             </div>
-
-            <div className='side'>
-            <CgProfile className='profile' />
+            <div className='navbar-items'>
+                <CgProfile className='profile' />
                 <img className='logo' src="/minute_mind_logo.PNG" alt="" />
             </div>
         </nav>

@@ -3,7 +3,6 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-
     font-family: 'Raleway';
     font-style: normal;
     font-weight: 700;
@@ -20,9 +19,10 @@
 .profile {
     font-size: 40px;
     padding: 0 20px;
+    color: gray;
 }
 
-.side {
+.navbar-items {
     display: flex;
     align-items: center;
 }
