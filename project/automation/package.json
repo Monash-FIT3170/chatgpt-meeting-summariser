@@ -13,6 +13,7 @@
     "@cucumber/cucumber": "^9.1.2"
   },
   "dependencies": {
+    "chai": "^4.3.7",
     "chromedriver": "^113.0.0",
     "selenium-webdriver": "^4.9.0"
   }
