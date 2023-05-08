@@ -9,6 +9,7 @@
     "bcrypt": "^5.1.0",
     "bootstrap": "^5.2.3",
     "cors": "^2.8.5",
+    "express-session": "^1.17.3",
     "mongoose": "^7.0.4",
     "nodemon": "^2.0.22",
     "passport": "^0.6.0",
