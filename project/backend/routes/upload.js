@@ -5,15 +5,13 @@ const fs = require('fs');
 const path = require('path');
 
 
+
 const router = Router();
 
-router.get("/api/get", async (req,res)=>{
-    const allTranscripts= await UploadModel.find().sort({createdAt: "descending"});
-    res.send(allTranscripts)
-});
 
 router.post("/api/save", UploadMiddleware.single("transcript"), (req, res) => {
-    const transcript = req.file.filename;
+    // const transcript = req.file.originalname;
+    const transcript = req.file.buffer.toString();
 
 
     UploadModel.create({transcript})
