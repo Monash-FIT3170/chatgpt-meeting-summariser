@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const usersRouter = require('./routes/user');
 const meetingSummariesRouter = require('./routes/meetingSummaries');
+const uploadRoute = require('./routes/upload');
 
 require('dotenv').config();
 
@@ -15,10 +16,12 @@ app.use(express.json());
 app.use(passport.initialize());
 app.use('/users', usersRouter);
 app.use('/meetingSummaries', meetingSummariesRouter);
+app.use(uploadRoute);
 
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, { useNewUrlParser: true }
 );
+
 const connection = mongoose.connection;
 connection.once('open', () => {
   console.log("MongoDB database connection established successfully");
