@@ -8,6 +8,16 @@ const storage = multer.diskStorage({
     },
 });
 
+// Filter for txt files only
+const fileFilter = (req, file, cb) => {
+    const allowedFileTypes = ["text/txt"];
+    if (allowedFileTypes.includes(file.mimetype)){
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+};
+
 
 const uploadMiddleware = multer({ storage});
 
