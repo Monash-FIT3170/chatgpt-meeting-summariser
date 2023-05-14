@@ -1,0 +1,7 @@
+.page{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background: #F9F8E8
+
+}

@@ -1,11 +1,17 @@
 import { Button } from '../components'
+import { Navbar } from "../components"
+import './Page.css'
+
 
 const Summarizer = () => {
     return (
-        <div>
-            Summarizer
-            <Button></Button>
-        </div>
+        <>
+            <Navbar title={"Summarizer"}></Navbar>
+            <nav className='page'>
+                <Button></Button>
+            </nav>
+
+        </>
     )
 }
 
