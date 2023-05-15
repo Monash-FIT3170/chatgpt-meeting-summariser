@@ -19,6 +19,6 @@ const fileFilter = (req, file, cb) => {
 };
 
 
-const uploadMiddleware = multer({ storage});
+const uploadMiddleware = multer({ storage , fileFilter});
 
 module.exports = uploadMiddleware;
