@@ -1,7 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { Home, Summarizer } from './pages'
 import CreateMeetingSummary from './components/createMeetingSummary.component'
-
 import './App.css';
 import LoginCanvas from './LoginModules/Login';
 import CreateAccount from './LoginModules/CreateAccount';
