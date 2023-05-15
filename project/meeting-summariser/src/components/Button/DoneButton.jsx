@@ -9,7 +9,7 @@ const DoneButton = () => {
 	}
 		return (
 		<div className= "done_button" onClick={(e) => handleChange(e)}>
-			Done
+			Save
 		</div>
 	);
 };
