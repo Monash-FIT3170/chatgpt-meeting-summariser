@@ -46,4 +46,17 @@ router.route('/create').post(async (req, res) => {
     }
 });
 
+router.route('/login').post(async (req, res) => {
+    try{
+        passport.authenticate('local', { failureRedirect: '/login' }),
+        function(req, res) {
+            res.redirect('/');
+            console.log("User logged in");
+        }
+    }
+    catch{
+        res.status(500).send();
+    }
+});
+
 module.exports = router;
