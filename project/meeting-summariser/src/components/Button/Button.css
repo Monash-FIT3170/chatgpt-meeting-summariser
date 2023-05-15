@@ -13,7 +13,7 @@
     height: 50px;
     width:500px;
     position: fixed;
-    margin-top: 300px;
+    margin-top: 260px;
     margin-left: 125px;
     cursor: pointer;
 }
@@ -29,12 +29,12 @@
     height: 50px;
     width:230px;
     position: fixed;
-    margin-top: 370px;
+    margin-top: 330px;
     margin-left: 125px;
 }
 
 .remove_button{
-    border-style: solid; 
+    border-style:solid; 
     border-radius:10px; 
     border-color: black;
     background-color:#c06757;
@@ -44,6 +44,47 @@
     height: 50px;
     width:230px;
     position: fixed;
-    margin-top: 370px;
+    margin-top: 330px;
     margin-left: 390px;
+}
+
+.done_button{
+    border-style: solid; 
+    border-radius:50px; 
+    background-color:rgba(145, 211, 122, 1);
+    text-align: center;
+    color:rgba(255, 255, 255, 1);
+    font-size: 25px;
+    height: 55px;
+    width:350px;
+    position: fixed;
+    margin-top: 600px;
+    margin-left: 300px;
+}
+
+.back_button{
+    border-style: solid; 
+    border-radius:50px; 
+    background-color:rgba(211, 122, 122, 1);
+    text-align: center;
+    color:rgba(255, 255, 255, 1);
+    font-size: 25px;
+    height: 55px;
+    width:150px;
+    position: fixed;
+    margin-top: 600px;
+    margin-left: 125px;
+}
+.summarise_button{
+    border-style: solid; 
+    border-radius:50px; 
+    background-color:rgba(131, 233, 255, 1);
+    text-align: center;
+    color:rgba(255, 255, 255, 1);
+    font-size: 25px;
+    height: 55px;
+    width:390px;
+    position: fixed;
+    margin-top: 420px;
+    margin-left: 180px;
 }
