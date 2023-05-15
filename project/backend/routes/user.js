@@ -50,7 +50,7 @@ router.route('/login').post(async (req, res) => {
     try{
         passport.authenticate('local', { failureRedirect: '/login' }),
         function(req, res) {
-            res.redirect('/');
+            res.redirect('/home');
             console.log("User logged in");
         }
     }

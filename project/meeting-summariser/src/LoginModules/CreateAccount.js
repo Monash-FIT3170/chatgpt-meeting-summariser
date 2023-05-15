@@ -37,10 +37,7 @@ const CreateAccount = ({onClose}) => {
             .catch(err => {
                 console.log(err);
             });
-
-        onClose();
     }
-
 
     return (
         <>

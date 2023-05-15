@@ -16,6 +16,36 @@ function LoginCanvas() {
         }
     }
 
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
+
+    //Functions that change the target vals
+    const handleUsernameChange = (event) => {
+        setUsername(event.target.value)
+    }
+    const handlePasswordNameChange = (event) => {
+        setPassword(event.target.value)
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        const newUser = {
+            username: username,
+            email: email,
+            password: password
+        }
+
+        axios.post('http://localhost:5001/users/login', username)
+            .then(res => {
+                console.log(res.data);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+
+    }
+
     return (
         <>
             <div>
@@ -43,6 +73,7 @@ function LoginCanvas() {
                                     id="usernameForm"
                                     autofocus
                                     required
+                                    onChange={handleUsernameChange}
                                 />
                             </div>
                             <div class="form-item">
@@ -55,6 +86,8 @@ function LoginCanvas() {
                                     placeholder="Enter Password"
                                     id="passwordForm"
                                     required
+                                    autofocus
+                                    onChange={handlePasswordNameChange}
                                 />
                             </div>
                             <div class="form-item-other">
@@ -70,7 +103,7 @@ function LoginCanvas() {
                                 </div>
                                 <a href="#">I forgot my password!</a>
                             </div>
-                            <button type="submit">Sign In</button>
+                            <button type="submit" onClick={handleSubmit}>Sign In</button>
                         </form>
                         <div class="login-card-footer">
                             Don't have an account? <br />
