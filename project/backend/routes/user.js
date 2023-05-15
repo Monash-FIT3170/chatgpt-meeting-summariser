@@ -2,11 +2,9 @@ const express = require('express');
 const router = require('express').Router();
 let User = require('../models/user.model');
 const bcrypt = require('bcrypt');
-var passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const session = require('express-session');
 
 const app = express();
+const crypto = require('crypto');
 
 router.route('/').get((req, res) => {
   User.find()
@@ -52,58 +50,40 @@ router.route('/create').post(async (req, res) => {
     }
 });
 
-
-// Set up session middleware
-app.use(session({
-  secret: 'your_secret_key_here',
-  resave: false,
-  saveUninitialized: false
-}));
-
-// Set up Passport.js middleware
-app.use(passport.initialize());
-app.use(passport.session());
-
-// Configure Passport.js LocalStrategy
-passport.use(new LocalStrategy({
-  usernameField: 'email',
-  passwordField: 'password'
-}, async (email, password, done) => {
+// Login route
+router.route('/login').post(async (req, res) => {
   try {
-    // Find user by email
-    const user = await User.findOne({ email });
-    
-    // If user not found or password incorrect, return error
-    if (!user || !user.validPassword(password)) {
-      return done(null, false, { message: 'Invalid email or password' });
+    // Retrieve the login credentials from the request body
+    const { username, password } = req.body;
+
+    // Find the user in the MongoDB collection based on the username
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      // User not found in the database
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
-    
-    // If user found and password correct, return user
-    return done(null, user);
-  } catch (err) {
-    return done(err);
+
+    // Compare the provided password with the hashed password stored in the user document
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (isMatch) {
+      // Authentication successful
+      // Generate a token or set up a session to authenticate subsequent requests
+      const buffer = crypto.randomBytes(32);
+      const token = buffer.toString('hex');
+      // Return the token or any other relevant data
+      res.json({ token });
+      
+    } else {
+      // Authentication failed
+      res.status(401).json({ message: 'Invalid credentials' });
+    }
+  } catch (error) {
+    // Error occurred while querying the database or comparing passwords
+    res.status(500).json({ message: 'Internal Server Error' });
   }
-}));
-
-// Serialize user for session storage
-passport.serializeUser((user, done) => {
-  done(null, user.id);
 });
 
-// Deserialize user from session storage
-passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await User.findById(id);
-    done(null, user);
-  } catch (err) {
-    done(err);
-  }
-});
-
-// Login endpoint
-router.post('/login', passport.authenticate('local'), (req, res) => {
-  // If authentication successful, return user object
-  res.json(req.user);
-});
 
 module.exports = router;
