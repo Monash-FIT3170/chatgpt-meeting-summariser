@@ -4,6 +4,7 @@ import "../styles/create_styles.css";
 import CreateAccount from "./CreateAccount.js";
 import PersonIcon from "@mui/icons-material/Person";
 import LockIcon from "@mui/icons-material/Lock";
+import axios from "axios"
 
 // Define Login component
 function LoginCanvas() {
@@ -32,7 +33,7 @@ function LoginCanvas() {
 
         const newUser = {
             username: username,
-            email: email,
+            //email: email,
             password: password
         }
 
