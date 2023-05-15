@@ -5,6 +5,8 @@ import RemoveButton from './RemoveButton';
 
 const Button = () => {
     const [isFileUploaded, setIsFileUploaded] = useState(false);
+    const [summary, setSummary] = useState("");
+    const [savedSummaryId, setSavedSummaryId] = useState("");
 
     const handleChange = (e) => {
         e.preventDefault();
@@ -29,11 +31,23 @@ const Button = () => {
             .post("http://localhost:5000/api/save", formData)
             .then((res) => {
                 console.log(res.data);
+                console.log(res.id);
+                setSavedSummaryId(res.id)
             })
             .catch((err) => console.log(err.response.data))
+
+        axios
+            .get(`http://localhost:5000/${savedSummaryId}`)
+            .then((res) => {
+                // Update the state with the summary returned by the API
+                setSummary(res.data);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
       }
 	return (
-
+        <>
         <div id="file">
             <label className='button' htmlFor="file_picker" >
                 Upload Recording
@@ -41,9 +55,15 @@ const Button = () => {
             </label>
             {isFileUploaded ? <RemoveButton /> : null}			
         </div>
+        <div>
+            <div>
+                <p>{summary}</p>
+            </div>
+        </div>
+        </>
+        
 
 	);
 };
-
 
 export default Button;

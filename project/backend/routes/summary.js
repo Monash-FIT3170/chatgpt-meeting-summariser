@@ -52,7 +52,11 @@ router.post("/api/save", UploadMiddleware.single("transcript"), async (req, res)
     console.log(summaryPoints);
     newMeetingSummary
         .save()
-        .then(() => res.json("Meeting summary added!"))
+        .then((savedMeetingSummary) => {
+            const savedMeetingSummaryId = savedMeetingSummary._id;
+            console.log(`Meeting summary saved with ID: ${savedMeetingSummaryId}`);
+            res.json({ id: savedMeetingSummaryId });
+          })
         .catch((err) => res.status(400).json("Error: " + err));
 })
 
