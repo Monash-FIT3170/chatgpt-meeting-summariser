@@ -8,7 +8,7 @@ const RemoveButton = () => {
 
 	}
 		return (
-		<div className= "remove_button" onClick={(e) => handleChange(e)}>
+		<div className= "remove_button center" onClick={(e) => handleChange(e)}>
 			Delete Recording 
 		</div>
 	);

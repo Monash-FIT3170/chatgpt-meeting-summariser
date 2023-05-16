@@ -21,7 +21,7 @@ const Button = () => {
             var file_node= document.getElementById("file")
             var name = e.target.files[0].name
             var div= document.createElement("div");
-            div.className= "file_button"
+            div.className= "file_button center"
             div.innerText = name 
             file_node.appendChild(div)
             setIsFileUploaded(true); // Set the state to indicate file upload
@@ -54,7 +54,7 @@ const Button = () => {
 	return (
         <>
         <div id="file">
-            <label className='button' htmlFor="file_picker" >
+            <label className='button center' htmlFor="file_picker" >
                 Upload Recording
             <input hidden type="file" name="file_picker" id="file_picker" accept=".txt" onChange={(e) => handleChange(e)}/>
             </label>

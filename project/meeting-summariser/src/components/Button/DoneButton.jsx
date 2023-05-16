@@ -8,7 +8,7 @@ const DoneButton = () => {
         
 	}
 		return (
-		<div className= "done_button" onClick={(e) => handleChange(e)}>
+		<div className= "done_button center" onClick={(e) => handleChange(e)}>
 			Save
 		</div>
 	);
