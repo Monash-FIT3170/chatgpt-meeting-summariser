@@ -56,7 +56,7 @@ const Button = () => {
         <div id="file">
             <label className='button' htmlFor="file_picker" >
                 Upload Recording
-            <input hidden type="file" name="file_picker" id="file_picker" onChange={(e) => handleChange(e)}/>
+            <input hidden type="file" name="file_picker" id="file_picker" accept=".txt" onChange={(e) => handleChange(e)}/>
             </label>
             {isFileUploaded ? <RemoveButton /> : null}			
         </div>
