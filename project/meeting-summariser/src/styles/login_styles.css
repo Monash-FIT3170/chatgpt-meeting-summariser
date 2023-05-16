@@ -2,7 +2,7 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
 
-body {
+.center-container {
     font-family: "Poppins", sans-serif;
     min-height: 100vh;
     background: #f9f8e8;

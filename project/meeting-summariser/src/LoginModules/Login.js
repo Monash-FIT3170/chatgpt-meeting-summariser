@@ -49,7 +49,7 @@ function LoginCanvas() {
 
     return (
         <>
-            <div>
+            <div class="center-container">
                 <div class="page-logo">
                     <img src="../img/logo.png" alt="logo" />
                 </div>
