@@ -1,5 +1,5 @@
 import './Button.css'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from "axios"
 import RemoveButton from './RemoveButton';
 
@@ -26,26 +26,31 @@ const Button = () => {
             file_node.appendChild(div)
             setIsFileUploaded(true); // Set the state to indicate file upload
         }
-
         axios
             .post("http://localhost:5000/api/save", formData)
             .then((res) => {
+                console.log("here")
                 console.log(res.data);
-                console.log(res.id);
-                setSavedSummaryId(res.id)
+                console.log(res.data.id);
+                setSavedSummaryId(res.data.id)
             })
-            .catch((err) => console.log(err.response.data))
-
-        axios
-            .get(`http://localhost:5000/${savedSummaryId}`)
-            .then((res) => {
-                // Update the state with the summary returned by the API
-                setSummary(res.data);
-            })
-            .catch((err) => {
-                console.error(err);
-            });
+            .catch((err) => console.log(err.response.data))    
       }
+
+      useEffect(() => {
+        if (savedSummaryId) {
+            axios
+                .get(`http://localhost:5000/${savedSummaryId}`)
+                .then((res) => {
+                    console.log("retrieved data")
+                    console.log(res.data)
+                    setSummary(res.data.summaryPoints);
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+        }
+    }, [savedSummaryId]);
 	return (
         <>
         <div id="file">
@@ -57,7 +62,7 @@ const Button = () => {
         </div>
         <div>
             <div>
-                <p>{summary}</p>
+                <p className='summary'>{summary}</p>
             </div>
         </div>
         </>

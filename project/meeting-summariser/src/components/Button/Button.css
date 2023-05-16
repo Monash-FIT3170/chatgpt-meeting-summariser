@@ -18,6 +18,18 @@
     cursor: pointer;
 }
 
+.summary {
+    border: 5px;
+    width:500px;
+    border-style: solid; 
+    border-radius:10px; 
+    border-color: black;
+    background-color:#f1e3bf;
+    color: rgb(49, 52, 69);
+    font-size: 25px;
+    cursor: pointer;
+}
+
 .file_button {
     border-style: solid; 
     border-radius:10px; 
