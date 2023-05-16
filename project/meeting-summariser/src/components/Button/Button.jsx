@@ -22,8 +22,12 @@ const Button = () => {
             var name = e.target.files[0].name
             var div= document.createElement("div");
             div.className= "file_button center"
-            div.innerText = name 
+            div.id = "parent_div"
             file_node.appendChild(div)
+            var text_div = document.createElement("div");
+            text_div.innerText = name
+            text_div.className = "truncate-text"
+            div.appendChild(text_div)
             setIsFileUploaded(true); // Set the state to indicate file upload
         }
         axios
