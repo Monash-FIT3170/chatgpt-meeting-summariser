@@ -1,17 +1,25 @@
-import './Button.css'
+import './Button.css';
+import axios from 'axios';
 
-const RemoveButton = () => {
-    const handleChange = (e) => {
-		// on click
+const RemoveButton = ({ savedSummaryId, setSavedSummaryId }) => {
+  const handleDelete = () => {
+    axios
+      .delete(`http://localhost:5000/api/delete/${savedSummaryId}`)
+      .then((res) => {
+        console.log(res.data);
+        setSavedSummaryId('');
+		window.location.reload(); // Refresh the page
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-		// remove file from the 
-
-	}
-		return (
-		<div className= "remove_button" onClick={(e) => handleChange(e)}>
-			Delete Recording 
-		</div>
-	);
+  return (
+    <div className="remove_button" onClick={handleDelete}>
+      Delete Recording
+    </div>
+  );
 };
 
 export default RemoveButton;
