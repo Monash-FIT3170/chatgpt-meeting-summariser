@@ -84,28 +84,42 @@ const CreateAccount = ({ onClose }) => {
               />
             </div>
 
-            <div class="form-item">
-              <span class="form-item-icon material-symbols-rounded">
-                <LockIcon />
-              </span>
-              <input
-                class="create-item-input"
-                type="password"
-                placeholder="Enter Password"
-                id="passwordForm"
-                autofocus
-                required
-                onChange={handlePasswordNameChange}
-              />
+    return (
+        <div class="center-container">
+            <div class="card-container">
+                <div class="create-card">
+                    <div class="dot">
+                        <div class="close-button" onClick={onClose}>x</div>
+                    </div>
+                    <div class="title">
+                        Create Account
+                    </div>
+                        
+                    <form class="create-card-form">
+                        <div class="form-item">
+                            <span class="form-item-icon material-symbols-rounded"></span>
+                                <input type="text" placeholder="please enter your username" id="usernameForm" 
+                                autofocus required onChange={handleUsernameChange}/>
+                        </div>
+                        <div class="form-item">
+                            <span class="form-item-icon material-symbols-rounded"></span>
+                                <input type="text" placeholder="please enter your email" id="emailForm" 
+                                autofocus required onChange={handleEmailChange}/>
+                        </div>
+                        
+                        <div class="form-item">
+                            <span class="form-item-icon material-symbols-rounded"></span>
+                                <input type="text" placeholder="please enter a password" id="passwordForm" 
+                                autofocus required onChange={handlePasswordNameChange}/>
+                        </div>                  
+                    </form>
+                    <button class="submit-button" onClick={handleSubmit}>Create my Account</button>  
+                </div>
             </div>
-          </form>
-          <button class="submit-button" onClick={handleSubmit}>
-            Create my Account
-          </button>
+            
         </div>
-      </div>
-    </>
-  );
-};
+    );
+}
+
 
 export default CreateAccount;

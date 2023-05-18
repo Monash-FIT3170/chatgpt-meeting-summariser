@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
+import { Home, Summarizer } from './pages'
 import CreateMeetingSummary from './components/createMeetingSummary.component'
-import { Home } from './pages'
 import './App.css';
 import LoginCanvas from './LoginModules/Login';
 import CreateAccount from './LoginModules/CreateAccount';
@@ -10,6 +10,7 @@ function App() {
        <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/createMeetingSummary" element={<CreateMeetingSummary />} />
+          <Route path="/summarizer" element={<Summarizer />} />
        </Routes>
     </>
   );
