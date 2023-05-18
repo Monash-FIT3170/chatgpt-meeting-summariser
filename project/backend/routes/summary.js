@@ -61,17 +61,34 @@ router.post("/api/save", UploadMiddleware.single("transcript"), async (req, res)
 })
 
 // Delete a transcript
+// router.delete('/api/delete/:id', async (req, res) => {
+//     const { id } = req.params;
+//     try {
+//         const transcript = await UploadModel.findById(id);
+//         if (!transcript) {
+//             return res.status(404).send('Transcript not found');
+//         }
+//         const filePath = path.join(__dirname, '..', 'uploads', transcript.transcript);
+//         fs.unlinkSync(filePath); // Delete the file from the server
+//         await UploadModel.deleteOne({ _id: transcript._id }); // Delete the transcript from the database
+//         res.send('Transcript deleted successfully');
+//     } catch (err) {
+//         console.log(err);
+//         res.status(500).send('Internal Server Error');
+//     }
+// });
+
 router.delete('/api/delete/:id', async (req, res) => {
     const { id } = req.params;
     try {
-        const transcript = await UploadModel.findById(id);
-        if (!transcript) {
-            return res.status(404).send('Transcript not found');
+        const meetingSummary = await MeetingSummary.findById(id);
+        if (!meetingSummary) {
+            return res.status(404).send('Meeting summary not found');
         }
-        const filePath = path.join(__dirname, '..', 'uploads', transcript.transcript);
-        fs.unlinkSync(filePath); // Delete the file from the server
-        await UploadModel.deleteOne({ _id: transcript._id }); // Delete the transcript from the database
-        res.send('Transcript deleted successfully');
+        //const filePath = path.join(__dirname, '..', 'uploads', meetingSummary.transcript);
+        //fs.unlinkSync(filePath); // Delete the file from the server
+        await MeetingSummary.deleteOne({ _id: meetingSummary._id }); // Delete the transcript from the database
+        res.send('Meeting summary deleted successfully');
     } catch (err) {
         console.log(err);
         res.status(500).send('Internal Server Error');
@@ -114,4 +131,4 @@ router.route("/update/:id").post((req, res) => {
 module.exports = router;
 
 
-module.exports = router;
+//module.exports = router;

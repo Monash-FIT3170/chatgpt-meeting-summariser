@@ -59,6 +59,7 @@
     position: fixed;
     margin-top: 330px;
     margin-left: 390px;
+    cursor: pointer;
 }
 
 .done_button{
