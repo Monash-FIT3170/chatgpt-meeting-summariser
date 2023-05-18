@@ -1,7 +1,8 @@
 import './Button.css';
 import axios from 'axios';
 
-const RemoveButton = ({ savedSummaryId, setSavedSummaryId }) => {
+const RemoveButton = ({ savedSummaryId, setSavedSummaryId }) => 
+{
   const handleDelete = () => {
     axios
       .delete(`http://localhost:5000/api/delete/${savedSummaryId}`)
@@ -15,11 +16,11 @@ const RemoveButton = ({ savedSummaryId, setSavedSummaryId }) => {
       });
   };
 
-  return (
-    <div className="remove_button" onClick={handleDelete}>
-      Delete Recording
-    </div>
-  );
-};
+	return (
+		<div className="remove_button" onClick={handleDelete}>
+		Delete Recording
+		</div>
+	);
+}
 
 export default RemoveButton;

@@ -43,6 +43,7 @@
     position: fixed;
     margin-top: 330px;
     margin-left: 125px;
+    padding: 0 5px;
 }
 
 .remove_button{
@@ -100,4 +101,16 @@
     position: fixed;
     margin-top: 420px;
     margin-left: 180px;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.truncate-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

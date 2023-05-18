@@ -8,7 +8,7 @@ const BackButton = () => {
         
 	}
 		return (
-		<div className= "back_button" onClick={(e) => handleChange(e)}>
+		<div className= "back_button center" onClick={(e) => handleChange(e)}>
 			Back
 		</div>
 	);

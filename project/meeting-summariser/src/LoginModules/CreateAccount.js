@@ -40,7 +40,7 @@ const CreateAccount = ({onClose}) => {
     }
 
     return (
-        <>
+        <div class="center-container">
             <div class="card-container">
                 <div class="create-card">
                     <div class="dot">
@@ -72,7 +72,7 @@ const CreateAccount = ({onClose}) => {
                 </div>
             </div>
             
-        </>
+        </div>
     );
 }
 
