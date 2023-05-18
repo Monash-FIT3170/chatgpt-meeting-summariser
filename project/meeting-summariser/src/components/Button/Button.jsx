@@ -58,7 +58,8 @@ const Button = () => {
                 Upload Recording
             <input hidden type="file" name="file_picker" id="file_picker" onChange={(e) => handleChange(e)}/>
             </label>
-            {isFileUploaded ? <RemoveButton /> : null}			
+            {isFileUploaded ? <RemoveButton savedSummaryId={savedSummaryId} 
+            setSavedSummaryId={setSavedSummaryId} /> : null}
         </div>
         <div>
             <div>
