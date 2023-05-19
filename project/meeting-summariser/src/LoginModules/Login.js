@@ -42,7 +42,10 @@ function LoginCanvas() {
     console.log(newUser);
     axios.post("http://localhost:5001/users/login", newUser)
       .then((response) => {
+        if(response.data.message === "User authenticated"){
+          window.location.href = "/Summarizer";
         console.log(response.data.message);
+        }
       })
       .catch((error) => {
         console.error(error);

@@ -56,7 +56,7 @@ router.post('/login', async (req, res) => {
     const user = await User.findOne({ username: req.body.username });
     try {
         if (user) {
-            res.redirect('/CreateMeetingSummary');
+            res.json({ message: 'User authenticated' });
         } else {
             res.json({ message: 'Incorrect username or password' });
         }
