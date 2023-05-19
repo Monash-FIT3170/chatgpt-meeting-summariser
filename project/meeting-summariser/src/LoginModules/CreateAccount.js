@@ -28,7 +28,6 @@ const CreateAccount = ({ onClose }) => {
 
   //user Schema takes inputs from form & creates a new user to then pass into the backend using axios.post
   const handleSubmit = (event) => {
-    console.log("HELLO")
     event.preventDefault();
 
     const newUser = {
