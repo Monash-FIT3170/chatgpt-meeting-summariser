@@ -28,6 +28,7 @@ const CreateAccount = ({ onClose }) => {
 
   //user Schema takes inputs from form & creates a new user to then pass into the backend using axios.post
   const handleSubmit = (event) => {
+    console.log("HELLO")
     event.preventDefault();
 
     const newUser = {
@@ -71,7 +72,7 @@ const CreateAccount = ({ onClose }) => {
                         
                         <div class="form-item">
                             <span class="form-item-icon material-symbols-rounded"></span>
-                                <input type="text" placeholder="please enter a password" id="passwordForm" 
+                                <input type="password" placeholder="please enter a password" id="passwordForm" 
                                 autofocus required onChange={handlePasswordNameChange}/>
                         </div>                  
                     </form>
