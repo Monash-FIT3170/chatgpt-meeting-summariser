@@ -39,14 +39,13 @@ function LoginCanvas() {
       password: password,
     };
 
-
-    axios
-      .post("http://localhost:5001/users/login", username)
-      .then((res) => {
-        console.log(res.data);
+    console.log(newUser);
+    axios.post("http://localhost:5001/users/login", newUser)
+      .then((response) => {
+        console.log(response.data.message);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        console.error(error);
       });
   };
 

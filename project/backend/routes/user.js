@@ -3,60 +3,67 @@ let User = require('../models/user.model');
 const bcrypt = require('bcrypt');
 
 router.route('/').get((req, res) => {
-  User.find()
-    .then(users => res.json(users))
-    .catch(err => res.status(400).json('Error: ' + err));
+    User.find()
+        .then(users => res.json(users))
+        .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/signup').post(async (req, res) => {
-    try{
+    try {
         const salt = await bcrypt.genSalt();
         const hashedPassword = await bcrypt.hash(req.body.password, salt);
-        user_detail = {"firstName": req.body.firstName,
-        "lastName": req.body.lastName,
-        "email": req.body.email,
-        "password": hashedPassword}
-    
+        user_detail = {
+            "firstName": req.body.firstName,
+            "lastName": req.body.lastName,
+            "email": req.body.email,
+            "password": hashedPassword
+        }
+
         const newUser = new User(user_detail);
-    
+
         newUser.save()
-        .then(() => res.json('User added!'))
-        .catch(err => res.status(400).json('Error: ' + err));
+            .then(() => res.json('User added!'))
+            .catch(err => res.status(400).json('Error: ' + err));
     }
-    catch{
+    catch {
         res.status(500).send();
     }
 });
 
 router.route('/create').post(async (req, res) => {
-    try{
+    try {
         const salt = await bcrypt.genSalt();
         const hashedPassword = await bcrypt.hash(req.body.password, salt);
-        user_details = {'username': req.body.username,
-        'email' : req.body.email,
-        'password': hashedPassword}
+        user_details = {
+            'username': req.body.username,
+            'email': req.body.email,
+            'password': hashedPassword,
+            'salt': salt
+        }
 
         const newUser = new User(user_details);
         newUser.save()
-        .then(() => res.json('User added!'))
-        .catch(err => res.status(400).json('Error: ' + err));
+            .then(() => res.json('User added!'))
+            .catch(err => res.status(400).json('Error: ' + err));
     }
-    catch{
+    catch {
         res.status(500).send();
     }
 });
 
-router.route('/login').post(async (req, res) => {
-    try{
-        passport.authenticate('local', { failureRedirect: '/login' }),
-        function(req, res) {
-            res.redirect('/home');
-            console.log("User logged in");
+router.post('/login', async (req, res) => {
+    console.log(req.body);
+    const user = await User.findOne({ username: req.body.username });
+    try {
+        if (user) {
+            res.redirect('/CreateMeetingSummary');
+        } else {
+            res.json({ message: 'Incorrect username or password' });
         }
-    }
-    catch{
-        res.status(500).send();
-    }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error' });
+    }   
 });
 
-module.exports = router;
+    module.exports = router;
