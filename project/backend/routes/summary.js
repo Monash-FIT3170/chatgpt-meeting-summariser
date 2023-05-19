@@ -20,7 +20,9 @@ const router = Router();
 
 
 router.post("/api/save", UploadMiddleware.single("transcript"), async (req, res) => {
-    // const transcript = req.file.originalname;
+    if (!req.file || !req.file.buffer){
+        return res.status(400).send('Incorrect file uploaded.');
+    }
     const transcript = req.file.buffer.toString();
 
     const completion = await openai.createChatCompletion({
