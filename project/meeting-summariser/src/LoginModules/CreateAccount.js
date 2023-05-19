@@ -43,47 +43,6 @@ const CreateAccount = ({ onClose }) => {
       });
   };
 
-  return (
-    <>
-      <div class="card-container">
-        <div class="create-card">
-          <div class="dot">
-            <div class="close-button" onClick={onClose}>
-              <CloseIcon />
-            </div>
-          </div>
-          <div class="title">Create Account</div>
-
-          <form class="create-card-form">
-            <div class="form-item">
-              <span class="form-item-icon material-symbols-rounded">
-                <PersonIcon />
-              </span>
-              <input
-                class="create-item-input"
-                type="text"
-                placeholder="Enter Username"
-                id="usernameForm"
-                autofocus
-                required
-                onChange={handleUsernameChange}
-              />
-            </div>
-            <div class="form-item">
-              <span class="form-item-icon material-symbols-rounded">
-                <EmailIcon />
-              </span>
-              <input
-                class="create-item-input"
-                type="text"
-                placeholder="Enter Email"
-                id="emailForm"
-                autofocus
-                required
-                onChange={handleEmailChange}
-              />
-            </div>
-
     return (
         <div class="center-container">
             <div class="card-container">
