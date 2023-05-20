@@ -2,8 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
-const User = require('../models/User'); // Assuming you have a User model
-const MeetingSummary = require('../models/MeetingSummary');
+const MeetingSummary = require('../models/meetingSummary.model');
 
 // POST route for sending an email
 router.post('/', async (req, res) => {
@@ -14,6 +13,8 @@ router.post('/', async (req, res) => {
     if (!meetingSummary) {
       return res.status(404).send('Meeting summary not found');
     }
+
+    const {email} = req.body;
 
     // Create a transporter using nodemailer
     const transporter = nodemailer.createTransport({
@@ -26,17 +27,15 @@ router.post('/', async (req, res) => {
       }
     });
 
+    
+
     // Prepare the email message
     const mailOptions = {
       from: 'minute-mind.3170@outlook.com',
-      to: 'dihan2468@gmail.com', // Use the email address of the registered user
-      subject,
-      text: body,
+      to: email,
+      subject: "Meeting Summary",
+      body: "Please find the attatched meeting summary",
       attachments: [
-        {
-          filename: 'transcript.txt',
-          content: meetingSummary.transcript
-        },
         {
           filename: 'summary.txt',
           content: meetingSummary.summaryPoints
