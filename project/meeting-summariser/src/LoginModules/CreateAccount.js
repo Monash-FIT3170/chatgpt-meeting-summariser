@@ -5,9 +5,12 @@ import PersonIcon from "@mui/icons-material/Person";
 import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 import CloseIcon from "@mui/icons-material/Close";
+var config = require('../config.json');
+const port = config.port || 5000;
 
 // Define Board component
 const CreateAccount = ({ onClose }) => {
+  const port = process.env.PORT || 5000; 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -34,7 +37,7 @@ const CreateAccount = ({ onClose }) => {
     };
 
     axios
-      .post("http://localhost:5001/users/create", newUser)
+      .post(`http://localhost:${port}/users/create`, newUser)
       .then((res) => {
         console.log(res.data);
       })

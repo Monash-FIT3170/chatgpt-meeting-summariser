@@ -3,6 +3,9 @@ import { useState, useEffect } from 'react';
 import axios from "axios"
 import RemoveButton from './RemoveButton';
 
+var config = require('../../config.json');
+const port = config.port || 5000;
+
 const Button = () => {
     const [isFileUploaded, setIsFileUploaded] = useState(false);
     const [summary, setSummary] = useState("");
@@ -31,7 +34,7 @@ const Button = () => {
             setIsFileUploaded(true); // Set the state to indicate file upload
         }
         axios
-            .post("http://localhost:5000/api/save", formData)
+            .post(`http://localhost:${port}/api/save`, formData)
             .then((res) => {
                 console.log("here")
                 console.log(res.data);
@@ -44,7 +47,7 @@ const Button = () => {
       useEffect(() => {
         if (savedSummaryId) {
             axios
-                .get(`http://localhost:5000/${savedSummaryId}`)
+                .get(`http://localhost:${port}/${savedSummaryId}`)
                 .then((res) => {
                     console.log("retrieved data")
                     console.log(res.data)

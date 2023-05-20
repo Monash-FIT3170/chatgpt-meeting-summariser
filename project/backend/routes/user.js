@@ -52,13 +52,16 @@ router.route('/create').post(async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
-    console.log(req.body);
     const user = await User.findOne({ username: req.body.username });
     try {
         if (user) {
-            res.json({ message: 'User authenticated' });
+            if(await bcrypt.compare(req.body.password, user.password)){
+                res.json({ message: 'User authenticated', status: 0 });
+            } else {
+                res.json({ message: 'incorrect password', status: 1});
+            }
         } else {
-            res.json({ message: 'Incorrect username or password' });
+            res.json({ message: 'Incorrect username', status: 2 });
         }
     } catch (err) {
         console.error(err);

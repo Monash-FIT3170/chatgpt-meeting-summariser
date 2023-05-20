@@ -7,9 +7,12 @@ import LockIcon from "@mui/icons-material/Lock";
 
 import axios from "axios";
 
+var config = require('../config.json');
+const port = config.port || 5000;
 
 // Define Login component
 function LoginCanvas() {
+
   const [PopUp, setPopUp] = useState(false);
   function togglePopUp() {
     if (PopUp) {
@@ -34,17 +37,15 @@ function LoginCanvas() {
     event.preventDefault();
 
 
-    const newUser = {
+    const user = {
       username: username,
       password: password,
     };
 
-    console.log(newUser);
-    axios.post("http://localhost:5001/users/login", newUser)
+    axios.post(`http://localhost:${port}/users/login`, user)
       .then((response) => {
-        if(response.data.message === "User authenticated"){
+        if(response.data.status === 0){
           window.location.href = "/Summarizer";
-        console.log(response.data.message);
         }
       })
       .catch((error) => {
