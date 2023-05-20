@@ -21,6 +21,8 @@ const Button = () => {
         //check if any file is chosen and set the file name 
         if (e.target.files.length> 0)
         {
+            const fileExtension = e.target.files[0].name.split('.').pop();
+            if (fileExtension === 'txt') {
             var file_node= document.getElementById("file")
             var name = e.target.files[0].name
             var div= document.createElement("div");
@@ -32,6 +34,7 @@ const Button = () => {
             text_div.className = "truncate-text"
             div.appendChild(text_div)
             setIsFileUploaded(true); // Set the state to indicate file upload
+            }
         }
         axios
             .post(`http://localhost:${port}/api/save`, formData)
