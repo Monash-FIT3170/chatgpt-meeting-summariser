@@ -1,11 +1,14 @@
 import './Button.css';
 import axios from 'axios';
 
+var config = require('../../config.json');
+const port = config.port || 5000;
+
 const RemoveButton = ({ savedSummaryId, setSavedSummaryId }) => 
 {
   const handleDelete = () => {
     axios
-      .delete(`http://localhost:5000/api/delete/${savedSummaryId}`)
+      .delete(`http://localhost:${port}/api/delete/${savedSummaryId}`)
       .then((res) => {
         console.log(res.data);
         setSavedSummaryId('');

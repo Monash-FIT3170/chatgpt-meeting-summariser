@@ -2,6 +2,9 @@ import { useState } from 'react';
 import './Button.css';
 import axios from 'axios';
 
+var config = require('../../config.json');
+const port = config.port || 5000;
+
 const EmailButton = () => {
     const [showTextField, setShowTextField] = useState(false);
     const [email, setEmail] = useState('');
@@ -21,7 +24,7 @@ const EmailButton = () => {
             email
         }
 
-       axios.post('http://localhost:5000/api/email', data)
+       axios.post(`http://localhost:${port}/api/email`, data)
       .then((res) => {
         console.log('Email sent successfully!');
       })
