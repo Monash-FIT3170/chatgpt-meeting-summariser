@@ -7,6 +7,7 @@ const uploadRoute = require('./routes/upload');
 const meetingSummariesRouter = require('./routes/meetingSummaries');
 
 const summary = require('./routes/summary');
+const emailRoute = require('./routes/sendEmail');
 
 require('dotenv').config();
 
@@ -25,6 +26,7 @@ app.use(passport.initialize());
 app.use('/users', usersRouter);
 app.use('/meetingSummaries', meetingSummariesRouter);
 app.use(summary);
+app.use('/api/email', emailRoute);
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -41,7 +43,7 @@ connection.once('open', () => {
   console.log("MongoDB database connection established successfully");
 })
 
-app.listen(port, () => {
+app.listen(port, 'localhost', () => {
     console.log(`Server is running on port: ${port}`);
 });
 

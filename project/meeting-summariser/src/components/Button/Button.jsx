@@ -2,6 +2,7 @@ import './Button.css'
 import { useState, useEffect } from 'react';
 import axios from "axios"
 import RemoveButton from './RemoveButton';
+import EmailButton from './EmailButton';
 
 var config = require('../../config.json');
 const port = config.port || 5000;
@@ -70,6 +71,7 @@ const Button = () => {
             </label>
             {isFileUploaded ? <RemoveButton savedSummaryId={savedSummaryId} 
             setSavedSummaryId={setSavedSummaryId} /> : null}
+            {isFileUploaded ? <EmailButton  /> : null}
         </div>
         <div>
             <div>
