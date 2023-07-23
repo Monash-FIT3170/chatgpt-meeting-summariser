@@ -10,7 +10,7 @@ const port = config.port || 5000;
 
 // Define Board component
 const CreateAccount = ({ onClose }) => {
-  const port = process.env.PORT || 5000;
+  document.title="Minute Mind";
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -44,6 +44,8 @@ const CreateAccount = ({ onClose }) => {
       .catch((err) => {
         console.log(err);
       });
+
+    onClose();
   };
 
   return (
@@ -51,7 +53,12 @@ const CreateAccount = ({ onClose }) => {
       <div class="card-container">
         <div class="create-card">
           <div class="dot">
-            <div class="close-button" onClick={onClose}>x</div>
+          
+            <div class="close-button" onClick={onClose}>
+            <span class="form-item-icon material-symbols-rounded">
+                  <CloseIcon />
+                </span>
+            </div>
           </div>
           <div class="title">
             Create Account

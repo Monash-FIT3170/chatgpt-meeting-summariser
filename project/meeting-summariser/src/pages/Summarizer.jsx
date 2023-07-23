@@ -8,6 +8,7 @@ import './Page.css'
 
 
 const Summarizer = () => {
+    document.title = "Minute Mind";
     return (
         <>
             <Navbar title={"Summarizer"}></Navbar>
