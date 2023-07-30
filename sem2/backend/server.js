@@ -5,6 +5,10 @@ const passport = require('passport');
 const usersRouter = require('./routes/user');
 const uploadRoute = require('./routes/upload');
 const meetingSummariesRouter = require('./routes/meetingSummaries');
+const bodyParser = require("body-parser");
+const swaggerUi = require("swagger-ui-express");
+const swaggerAutogen = require('swagger-autogen')();
+
 
 const summary = require('./routes/summary');
 const emailRoute = require('./routes/sendEmail');
@@ -12,7 +16,27 @@ const emailRoute = require('./routes/sendEmail');
 require('dotenv').config();
 
 const app = express();
-const port = process.env.PORT || 5000; 
+const port = process.env.PORT || 5000;
+
+ //TODO: Move to environment file when deploying
+const options = {
+  oepnapi: "3.1.0",
+  definition: {
+    swagger: '2.0',
+    info: {
+      title: "Meeting sumarizer",
+      version: "0.1.0",
+      description:
+        "Meeting summarizer"
+    },
+  },
+  apis: ["./routes/*.js"],
+  explorer: true
+};
+const outputFile = './swagger.json';
+const endpointsFiles = ['./routes/*.js'];
+
+require('dotenv').config();
 
 app.use(require('serve-static')(__dirname + '/../../public'));
 app.use(require('cookie-parser')());
@@ -34,6 +58,17 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "x-access-token, Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+
+swaggerAutogen(outputFile, endpointsFiles, options).then(() => {
+  let swaggerDocument =  require('./swagger.json')
+  app.use(
+    "/api/swagger",
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerDocument, options)
+  );
+});
+
+
 
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, { useNewUrlParser: true }

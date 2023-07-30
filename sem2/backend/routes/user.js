@@ -8,18 +8,25 @@ router.route('/').get((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
+module.exports = createUser;
+
+async function createUser(firstName, lastName, email, password){
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(password, salt);
+    user_detail = {
+        "firstName": firstName,
+        "lastName": lastName,
+        "email": email,
+        "password": hashedPassword
+    }
+    return new User(user_detail)
+}
+
+
 router.route('/signup').post(async (req, res) => {
     try {
-        const salt = await bcrypt.genSalt();
-        const hashedPassword = await bcrypt.hash(req.body.password, salt);
-        user_detail = {
-            "firstName": req.body.firstName,
-            "lastName": req.body.lastName,
-            "email": req.body.email,
-            "password": hashedPassword
-        }
-
-        const newUser = new User(user_detail);
+        let body = req.body
+        const newUser = createUser(body.firstName, body.lastName, body.email, body.password);
 
         newUser.save()
             .then(() => res.json('User added!'))
