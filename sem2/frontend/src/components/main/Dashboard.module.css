@@ -45,6 +45,11 @@
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+    margin-left: 2rem
+}
+
+.card_hr{
+    margin: 0 2rem;
 }
 
 .card_container {

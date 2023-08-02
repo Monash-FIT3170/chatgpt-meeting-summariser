@@ -6,12 +6,12 @@ import map from "lodash/map";
 import range from "lodash/range";
 
 const ColoredLine = ({ colour }) => (
-    <hr
+    <hr 
+        className={styles.card_hr}
         style={{
             color: colour,
             backgroundColor: colour,
             height: 3,
-            margin: 0
         }}
     />
 );
