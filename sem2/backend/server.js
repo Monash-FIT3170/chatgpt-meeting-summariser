@@ -36,6 +36,7 @@ app.use(function(req, res, next) {
 });
 
 const uri = process.env.ATLAS_URI;
+console.log(uri);
 mongoose.connect(uri, { useNewUrlParser: true }
 );
 const connection = mongoose.connection;

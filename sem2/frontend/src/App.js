@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LoginCanvas from './pages/login.jsx';
-import Dashboard from './pages/dashboard.jsx';
+import DashboardPage from './pages/dashboard.jsx';
 
 function App() {
   return (
@@ -8,7 +8,7 @@ function App() {
     <Routes>
       <Route path="/" element={<LoginCanvas />} />
       <Route path="/login" element={<LoginCanvas />} />
-      <Route path="/home" element={<Dashboard/>} />
+      <Route path="/home" element={<DashboardPage/>} />
     </Routes>
     </>
   );

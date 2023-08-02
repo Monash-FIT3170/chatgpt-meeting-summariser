@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import Header from '../components/header.jsx';
+import {DashboardCanvas} from '../components/main/DashboardCanvas';
 
-const Dashboard = () => {
+const dashboardPage = () => {
     const username = sessionStorage.getItem('username') || "Account";
   return (
     <>
-    <Header title="Dashboard" username={username}></Header>
+      <DashboardCanvas title="Minute Mind"></DashboardCanvas>
     </>
   );
 }
 
-export default Dashboard;
+export default dashboardPage;
