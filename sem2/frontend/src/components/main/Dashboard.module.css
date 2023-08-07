@@ -48,7 +48,7 @@
     margin-left: 2rem
 }
 
-.card_hr{
+.card_hr {
     margin: 0 2rem;
 }
 
@@ -160,4 +160,219 @@
     position: absolute;
     bottom: 1rem;
     right: 1rem;
+}
+
+.dashboard_span {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.new_meeting_box {
+    border-radius: 0.875rem;
+    border: 3px dashed #1C89B3;
+    background: rgba(217, 217, 217, 0.08);
+    width: 80rem;
+    height: 32rem;
+    flex-shrink: 0;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.create_new_meeting {
+    color: #ECDFCB;
+    text-align: center;
+    font-family: Raleway;
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    display: flex;
+    width: 18.95894rem;
+    height: 2.34325rem;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.create_new_meeting:hover {
+    cursor: pointer;
+    transform: scale(1.15);
+    color: #E9B363;
+}
+
+.upload_page {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.upload_menu_bar {
+    width: 52.875rem;
+    height: 4.1875rem;
+    flex-shrink: 0;
+    border-radius: 0.875rem;
+    background: rgba(29, 34, 45, 0.67);
+}
+
+.upload_heading {
+    color: #FFF;
+    text-align: center;
+    font-family: Raleway;
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.file_upload_box {
+    width: 35.375rem;
+    height: 9rem;
+    flex-shrink: 0;
+    border-radius: 0.92888rem;
+    background: #141E30;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 1rem;
+}
+
+.file_upload_header_1 {
+    display: flex;
+    width: 19.1875rem;
+    height: 1.6875rem;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #FFF;
+    text-align: center;
+    font-family: Raleway;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.file_upload_header_2 {
+    color: #FFF;
+    text-align: center;
+    font-family: Raleway;
+    font-size: 1.125rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.file_upload {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0.1rem;
+}
+
+.file_name {
+    width: 22.75rem;
+    height: 3.125rem;
+    flex-shrink: 0;
+    background: rgba(238, 238, 238, 0.80);
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    color: #000;
+    font-family: Raleway;
+    font-size: 0.92888rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.upload_microphone {
+    background: url(../../../public/img/upload_microphone.png);
+    width: 3.125rem;
+    height: 3.125rem;
+    flex-shrink: 0;
+    border-radius: 0.9375rem 0rem 0rem 0.9375rem;
+    background: #FF8B28;
+}
+
+label {
+    border-radius: 0rem 0.9375rem 0.9375rem 0rem;
+    background: #FF8B28;
+    width: 6.625rem;
+    height: 3.125rem;
+    flex-shrink: 0;
+    color: #000;
+    text-align: center;
+    font-family: Raleway;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.summary_heading {
+    display: flex;
+    width: 100%;
+    height: 2.75rem;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #FFF;
+    text-align: center;
+    font-family: Raleway;
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.summary_heading_line {
+    width: 40.4375rem;
+    height: 0rem;
+    flex-shrink: 0;
+    stroke-width: 3px;
+    stroke: rgb(0, 255, 8);
+}
+
+.summary_box {
+    width: 90rem;
+    max-height: 32rem;
+    flex-shrink: 0;
+    border-radius: 0.9375rem;
+    background: #E9F9FF;
+    scroll-behavior: smooth;
+    overflow: scroll;
+    height: 80rem;
+    padding: 2rem;
+    margin: 2rem;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.add_participants_button {
+    width: 22.5rem;
+    height: 3.625rem;
+    flex-shrink: 0;
+    border-radius: 0.875rem;
+    background: #89C66C;
+    color: #E9F9FF;
+    text-align: center;
+    font-family: Raleway;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    border: none;
+}
+
+.add_participants_button:hover {
+    background: #95d876;
 }
