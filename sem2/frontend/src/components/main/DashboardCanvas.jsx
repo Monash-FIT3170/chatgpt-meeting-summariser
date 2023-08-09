@@ -138,7 +138,9 @@ function Upload() {
                         </div>
                     </div>
                     <div className={styles.file_upload}>
-                        <img src='background: url(../../../public/img/upload_microphone.png)' className={styles.upload_microphone}></img>
+                        <div className={styles.upload_microphone}>
+                            
+                        </div>
                         <div className={styles.file_name} id="filename">filename.mp4</div>
                         <label for="upload-btn">Browse</label>
                         <input type="file" id="upload-btn" hidden onChange={changeHandler}/>

@@ -287,10 +287,10 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    padding: 1rem;
 }
 
 .upload_microphone {
-    background: url(../../../public/img/upload_microphone.png);
     width: 3.125rem;
     height: 3.125rem;
     flex-shrink: 0;
