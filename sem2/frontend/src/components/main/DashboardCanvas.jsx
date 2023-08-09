@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import BasicStyles from '../Basic.module.css';
 import styles from './Dashboard.module.css';
 
 import map from "lodash/map";
 import range from "lodash/range";
+
+import { v1 as uuidv1 } from 'uuid';
+
+const v1options = {
+    node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
+    clockseq: 0x1234,
+    msecs: new Date('2011-11-01').getTime(),
+    nsecs: 5678,
+};
 
 const ColoredLine = ({ colour }) => (
     <hr
@@ -20,20 +29,20 @@ function Header() {
     return (
         <>
             <div className={BasicStyles.header2}>
-                <div className={BasicStyles.headerPill}>
+                <div className={BasicStyles.headerPill} onClick={this.showDashboard}>
                     Dashboard
                 </div>
-                <div className={BasicStyles.headerPill}>
+                <div className={BasicStyles.headerPill} onClick={this.showUpload}>
                     Upload
                 </div>
-                <div className={BasicStyles.headerPill}>
+                <div className={BasicStyles.headerPill} onClick={this.showYourMeetings}>
                     Your Meetings
                 </div>
             </div>
         </>
     )
 }
-function DraftCard({ card_title }) {
+function DraftCard({ card_title, key }) {
     return (
         <div className={styles.draft_card}>
             <div className={styles.card_title}>
@@ -49,7 +58,7 @@ function DraftCard({ card_title }) {
     );
 }
 
-function CompletedCard({ card_title }) {
+function CompletedCard({ card_title, key }) {
     return (
         <div className={styles.completed_card}>
             <div className={styles.card_title}>
@@ -79,7 +88,7 @@ function YourMeetings() {
                 <ColoredLine colour="#FF8B28" />
                 <div style={{ width: "100%", overflow: "auto", display: "flex" }}>
                     {map(range(50), _ => (
-                        <DraftCard card_title="Draft card" />
+                        <DraftCard card_title="Draft card" key={uuidv1(v1options)} />
                     ))}
                 </div>
             </div>
@@ -91,12 +100,12 @@ function YourMeetings() {
                 {/* Split completed meetings between these two maps somehow */}
                 <div style={{ width: "100%", overflow: "auto", display: "flex" }}>
                     {map(range(50), _ => (
-                        <CompletedCard card_title="Completed card" />
+                        <CompletedCard card_title="Completed card" key={uuidv1(v1options)} />
                     ))}
                 </div>
                 <div style={{ width: "100%", overflow: "auto", display: "flex" }}>
                     {map(range(50), _ => (
-                        <CompletedCard card_title="Completed card" />
+                        <CompletedCard card_title="Completed card" key={uuidv1(v1options)} />
                     ))}
                 </div>
             </div>
@@ -123,9 +132,9 @@ function Upload() {
                         <img src='background: url(../../../public/img/upload_microphone.png)' className={styles.upload_microphone}></img>
                         <div className={styles.file_name}>filename.mp4</div>
                         <label for="upload-btn">Browse</label>
-                        <input type="file" id="upload-btn" hidden/>
+                        <input type="file" id="upload-btn" hidden />
                     </div>
-                    
+
                 </div>
                 <div className={styles.summary_heading}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="656" height="16" viewBox="0 0 656 16" className={styles.summary_heading_line}>
@@ -166,7 +175,7 @@ function Upload() {
     )
 }
 
-function Dashboard() {
+function Dashboard({onUploadClick}) {
     return (
         <>
             <div className={styles.logo_container}>
@@ -175,7 +184,7 @@ function Dashboard() {
             </div>
             <div className={styles.dashboard_span}>
                 <div className={styles.new_meeting_box}>
-                    <div className={styles.create_new_meeting}>
+                    <div className={styles.create_new_meeting} onClick={onUploadClick}>
                         Click to create new meeting summary
                     </div>
                 </div>
@@ -187,7 +196,7 @@ function Dashboard() {
                 <ColoredLine colour="#FF8B28" />
                 <div style={{ width: "100%", overflow: "auto", display: "flex" }}>
                     {map(range(50), _ => (
-                        <DraftCard card_title="Draft card" />
+                        <DraftCard card_title="Draft card" key={uuidv1(v1options)} />
                     ))}
                 </div>
             </div>
@@ -196,13 +205,53 @@ function Dashboard() {
 }
 
 function DashboardCanvas() {
+    const [isUploadActive, setUploadIsActive] = useState(false);
+    const [isDashboardActive, setDashboardIsActive] = useState(true);
+    const [isYourMeetingsActive, setYourMeetingsIsActive] = useState(false);
+    const handleUploadClick = () => {
+        setUploadIsActive(true);
+        setDashboardIsActive(false);
+        setYourMeetingsIsActive(false);
+    };
+    const handleDashboardClick = () => {
+        setUploadIsActive(false);
+        setDashboardIsActive(true);
+        setYourMeetingsIsActive(false);
+    };
+    const handleYourMeetingsClick = () => {
+        setUploadIsActive(false);
+        setDashboardIsActive(false);
+        setYourMeetingsIsActive(true);
+    };
     return (
         <>
             <div className={BasicStyles.body}>
-                <Header></Header>
-                <Upload></Upload>
-                <Dashboard></Dashboard>
-                <YourMeetings></YourMeetings>
+                <div className={BasicStyles.header2}>
+                    <div className={BasicStyles.headerPill} onClick={handleDashboardClick}>
+                        Dashboard
+                    </div>
+                    <div className={BasicStyles.headerPill} onClick={handleUploadClick}>
+                        Upload
+                    </div>
+                    <div className={BasicStyles.headerPill} onClick={handleYourMeetingsClick}>
+                        Your Meetings
+                    </div>
+                </div>
+                <div style={{
+                    display: isUploadActive ? "block" : "none",
+                }}>
+                    <Upload></Upload>
+                </div>
+                <div style={{
+                    display: isDashboardActive ? "block" : "none"
+                }}>
+                    <Dashboard onUploadClick={handleUploadClick}></Dashboard>
+                </div>
+                <div style={{
+                    display: isYourMeetingsActive ? "block" : "none"
+                }}>
+                    <YourMeetings></YourMeetings>
+                </div>
             </div>
         </>
     );
