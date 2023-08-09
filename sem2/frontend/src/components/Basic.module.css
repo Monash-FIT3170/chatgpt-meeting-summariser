@@ -57,20 +57,26 @@ body {
     border-radius: 1rem;
     background: #2E3440;
     margin: 0 5rem;
-    color: #6F6F6F;
+    color: #FF8B28;
     text-align: justify;
     font-family: Raleway;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 }
 
 .headerPill:hover{
-    color: #FF8B28;
+    
     transform: scale(1.15);
     cursor: pointer;
+}
+
+.headerSmallPill{
+    position: relative;
+    bottom: -20px;
 }

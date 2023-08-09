@@ -114,6 +114,15 @@ function YourMeetings() {
 }
 
 function Upload() {
+    const [selectedFile, setSelectedFile] = useState();
+	const [isFilePicked, setIsFilePicked] = useState(false);
+
+    const changeHandler = (event) => {
+		setSelectedFile(event.target.files[0]);
+	    setIsFilePicked(true);
+        document.getElementById("filename").innerText=event.target.files[0].name;
+	};
+
     return (
         <>
             <div className={styles.upload_page}>
@@ -130,9 +139,9 @@ function Upload() {
                     </div>
                     <div className={styles.file_upload}>
                         <img src='background: url(../../../public/img/upload_microphone.png)' className={styles.upload_microphone}></img>
-                        <div className={styles.file_name}>filename.mp4</div>
+                        <div className={styles.file_name} id="filename">filename.mp4</div>
                         <label for="upload-btn">Browse</label>
-                        <input type="file" id="upload-btn" hidden />
+                        <input type="file" id="upload-btn" hidden onChange={changeHandler}/>
                     </div>
 
                 </div>
@@ -175,7 +184,7 @@ function Upload() {
     )
 }
 
-function Dashboard({onUploadClick}) {
+function Dashboard({ onUploadClick }) {
     return (
         <>
             <div className={styles.logo_container}>
@@ -229,12 +238,28 @@ function DashboardCanvas() {
                 <div className={BasicStyles.header2}>
                     <div className={BasicStyles.headerPill} onClick={handleDashboardClick}>
                         Dashboard
+                        <svg width="171" height="5" viewBox="0 0 171 5" fill="none" xmlns="http://www.w3.org/2000/svg" className={BasicStyles.headerSmallPill} style={{
+                            display: isDashboardActive ? "flex" : "none"
+                        }}>
+                            <rect width="171" height="5" rx="2" fill="#FF8B28" />
+                        </svg>
                     </div>
+
                     <div className={BasicStyles.headerPill} onClick={handleUploadClick}>
                         Upload
+                        <svg width="171" height="5" viewBox="0 0 171 5" fill="none" xmlns="http://www.w3.org/2000/svg" className={BasicStyles.headerSmallPill} style={{
+                            display: isUploadActive ? "flex" : "none"
+                        }}>
+                            <rect width="171" height="5" rx="2" fill="#FF8B28" />
+                        </svg>
                     </div>
                     <div className={BasicStyles.headerPill} onClick={handleYourMeetingsClick}>
                         Your Meetings
+                        <svg width="171" height="5" viewBox="0 0 171 5" fill="none" xmlns="http://www.w3.org/2000/svg" className={BasicStyles.headerSmallPill} style={{
+                            display: isYourMeetingsActive ? "flex" : "none"
+                        }}>
+                            <rect width="171" height="5" rx="2" fill="#FF8B28" />
+                        </svg>
                     </div>
                 </div>
                 <div style={{
