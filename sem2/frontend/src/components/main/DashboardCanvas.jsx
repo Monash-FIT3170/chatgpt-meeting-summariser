@@ -5,6 +5,7 @@ import styles from './Dashboard.module.css';
 import { UploadScreen } from './UploadScreen';
 import { DashboardScreen } from './DashboardScreen';
 import { MeetingsScreen } from './MeetingsScreen';
+import { HeaderPill } from '../HeaderPill';
 
 function Header() {
     return (
@@ -47,31 +48,9 @@ function DashboardCanvas() {
         <>
             <div className={BasicStyles.body}>
                 <div className={BasicStyles.header2}>
-                    <div className={BasicStyles.headerPill} onClick={handleDashboardClick}>
-                        Dashboard
-                        <svg width="171" height="5" viewBox="0 0 171 5" fill="none" xmlns="http://www.w3.org/2000/svg" className={BasicStyles.headerSmallPill} style={{
-                            display: isDashboardActive ? "flex" : "none"
-                        }}>
-                            <rect width="171" height="5" rx="2" fill="#FF8B28" />
-                        </svg>
-                    </div>
-
-                    <div className={BasicStyles.headerPill} onClick={handleUploadClick}>
-                        Upload
-                        <svg width="171" height="5" viewBox="0 0 171 5" fill="none" xmlns="http://www.w3.org/2000/svg" className={BasicStyles.headerSmallPill} style={{
-                            display: isUploadActive ? "flex" : "none"
-                        }}>
-                            <rect width="171" height="5" rx="2" fill="#FF8B28" />
-                        </svg>
-                    </div>
-                    <div className={BasicStyles.headerPill} onClick={handleYourMeetingsClick}>
-                        Your Meetings
-                        <svg width="171" height="5" viewBox="0 0 171 5" fill="none" xmlns="http://www.w3.org/2000/svg" className={BasicStyles.headerSmallPill} style={{
-                            display: isYourMeetingsActive ? "flex" : "none"
-                        }}>
-                            <rect width="171" height="5" rx="2" fill="#FF8B28" />
-                        </svg>
-                    </div>
+                    <HeaderPill name="Dashboard" onClick={handleDashboardClick} isActive={isDashboardActive} />
+                    <HeaderPill name="Upload" onClick={handleUploadClick} isActive={isUploadActive} />
+                    <HeaderPill name="YourMeetings" onClick={handleYourMeetingsClick} isActive={isYourMeetingsActive} />
                 </div>
                 <div style={{
                     display: isUploadActive ? "block" : "none",
