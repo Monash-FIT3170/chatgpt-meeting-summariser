@@ -1,29 +1,10 @@
 import React, { useState } from 'react';
 import BasicStyles from '../Basic.module.css';
-import styles from './Dashboard.module.css';
 
 import { UploadScreen } from './UploadScreen';
 import { DashboardScreen } from './DashboardScreen';
 import { MeetingsScreen } from './MeetingsScreen';
 import { HeaderPill } from '../HeaderPill';
-
-function Header() {
-    return (
-        <>
-            <div className={BasicStyles.header2}>
-                <div className={BasicStyles.headerPill} onClick={this.showDashboard}>
-                    Dashboard
-                </div>
-                <div className={BasicStyles.headerPill} onClick={this.showUpload}>
-                    Upload
-                </div>
-                <div className={BasicStyles.headerPill} onClick={this.showYourMeetings}>
-                    Your Meetings
-                </div>
-            </div>
-        </>
-    )
-}
 
 function DashboardCanvas() {
     const [isUploadActive, setUploadIsActive] = useState(false);
