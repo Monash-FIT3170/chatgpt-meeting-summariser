@@ -6,6 +6,7 @@ import map from "lodash/map";
 import range from "lodash/range";
 
 import { v1 as uuidv1 } from 'uuid';
+import { MeetingDetails } from './MeetingDetails';
 
 const v1options = {
     node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
@@ -42,9 +43,10 @@ function Header() {
         </>
     )
 }
-function DraftCard({ card_title, key }) {
+
+function DraftCard({ card_title, key, onMeetingClick }) {
     return (
-        <div className={styles.draft_card}>
+        <div className={styles.draft_card} onClick={onMeetingClick}>
             <div className={styles.card_title}>
                 {card_title}
             </div>
@@ -58,23 +60,23 @@ function DraftCard({ card_title, key }) {
     );
 }
 
-function CompletedCard({ card_title, key }) {
+function CompletedCard({ card_title, key, onMeetingClick }) {
     return (
-        <div className={styles.completed_card}>
+        <div className={styles.completed_card} onClick={onMeetingClick}>
             <div className={styles.card_title}>
                 {card_title}
             </div>
             <svg xmlns="http://www.w3.org/2000/svg" width="124" height="32" viewBox="0 0 124 32" fill="none" className={styles.completed_card_status}>
                 <path d="M0.85498 15.3131C0.85498 7.10487 7.5091 0.450745 15.7174 0.450745H108.143C116.352 0.450745 123.006 7.10486 123.006 15.3131V16.1435C123.006 24.3518 116.352 31.0059 108.143 31.0059H15.7174C7.5091 31.0059 0.85498 24.3518 0.85498 16.1436V15.3131Z" fill="#2891B9" />
             </svg>
-            <div className={styles.completed_card_chevron}>
+            <div className={styles.completed_card_chevron} >
                 &gt;
             </div>
         </div>
     );
 }
 
-function YourMeetings() {
+function YourMeetings({onMeetingClick}) {
     return (
         <>
             <div className={styles.logo_container}>
@@ -88,7 +90,7 @@ function YourMeetings() {
                 <ColoredLine colour="#FF8B28" />
                 <div style={{ width: "100%", overflow: "auto", display: "flex" }}>
                     {map(range(50), _ => (
-                        <DraftCard card_title="Draft card" key={uuidv1(v1options)} />
+                        <DraftCard card_title="Draft card" key={uuidv1(v1options)} onMeetingClick={() => onMeetingClick("1234")} />
                     ))}
                 </div>
             </div>
@@ -100,12 +102,12 @@ function YourMeetings() {
                 {/* Split completed meetings between these two maps somehow */}
                 <div style={{ width: "100%", overflow: "auto", display: "flex" }}>
                     {map(range(50), _ => (
-                        <CompletedCard card_title="Completed card" key={uuidv1(v1options)} />
+                        <CompletedCard card_title="Completed card" key={uuidv1(v1options)} onMeetingClick={() => onMeetingClick("1234")} />
                     ))}
                 </div>
                 <div style={{ width: "100%", overflow: "auto", display: "flex" }}>
                     {map(range(50), _ => (
-                        <CompletedCard card_title="Completed card" key={uuidv1(v1options)} />
+                        <CompletedCard card_title="Completed card" key={uuidv1(v1options)} onMeetingClick={() => onMeetingClick("1234")} />
                     ))}
                 </div>
             </div>
@@ -219,21 +221,37 @@ function DashboardCanvas() {
     const [isUploadActive, setUploadIsActive] = useState(false);
     const [isDashboardActive, setDashboardIsActive] = useState(true);
     const [isYourMeetingsActive, setYourMeetingsIsActive] = useState(false);
+    const [isMeetingDetailsActive, setMeetingDetailsIsActive] = useState(false);
+
+    const [selectedMeetingId, setSelectedMeetingId] = useState(null);
+
     const handleUploadClick = () => {
         setUploadIsActive(true);
         setDashboardIsActive(false);
         setYourMeetingsIsActive(false);
+        setMeetingDetailsIsActive(false);
     };
     const handleDashboardClick = () => {
         setUploadIsActive(false);
         setDashboardIsActive(true);
         setYourMeetingsIsActive(false);
+        setMeetingDetailsIsActive(false);
     };
     const handleYourMeetingsClick = () => {
         setUploadIsActive(false);
         setDashboardIsActive(false);
         setYourMeetingsIsActive(true);
+        setMeetingDetailsIsActive(false);
     };
+    const handleMeetingDetailsClick = (meetingId) => {
+        setUploadIsActive(false);
+        setDashboardIsActive(false);
+        setYourMeetingsIsActive(false);
+        setMeetingDetailsIsActive(true);
+
+        setSelectedMeetingId(meetingId);
+    }
+
     return (
         <>
             <div className={BasicStyles.body}>
@@ -277,7 +295,12 @@ function DashboardCanvas() {
                 <div style={{
                     display: isYourMeetingsActive ? "block" : "none"
                 }}>
-                    <YourMeetings></YourMeetings>
+                    <YourMeetings onMeetingClick={handleMeetingDetailsClick}></YourMeetings>
+                </div>
+                <div style={{
+                    display: isMeetingDetailsActive ? "block" : "none"
+                }}>
+                    <MeetingDetails meetingId={selectedMeetingId}></MeetingDetails>
                 </div>
             </div>
         </>
