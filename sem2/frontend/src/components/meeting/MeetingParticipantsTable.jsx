@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './Dashboard.module.css';
+import styles from './meeting.css';
 
 function MeetingParticipantsTable({meetingId}) {
     const [participants, setParticipants] = useState([]);
