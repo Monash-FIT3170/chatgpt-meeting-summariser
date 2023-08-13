@@ -70,7 +70,9 @@ swaggerAutogen(outputFile, endpointsFiles, options).then(() => {
 
 
 
-const uri = process.env.ATLAS_URI;
+//const uri = process.env.ATLAS_URI;
+const mongo = await MongoMemoryServer.create();
+const uri = mongo.getUri()
 mongoose.connect(uri, { useNewUrlParser: true }
 );
 const connection = mongoose.connection;
