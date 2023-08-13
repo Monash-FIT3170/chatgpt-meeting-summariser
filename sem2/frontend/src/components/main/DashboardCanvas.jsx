@@ -62,11 +62,13 @@ function DashboardCanvas() {
                 }}>
                     <MeetingsScreen handleMeetingDetailsClick={handleMeetingDetailsClick} setSelectedMeetingId={setSelectedMeetingId} />
                 </div>
-                <div style={{
-                    display: isMeetingDetailsActive ? "block" : "none"
-                }}>
-                    <MeetingDetails meetingId={selectedMeetingId}/>
-                </div>
+                {isMeetingDetailsActive && (
+                    <div style={{
+                        display: isMeetingDetailsActive ? "block" : "none"
+                    }}>
+                        <MeetingDetails meetingId={selectedMeetingId} isMeetingDetailsActive={isMeetingDetailsActive} handleYourMeetingsClick={handleYourMeetingsClick} />
+                    </div>
+                )}
             </div>
         </>
     );

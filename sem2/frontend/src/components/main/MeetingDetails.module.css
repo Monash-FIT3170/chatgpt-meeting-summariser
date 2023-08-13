@@ -23,8 +23,6 @@
 }
 
 .summary_box {
-    /* max-height: 32rem; */
-    /* max-height: 80vh; */
     flex-shrink: 0;
     border-radius: 0.9375rem;
     background: #E9F9FF;
@@ -34,7 +32,6 @@
     padding: 2rem;
     margin: 2rem;
     display: flex;
-    justify-content: center;
 }
 
 .summary_heading {

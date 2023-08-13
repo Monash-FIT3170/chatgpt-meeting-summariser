@@ -1,10 +1,53 @@
-import React, { useState } from 'react';
-import BasicStyles from '../Basic.module.css';
+import { useState } from 'react';
 import styles from './MeetingDetails.module.css';
-import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import { useEffect } from 'react';
 
-function MeetingDetails({ meetingId }) {
-    const { id } = useParams()
+var config = require('../../config.json');
+const port = config.port || 5000;
+
+function MeetingDetails({ meetingId, isMeetingDetailsActive, handleYourMeetingsClick }) {
+    const [meetingDetails, setMeetingDetails] = useState(null)
+
+    const fetchMeetingDetails = () => {
+        axios
+            .get(`http://localhost:${port}/${meetingId}`)
+            .then((res) => {
+                setMeetingDetails(res.data)
+                console.log(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
+    const handleDelete = () => {
+        axios
+            .delete(`http://localhost:${port}/api/delete/${meetingId}`)
+            .then((res) => {
+                handleYourMeetingsClick()
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
+    const handleSave = () => {
+        // axios
+        //     .delete(`http://localhost:${port}/api/delete/${meetingId}`)
+        //     .then((res) => {
+        //         console.log(res.data);
+        //     })
+        //     .catch((err) => {
+        //         console.log(err);
+        //     });
+    };
+
+    useEffect(() => {
+        if (isMeetingDetailsActive) {
+            fetchMeetingDetails();
+        }
+    }, [isMeetingDetailsActive]);
 
     return (
         <>
@@ -24,7 +67,7 @@ function MeetingDetails({ meetingId }) {
                         <div className={styles.container}>
                             <div className={styles.left_container}>
                                 <div className={styles.summary_box}>
-                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestias quo hic sint odit pariatur libero culpa, unde expedita doloremque iste nostrum neque iure in, temporibus laborum dolorem similique sunt maxime? Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia, mollitia quae commodi distinctio eum odio neque accusamus incidunt consectetur nesciunt, saepe rem a magni non dolorum doloribus officiis ipsam ullam.
+                                    { meetingDetails?.summaryPoints}
                                 </div>
                             </div>
                             <div className={styles.right_container}>
@@ -36,10 +79,10 @@ function MeetingDetails({ meetingId }) {
                         </div>
                     </div>
                     <div className={styles.button_container}>
-                        <button className={styles.delete_button}>
+                        <button className={styles.delete_button} onClick={handleDelete}>
                             Delete
                         </button>
-                        <button className={styles.save_button}>
+                        <button className={styles.save_button} onClick={handleSave}>
                             Save
                         </button>
                     </div>
