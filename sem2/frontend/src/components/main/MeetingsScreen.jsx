@@ -8,6 +8,9 @@ import { v1 as uuidv1 } from 'uuid';
 import { ColoredLine } from '../ColoredLine';
 import { MeetingCard } from '../MeetingCard';
 
+var config = require('../../config.json');
+const port = config.port || 5000;
+
 const v1options = {
     node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
     clockseq: 0x1234,
@@ -20,7 +23,7 @@ function MeetingsScreen({ handleMeetingDetailsClick, setSelectedMeetingId }) {
 
     useEffect(() => {
         // Fetch data from your backend API here
-        fetch('http://localhost:5000')
+        fetch(`http://localhost:${port}`)
             .then(response => response.json())
             .then(data => setMeetings(data))
             .catch(error => console.error('Error fetching data:', error));
@@ -45,7 +48,7 @@ function MeetingsScreen({ handleMeetingDetailsClick, setSelectedMeetingId }) {
                 <div style={{ width: "100%", overflow: "auto", display: "flex" }}>
                     {meeting.map(meeting => (
                             <MeetingCard
-                                key={meeting._id}
+                                id={meeting._id}
                                 card_title={meeting.transcript}
                                 completed={'meeting.completed'}
                                 onCardClick={handleMeetingCardClick}

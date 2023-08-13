@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './main/Dashboard.module.css';
 
-function MeetingCard({ card_title, key, completed, onCardClick }) {
+function MeetingCard({ card_title, id, completed, onCardClick }) {
     const card_style = {
         shell: completed ? styles.completed_card : styles.draft_card,
         status: completed ? styles.completed_card_status : styles.draft_card_status,
@@ -10,7 +10,7 @@ function MeetingCard({ card_title, key, completed, onCardClick }) {
     }
 
     return (
-        <div className={card_style.shell} onClick={event => onCardClick(key) }>
+        <div className={card_style.shell} onClick={event => onCardClick(id) }>
             <div className={styles.card_title}>
                 {card_title}
             </div>
