@@ -4,6 +4,7 @@ import styles from './Dashboard.module.css';
 function UploadScreen() {
     const [selectedFile, setSelectedFile] = useState();
 	const [isFilePicked, setIsFilePicked] = useState(false);
+    const [isProcessing, setIsProcessing] = useState(false);
 
     const changeHandler = (event) => {
 		setSelectedFile(event.target.files[0]);
