@@ -15,7 +15,7 @@ const v1options = {
     nsecs: 5678,
 };
 
-function MeetingsScreen() {
+function MeetingsScreen({ handleMeetingDetailsClick, setSelectedMeetingId }) {
     const [meeting, setMeetings] = useState([]);
 
     useEffect(() => {
@@ -25,6 +25,11 @@ function MeetingsScreen() {
             .then(data => setMeetings(data))
             .catch(error => console.error('Error fetching data:', error));
     }, []);
+    
+    const handleMeetingCardClick = (meetingId) => {
+        handleMeetingDetailsClick()
+        setSelectedMeetingId(meetingId);
+    }
 
     return (
         <>
@@ -43,6 +48,7 @@ function MeetingsScreen() {
                                 key={meeting._id}
                                 card_title={meeting.transcript}
                                 completed={'meeting.completed'}
+                                onCardClick={handleMeetingCardClick}
                             />
                         ))}
                 </div>
@@ -55,12 +61,12 @@ function MeetingsScreen() {
                 {/* Split completed meetings between these two maps somehow */}
                 <div style={{ width: "100%", overflow: "auto", display: "flex" }}>
                     {map(range(50), _ => (
-                        <MeetingCard card_title="Completed card" key={uuidv1(v1options)} completed={true}/>
+                        <MeetingCard card_title="Completed card" key={uuidv1(v1options)} completed={true} onCardClick={handleMeetingCardClick}/>
                     ))}
                 </div>
                 <div style={{ width: "100%", overflow: "auto", display: "flex" }}>
                     {map(range(50), _ => (
-                        <MeetingCard card_title="Completed card" key={uuidv1(v1options)} completed={true}/>
+                        <MeetingCard card_title="Completed card" key={uuidv1(v1options)} completed={true} onCardClick={handleMeetingCardClick}/>
                     ))}
                 </div>
             </div>
