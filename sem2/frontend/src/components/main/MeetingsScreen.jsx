@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Dashboard.module.css';
 
 import map from "lodash/map";
@@ -16,6 +16,16 @@ const v1options = {
 };
 
 function MeetingsScreen() {
+    const [meeting, setMeetings] = useState([]);
+
+    useEffect(() => {
+        // Fetch data from your backend API here
+        fetch('http://localhost:5000')
+            .then(response => response.json())
+            .then(data => setMeetings(data))
+            .catch(error => console.error('Error fetching data:', error));
+    }, []);
+
     return (
         <>
             <div className={styles.logo_container}>
@@ -28,9 +38,13 @@ function MeetingsScreen() {
             <div className={styles.card_container}>
                 <ColoredLine colour="#FF8B28" />
                 <div style={{ width: "100%", overflow: "auto", display: "flex" }}>
-                    {map(range(50), _ => (
-                        <MeetingCard card_title="Draft card" key={uuidv1(v1options)} completed={false}/>
-                    ))}
+                    {meeting.map(meeting => (
+                            <MeetingCard
+                                key={meeting._id}
+                                card_title={meeting.transcript}
+                                completed={'meeting.completed'}
+                            />
+                        ))}
                 </div>
             </div>
             <div className={styles.titles}>

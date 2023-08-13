@@ -51,3 +51,13 @@ app.listen(port, 'localhost', () => {
 app.get('/health', (req, res) => {
   res.send('Server is online');
 });
+
+app.get('/meetings', async (req, res) => {
+  try {
+    const meetings = await MeetingSummary.find();
+    res.json(meetings);
+  } catch (error) {
+    console.error('Error fetching meetings:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
