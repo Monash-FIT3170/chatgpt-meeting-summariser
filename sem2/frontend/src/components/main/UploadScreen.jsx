@@ -12,6 +12,7 @@ function UploadScreen() {
         document.getElementById("filename").innerText=event.target.files[0].name;
 	};
 
+
     return (
         <>
             <div className={styles.upload_page}>
@@ -67,9 +68,14 @@ function UploadScreen() {
                     "What does ChatGPT say when it finishes summarizing a long meeting? 'I've 'coded' the highlights for you!'",
                     "Why did ChatGPT start attending project meetings? To help 'debug' the complexities!",
                 </div>
-                <button className={styles.add_participants_button}>
-                    Add Meeting Participants
-                </button>
+                <div className={styles.buttons_container}>
+                    <button className={styles.add_meeting_button}>
+                        Add Meeting Details
+                    </button>
+                    <button className={styles.add_participants_button}>
+                        Add Meeting Participants
+                    </button>
+                </div>
             </div>
         </>
     )
