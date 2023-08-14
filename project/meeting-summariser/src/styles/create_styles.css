@@ -1,116 +1,140 @@
-
-
 .card-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* set the height of the container to the full viewport height */
-    position: relative;
-    
-  }
-  
-  .create-card {
-    padding: 20%;
-    width: 40%;
-    height: 80%;
-    background: rgba(217, 217, 217, 1);
-    padding: 4rem;
-    border-radius: 10px;
-    opacity: 100%;
-    position: fixed;
-    z-index: 100;
-    display: block;
-    opacity: 100%;
-    border: solid;
-    border-color: black;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    align-items: center;
-    justify-items: center;
-    flex-direction: column;
-  }
-
-  .title {
-    font-family: Raleway;
-    font-size: 40px;
-    font-weight: 700;
-    line-height: 47px;
-    letter-spacing: 0em;
-    text-align: center;
-    color: rgba(99, 55, 17, 1);
-    top: 0%;
-  }
-
-  .form-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50%;
-    margin-bottom: 2rem;
-  }
-
-.create-card-form {
-    margin-top: 5rem; 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    justify-content: space-between;
-    width:100%
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* set the height of the container to the full viewport height */
+  position: relative;
 }
 
+.create-card {
+  padding: 20%;
+  width: 40%;
+  height: 80%;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 4rem;
+  border-radius: 10px;
+  opacity: 100%;
+  position: fixed;
+  z-index: 100;
+  display: block;
+  opacity: 100%;
+  border: solid;
+  border-color: black;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  justify-items: center;
+  flex-direction: column;
+}
 
-input[type="text"] {
-    box-sizing: border-box;
-    margin-bottom: 1rem;
-    border-radius: 10%;
-    border-color: #000000;
-    border: solid;
-    outline: none;
-    box-shadow: none;
-    background: linear-gradient(0deg, #F1E7E7, #F1E7E7);
-    font-family: Inria Sans;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-  }
+.title {
+  font-size: 3rem;
+  font-weight: 600;
+  color: #b3621c;
+  margin-bottom: 2rem;
+  text-align: center;
+}
 
+.form-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  margin-bottom: 2rem;
+}
+
+.create-card-form {
+  margin-top: 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.create-card-form .form-item {
+  position: relative;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  width: 350px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: black;
+  border-radius: 100px;
+}
+
+.create-card-form .form-item .form-item-icon {
+  position: absolute;
+  justify-self: center;
+  padding-top: 8px;
+  left: 1.4rem;
+  font-size: 1.3rem;
+  opacity: 0.4;
+}
+
+.create-card-form .form-item .form-item-input {
+  font-size: 1rem;
+  justify-self: center;
+}
+
+/* Login Card Form Elements */
+.create-card input[type="text"],
+.create-card input[type="password"],
+.create-card input[type="email"] {
+  font-size: 14;
+  font-family: "Poppins", sans-serif;
+  border: none;
+  outline: none;
+  background: rgba(255, 255, 255, 0.3);
+  padding: 1rem 1.5rem;
+  padding-left: calc(1rem * 3.5);
+  border-radius: 100px;
+  width: 100%;
+  text-align: start;
+  margin: 0px;
+  /* transition: background .5s;  */
+}
 
 .submit-button {
-    cursor: pointer;
-    background-color: rgba(131, 233, 255, 1);
-    border-radius: 10%;
-    width: 50%;
-    font-family: Inria Sans;
-    text-align: center;
-    
+  background: rgb(40, 196, 255);
+  color: white;
+  border-width: 0;
+  padding: 1rem;
+  border-radius: 100px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  align-self: center;
+  width: 80%;
 }
 
 .close-button {
-    font-size: 20px;
-    cursor: pointer;
-    font-family: SF Pro;
-    font-size: 20px;
-  }
+  font-size: 20px;
+  cursor: pointer;
+  font-family: SF Pro;
+  font-size: 20px;
+  padding-top: 0.4rem;
+}
 
-  .dot {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 10px;
-    height: 25px;
-    width: 25px;
-    background-color: none;
-    border-radius: 50%;
-    display: inline-block;
-    border:solid;
-    border-color: #000000;
-    text-align: center;
-    background-color: red;
-    opacity: 100%;
-  }
+.dot {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 10px;
+  height: 40px;
+  width: 40px;
+  background-color: none;
+  border-radius: 50%;
+  display: inline-block;
+  border: solid;
+  border-color: #000000;
+  text-align: center;
+  opacity: 100%;
+}
 
-  .dot:hover {
-    background-color: lightcoral;
-  }
+.dot:hover {
+  background-color: lightcoral;
+}

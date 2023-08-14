@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
 
+var config = require('../config.json');
+const port = config.port || 5000;
+
 export default class CreateMeetingSummary extends Component {
   constructor(props) {
     super(props);
@@ -24,7 +27,7 @@ export default class CreateMeetingSummary extends Component {
     console.log(newMeetingSummary);
 
     axios
-      .post("http://localhost:5000/meetingSummaries/add", newMeetingSummary)
+      .post(`http://localhost:${port}/meetingSummaries/add`, newMeetingSummary)
       .then((res) => console.log(res.data));
 
     this.setState({

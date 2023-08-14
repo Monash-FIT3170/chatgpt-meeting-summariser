@@ -1,0 +1,60 @@
+import { useEffect } from 'react';
+import { Facebook } from '@mui/icons-material';
+
+var config = require('../../../config.json');
+
+var APP_ID = config.facebook.app_id; 
+var APP_VERSION = config.facebook.app_version;
+
+function statusChangeCallback(response) {
+  console.log('statusChangeCallback');
+  console.log(response);
+  if (response.status === 'connected') {
+    testAPI();
+  } else {
+    document.getElementById('status').innerHTML = 'Please log into this webpage.';
+  }
+}
+
+function checkLoginState() {
+  FB.getLoginStatus(function (response) {
+    statusChangeCallback(response);
+  });
+}
+
+function testAPI() {
+  console.log('Welcome! Fetching your information....');
+  FB.api('/me', function (response) {
+    console.log('Successful login for: ' + response.name);
+    document.getElementById('status').innerHTML =
+      'Thanks for logging in, ' + response.name + '!';
+  });
+}
+
+function FacebookLoginComponent() {
+  useEffect(() => {
+    window.fbAsyncInit = function () {
+      FB.init({
+        appId: APP_ID,
+        cookie: true,
+        xfbml: true,
+        version: APP_VERSION
+      });
+
+      FB.getLoginStatus(function (response) {
+        statusChangeCallback(response);
+      });
+    };
+  }, []);
+
+  return (
+    <>
+      <div id="fb-root"></div>
+      <div className="fb-login-button" data-scope="public_profile,email" data-onlogin="checkLoginState()">
+        <Facebook />
+      </div>
+    </>
+  );
+}
+
+export default FacebookLoginComponent;

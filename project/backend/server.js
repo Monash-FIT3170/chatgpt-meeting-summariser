@@ -3,8 +3,11 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const usersRouter = require('./routes/user');
-const meetingSummariesRouter = require('./routes/meetingSummaries');
 const uploadRoute = require('./routes/upload');
+const meetingSummariesRouter = require('./routes/meetingSummaries');
+
+const summary = require('./routes/summary');
+const emailRoute = require('./routes/sendEmail');
 
 require('dotenv').config();
 
@@ -22,18 +25,25 @@ app.use(express.json());
 app.use(passport.initialize());
 app.use('/users', usersRouter);
 app.use('/meetingSummaries', meetingSummariesRouter);
-app.use(uploadRoute);
+app.use(summary);
+app.use('/api/email', emailRoute);
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.header("Access-Control-Allow-Headers", "x-access-token, Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, { useNewUrlParser: true }
 );
-
 const connection = mongoose.connection;
 connection.once('open', () => {
   console.log("MongoDB database connection established successfully");
 })
 
-app.listen(port, () => {
+app.listen(port, 'localhost', () => {
     console.log(`Server is running on port: ${port}`);
 });
 

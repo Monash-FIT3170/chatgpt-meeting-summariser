@@ -8,7 +8,7 @@ const SummariseButton = () => {
         
 	}
 		return (
-		<div className= "summarise_button" onClick={(e) => handleChange(e)}>
+		<div className= "summarise_button center" onClick={(e) => handleChange(e)}>
 			Summarise
 		</div>
 	);

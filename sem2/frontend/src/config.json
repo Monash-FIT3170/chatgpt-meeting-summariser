@@ -1,0 +1,22 @@
+{
+    "web": {
+        "client_id": "436119401785-g59vs7e3cdaaoheokqi0m2ial4m9t8tr.apps.googleusercontent.com",
+        "project_id": "fit3170-386808",
+        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+        "token_uri": "https://oauth2.googleapis.com/token",
+        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+        "client_secret": "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",
+        "redirect_uris": [
+            "http://localhost:3000",
+            "http://localhost:3000/Summariser"
+        ],
+        "javascript_origins": [
+            "http://localhost:3000"
+        ]
+    },
+    "port": 5001,
+    "facebook":{
+        "app_id": 932906287755979,
+        "app_version": "v17.0"
+    }
+}
