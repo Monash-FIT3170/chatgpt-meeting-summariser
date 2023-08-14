@@ -41,7 +41,7 @@ function MeetingsScreen({ handleMeetingDetailsClick, setSelectedMeetingId }) {
                 <div className={styles.welcome_back}>Welcome back</div>
             </div>
             <div className={styles.titles}>
-                Most Recent
+                In Progress
             </div>
             <div className={styles.card_container}>
                 <ColoredLine colour="#FF8B28" />
@@ -49,8 +49,8 @@ function MeetingsScreen({ handleMeetingDetailsClick, setSelectedMeetingId }) {
                     {meeting.map(meeting => (
                             <MeetingCard
                                 id={meeting._id}
-                                card_title={meeting.transcript}
-                                completed={'meeting.completed'}
+                                card_title={meeting.meeting_name}
+                                completed={meeting.completed}
                                 onCardClick={handleMeetingCardClick}
                             />
                         ))}
@@ -62,11 +62,6 @@ function MeetingsScreen({ handleMeetingDetailsClick, setSelectedMeetingId }) {
             <div className={styles.card_container}>
                 <ColoredLine colour="#2891B9" />
                 {/* Split completed meetings between these two maps somehow */}
-                <div style={{ width: "100%", overflow: "auto", display: "flex" }}>
-                    {map(range(50), _ => (
-                        <MeetingCard card_title="Completed card" key={uuidv1(v1options)} completed={true} onCardClick={handleMeetingCardClick}/>
-                    ))}
-                </div>
                 <div style={{ width: "100%", overflow: "auto", display: "flex" }}>
                     {map(range(50), _ => (
                         <MeetingCard card_title="Completed card" key={uuidv1(v1options)} completed={true} onCardClick={handleMeetingCardClick}/>
