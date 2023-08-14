@@ -103,7 +103,12 @@ function RecordingUploadScreen() {
     )
 }
 
-function MeetingParticipantsScreen(children, styles, className) {
+function MeetingParticipantsScreen() {
+    let participants = [
+        { "id": 1, "name": "John Doe", "email": "John.doe@gmail.com" },
+        { "id": 2, "name": "Jane Doe", "email": "Jane.doe@gmail.com" }
+    ]
+
     return (
         <>
             <div className={styles.summary_heading}>
@@ -132,33 +137,51 @@ function MeetingParticipantsScreen(children, styles, className) {
                     </div>
                 </div>
             </div>
+            <div style={{
+                alignItems: "center",
+                display: "flex",
+                justifyContent: "center",
+            }}>
+                <div className={styles.participants}>
+                    This is where meeting participants will be displayed
+                    <MeetingParticipants participants={participants} />
+                    <div className={styles.participant}>
+                        <div className={styles.participant_text}>
+                            1
+                        </div>
+                        <div className={styles.participant_text}>
+                            Name
+                        </div>
+                        <div className={styles.participant_text}>
+                            email
+                        </div>
+                    </div>
+                </div>
+            </div>
         </>
     )
 
 }
 
-function MeetingParticipant(number, name, email) {
-    return (
-        <>
-            <div className={styles.participant_text}>
-                {number}
-                {name}
-                {email}
-            </div>
-        </>
-    )
-}
-
-function MeetingParticipants(children) {
-    let participants_list = React.Children.toArray(this.props.children)
+function MeetingParticipants(participants) {
+    let data = Array.from(participants)
 
     return (
         <>
-            <div className={styles.participants}>
-            React.Children.map(children, (child, index) => {
-                    <MeetingParticipant number={index} name={child.name} email={child.email} />
-                })
-            </div>
+            {data.map((participant) => {
+                <div className={styles.participant}>
+                    <div className={styles.participant_text}>
+                        {participant.id}
+                    </div>
+                    <div className={styles.participant_text}>
+                        {participant.name}
+                    </div>
+                    <div className={styles.participant_text}>
+                        {participant.email}
+                    </div>
+                </div>
+            })}
+
         </>
     )
 }

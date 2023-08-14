@@ -417,34 +417,45 @@ label:hover {
     align-items: center;
 }
 
-.participants_header_text{
+.participants_header_text {
     color: #FFF;
-text-align: center;
-font-family: Raleway;
-font-size: 1.5rem;
-font-style: normal;
-font-weight: 700;
-line-height: normal;
-margin: 0 4rem;
+    text-align: center;
+    font-family: Raleway;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin: 0 4rem;
 }
 
 
-.participant{
+.participant {
     width: 91.25rem;
-height: 4.1875rem;
-flex-shrink: 0;
-border-top: 1px solid #2891B9;
-border-bottom: 1px solid #2891B9;
-background: rgba(217, 217, 217, 0.00);
+    height: 4.1875rem;
+    flex-shrink: 0;
+    border-top: 1px solid #2891B9;
+    border-bottom: 1px solid #2891B9;
+    background: rgba(217, 217, 217, 0.00);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
-.participant_text{
+.participant_text {
     color: #141E30;
-text-align: center;
-font-family: Raleway;
-font-size: 1.5rem;
-font-style: normal;
-font-weight: 700;
-line-height: normal;
-margin: 0 4rem;
+    text-align: center;
+    font-family: Raleway;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin: 0 4rem;
+}
+
+.participants {
+    width: 91.25rem;
+    height: 40rem;
+    flex-shrink: 0;
+    border-radius:  0 0 0.625rem 0.625rem;
+    background: #E9F9FF;
 }
