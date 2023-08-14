@@ -5,7 +5,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import CloseIcon from '@mui/icons-material/Close';
 import { Google, Facebook, GitHub } from '@mui/icons-material';
 import GoogleLoginComponent from './alt_login/GoogleMUILogin';
-
+import axios from "axios";
 import React, { useRef, useState, useEffect } from 'react';
 
 var config = require('../../config.json');
@@ -37,7 +37,7 @@ const CreateAccount = ({ setIsCreateAccountOpen }) => {
     };
 
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
 
@@ -46,6 +46,19 @@ const CreateAccount = ({ setIsCreateAccountOpen }) => {
             email: email,
             password: password,
         };
+
+        try {
+            // Send POST request to create route
+            const response = await axios.post('http://localhost:5000/users/create', user);
+            if (response.data.status === 0) {
+                console.log('User authenticated');
+            } else {
+                console.log('Authentication failed:', response.data.message);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+
 
         console.log(user);
     }
