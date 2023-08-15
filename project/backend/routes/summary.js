@@ -24,6 +24,8 @@ router.post("/api/save", UploadMiddleware.single("transcript"), async (req, res)
         return res.status(400).send('Incorrect file uploaded.');
     }
     const transcript = req.file.buffer.toString();
+    const date = req.body.date; 
+    const startTime = req.body.startTime; 
 
     const completion = await openai.createChatCompletion({
         model: "gpt-3.5-turbo",
@@ -49,7 +51,7 @@ router.post("/api/save", UploadMiddleware.single("transcript"), async (req, res)
 
     const summaryPoints = completion.data.choices[0].message.content;
 
-    const newMeetingSummary = new MeetingSummary({transcript, summaryPoints});
+    const newMeetingSummary = new MeetingSummary({date, startTime, transcript, summaryPoints});
     console.log(transcript);
     console.log(summaryPoints);
     newMeetingSummary

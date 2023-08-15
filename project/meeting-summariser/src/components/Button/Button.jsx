@@ -10,6 +10,8 @@ const port = config.port || 5000;
 const Button = () => {
     const [isFileUploaded, setIsFileUploaded] = useState(false);
     const [summary, setSummary] = useState("");
+    const [date, setDate] = useState("");
+    const [startTime, setStartTime] = useState("");
     const [savedSummaryId, setSavedSummaryId] = useState("");
 
     const handleChange = (e) => {
@@ -17,6 +19,8 @@ const Button = () => {
     
         const formData = new FormData();
         formData.append("transcript", e.target.files[0]);
+        formData.append("date", date);
+        formData.append("startTime", startTime);
         console.log(e.target.files[0])
 
         //check if any file is chosen and set the file name 
@@ -64,6 +68,23 @@ const Button = () => {
     }, [savedSummaryId]);
 	return (
         <>
+
+        // temp input fields
+        <div>
+          <input
+             type="date"
+             placeholder="Meeting Date"
+             value={date}
+             onChange={(e) => setDate(e.target.value)}
+          />
+          <input
+          type="time"
+          placeholder="Start Time"
+          value={startTime}
+          onChange={(e) => setStartTime(e.target.value)}
+          />
+         </div>
+
         <div id="file">
             <label className='button center' htmlFor="file_picker" >
                 Upload Recording
