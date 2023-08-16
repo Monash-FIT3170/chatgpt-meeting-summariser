@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { HeaderPill } from '../HeaderPill';
 import styles from './Dashboard.module.css';
+import axios from "axios"; 
+
+
+var config = require('../../config.json');
+const port = config.port ||5001;
 
 function UploadScreen() {
     const [activeScreen, setActiveScreen] = useState("RecordingUpload");
@@ -37,29 +42,29 @@ function RecordingUploadScreen() {
         // set the selected file 
         setSelectedFile(event.target.files[0]);
         const fileExtension = event.target.files[0].name.split('.').pop();
-        if( fileExtension === "MP4"){
+        // ensure is a MP4 file 
+        if( fileExtension === "MP4"|| fileExtension === "mp4"){
             console.log("is correctttt")
             setIsFilePicked(true);
             document.getElementById("filename").innerText = event.target.files[0].name;
             // form data 
             const formData = new FormData();
-            formData.append("transcript", selectedFile);
+            formData.append("mp4File", event.target.files[0]);
             console.log(event.target.files[0].name)
-            // console.log(port);
-
-            // axios.post(`http://localhost:${port}/saveFile`, formData)
-            //     .then(res => {
-            //         // Display success message
-            //         console.log("here")
-            //         console.log("sucessss")
-            //     })
-            //     .catch(error => {
-            //         // Display error message
-            //         console.log("FAILED")
-            //         // messageDiv.textContent = "An error occurred during upload.";
-            //         console.error(error);
-            //     });
-
+            console.log(port);
+            // save to database 
+            axios.post(`http://localhost:${port}/saveFile`, formData)
+                .then(res => {
+                    // Display success message
+                    console.log("here")
+                    console.log("sucessss")
+                })
+                .catch(error => {
+                    // Display error message
+                    console.log("FAILED")
+                    // messageDiv.textContent = "An error occurred during upload.";
+                    console.log(error.response)
+                });
         }
         else{
             console.log("Wrong File format")
