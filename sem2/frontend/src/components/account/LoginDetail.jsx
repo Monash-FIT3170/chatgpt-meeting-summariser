@@ -1,6 +1,6 @@
 import styles from './Account.module.css';
 import React, { useState, useEffect, useRef } from 'react';
-
+import axios from "axios"
 import CreateAccount from './CreateAccount';
 import PersonIcon from "@mui/icons-material/Person";
 import LockIcon from "@mui/icons-material/Lock";
@@ -22,6 +22,7 @@ function LoginDetail() {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [loginError, setLoginError] = useState(null); // State for login error
 
     //Functions that change the target vals
     const handleUsernameChange = (event) => {
@@ -31,7 +32,7 @@ function LoginDetail() {
         setPassword(event.target.value);
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
 
@@ -39,6 +40,19 @@ function LoginDetail() {
             username: username,
             password: password,
         };
+
+
+        try {
+            const response = await axios.post('http://localhost:5000/users/login', user); // Send POST request to /login via axios
+            console.log('Login successful:', response.data.message);
+            setLoginError(null); // Reset any previous login error
+            // Redirect the user to a new page on successful login
+        
+            window.location.href = '/dashboard';
+        } catch (error) {
+            console.error('Login failed:', error);
+            setLoginError('Invalid credentials');
+        }
 
         console.log(user);
     }

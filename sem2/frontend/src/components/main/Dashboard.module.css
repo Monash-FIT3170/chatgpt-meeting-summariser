@@ -210,11 +210,16 @@
 }
 
 .upload_menu_bar {
+    margin: 1rem;
     width: 52.875rem;
     height: 4.1875rem;
     flex-shrink: 0;
     border-radius: 0.875rem;
     background: rgba(29, 34, 45, 0.67);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 .upload_heading {
@@ -316,8 +321,8 @@ label {
     flex-direction: column;
 }
 
-label:hover{
-    cursor:pointer;
+label:hover {
+    cursor: pointer;
     color: #fff;
 }
 
@@ -413,25 +418,72 @@ label:hover{
     position: fixed;
     top: 0;
     left: 0;
-    width:100%;
+    width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.6);
-  }
-  
-  .modal-main {
-    position:fixed;
+}
+
+.modal-main {
+    position: fixed;
     background: white;
     width: 80%;
     height: auto;
-    top:50%;
-    left:50%;
-    transform: translate(-50%,-50%);
-  }
-  
-  .display-block {
-    display: block;
-  }
-  
-  .display-none {
-    display: none;
-  }
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.participants_header {
+    width: 91.25rem;
+    height: 4.1875rem;
+    flex-shrink: 0;
+    border-radius: 0.625rem 0.625rem 0rem 0rem;
+    background: #2891B9;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.participants_header_text {
+    color: #FFF;
+    text-align: center;
+    font-family: Raleway;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin: 0 4rem;
+}
+
+
+.participant {
+    width: 91.25rem;
+    height: 4.1875rem;
+    flex-shrink: 0;
+    border-top: 1px solid #2891B9;
+    border-bottom: 1px solid #2891B9;
+    background: rgba(217, 217, 217, 0.00);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.participant_text {
+    color: #141E30;
+    text-align: center;
+    font-family: Raleway;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin: 0 4rem;
+}
+
+.participants {
+    width: 91.25rem;
+    height: 40rem;
+    flex-shrink: 0;
+    border-radius:  0 0 0.625rem 0.625rem;
+    background: #E9F9FF;
+}
