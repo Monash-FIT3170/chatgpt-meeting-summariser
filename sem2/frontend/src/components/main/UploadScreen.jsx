@@ -34,9 +34,36 @@ function UploadScreen() {
 
 function RecordingUploadScreen() {
     const changeHandler = (event) => {
+        // set the selected file 
         setSelectedFile(event.target.files[0]);
-        setIsFilePicked(true);
-        document.getElementById("filename").innerText = event.target.files[0].name;
+        const fileExtension = event.target.files[0].name.split('.').pop();
+        if( fileExtension === "MP4"){
+            console.log("is correctttt")
+            setIsFilePicked(true);
+            document.getElementById("filename").innerText = event.target.files[0].name;
+            // form data 
+            const formData = new FormData();
+            formData.append("transcript", selectedFile);
+            console.log(event.target.files[0].name)
+            // console.log(port);
+
+            // axios.post(`http://localhost:${port}/saveFile`, formData)
+            //     .then(res => {
+            //         // Display success message
+            //         console.log("here")
+            //         console.log("sucessss")
+            //     })
+            //     .catch(error => {
+            //         // Display error message
+            //         console.log("FAILED")
+            //         // messageDiv.textContent = "An error occurred during upload.";
+            //         console.error(error);
+            //     });
+
+        }
+        else{
+            console.log("Wrong File format")
+        }
     };
 
     const [selectedFile, setSelectedFile] = useState();
