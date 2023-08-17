@@ -69,8 +69,8 @@ const Button = () => {
 	return (
         <>
 
-        // temp input fields
-        <div>
+        {/* temp input fields
+        <div> 
           <input
              type="date"
              placeholder="Meeting Date"
@@ -83,7 +83,7 @@ const Button = () => {
           value={startTime}
           onChange={(e) => setStartTime(e.target.value)}
           />
-         </div>
+         </div>*/}
 
         <div id="file">
             <label className='button center' htmlFor="file_picker" >
