@@ -56,7 +56,6 @@ function RecordingUploadScreen() {
             axios.post(`http://localhost:${port}/saveFile`, formData)
                 .then(res => {
                     // Display success message
-                    console.log("here")
                     console.log("sucessss")
                 })
                 .catch(error => {
