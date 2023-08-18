@@ -34,6 +34,16 @@
     display: flex;
 }
 
+.attendees_box {
+    border-radius: 0.9375rem;
+    background: #E9F9FF;
+    scroll-behavior: smooth;
+    /* overflow-y: scroll; */
+    height: 50vh;
+    padding: 2rem;
+    margin: 2rem;
+}
+
 .summary_heading {
     display: flex;
     width: 100%;

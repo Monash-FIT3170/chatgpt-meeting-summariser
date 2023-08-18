@@ -2,6 +2,7 @@ import { useState } from 'react';
 import styles from './MeetingDetails.module.css';
 import axios from 'axios';
 import { useEffect } from 'react';
+import { MeetingParticipants } from '../meeting/meetingParticpants/MeetingParticipants';
 
 var config = require('../../config.json');
 const port = config.port || 5000;
@@ -57,13 +58,12 @@ function MeetingDetails({ meetingId, isMeetingDetailsActive, handleYourMeetingsC
                         <div className={styles.container}>
                             <div className={styles.left_container}>
                                 <div className={styles.summary_box}>
-                                    { meetingDetails?.summary_points}
+                                    {meetingDetails?.summary_points}
                                 </div>
                             </div>
                             <div className={styles.right_container}>
-
-                                <div className={styles.summary_box}>
-                                { meetingDetails?.attendees}
+                                <div className={styles.attendees_box}>
+                                    <MeetingParticipants participants={meetingDetails?.attendees}/>
                                 </div>
                             </div>
                         </div>

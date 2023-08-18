@@ -33,18 +33,11 @@ function DashboardCanvas() {
                 <div className={BasicStyles.header2}>
                     <HeaderPill name="Dashboard" onClick={handleDashboardClick} isActive={activeScreen === "Dashboard"} />
                     <HeaderPill name="Upload" onClick={handleUploadClick} isActive={activeScreen === "Upload"} />
-                    <HeaderPill name="YourMeetings" onClick={handleYourMeetingsClick} isActive={activeScreen === "Meetings"} />
+                    <HeaderPill name="YourMeetings" onClick={handleYourMeetingsClick} isActive={activeScreen === "Meetings" || activeScreen === "Meeting-Details"} />
                 </div>
                 <div>
                     {screenComponents[activeScreen]}
                 </div>
-                {/* {isMeetingDetailsActive && (
-                    <div style={{
-                        display: isMeetingDetailsActive ? "block" : "none"
-                    }}>
-                        <MeetingDetails meetingId={selectedMeetingId} isMeetingDetailsActive={isMeetingDetailsActive} handleYourMeetingsClick={handleYourMeetingsClick} />
-                    </div>
-                )} */}
             </div>
         </>
     );
