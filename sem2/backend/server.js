@@ -54,5 +54,3 @@ app.listen(port, 'localhost', () => {
 app.get('/health', (req, res) => {
   res.send('Server is online');
 });
-
-
