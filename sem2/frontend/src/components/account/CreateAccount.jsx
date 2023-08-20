@@ -77,14 +77,14 @@ const CreateAccount = ({ setIsCreateAccountOpen }) => {
                         <span class="form-item-icon material-symbols-rounded" className={styles.icon}>
                             <PersonIcon />
                         </span>
-                        <input type="text" placeholder="Username" onChange={handleUsernameChange}>
+                        <input id="username" type="text" placeholder="Username" onChange={handleUsernameChange}>
                         </input>
                     </div>
                     <div className={styles.user_box}>
                         <span class="form-item-icon material-symbols-rounded" className={styles.icon}>
                             <EmailIcon />
                         </span>
-                        <input type="text" placeholder="Email" onChange={handleEmailChange}>
+                        <input id="email" type="text" placeholder="Email" onChange={handleEmailChange}>
                         </input>
                     </div>
                     <div className={styles.user_box}>

@@ -7,17 +7,22 @@ const usersRouter = require('./routes/user');
 const meetingSummariesRouter = require('./routes/meetingSummaries');
 const bodyParser = require("body-parser");
 const swaggerUi = require("swagger-ui-express");
-const swaggerAutogen = require('swagger-autogen')();
+const swaggerAutogen = require('swagger-autogen')({openapi: '3.0.0'});
 
 const transcribeRouter = require('./routes/transcribe');
 const saveFileRouter = require('./routes/saveFile')
 
 const summaryRouter = require('./routes/summary');
 const emailRoute = require('./routes/sendEmail');
+const resetTheWorld = require('./routes/resetTheWorld')
+
+
+const { MongoMemoryServer } = require('mongodb-memory-server');
 
 require('dotenv').config();
 
 const app = express();
+
 
  //TODO: Move to environment file when deploying
 const options = {
@@ -28,17 +33,19 @@ const options = {
       title: "Meeting sumarizer",
       version: "0.1.0",
       description:
-        "Meeting summarizer"
+        "Meeting summarizer",
     },
+    
   },
   apis: ["./routes/*.js"],
-  explorer: true
+  explorer: true,
+  host: "https://localhost:5000"
 };
 const outputFile = './swagger.json';
 const endpointsFiles = ['./routes/*.js'];
 
 require('dotenv').config();
-const port = process.env.PORT || 5001; 
+const port = process.env.PORT || 5000; 
 
 app.use(require('serve-static')(__dirname + '/../../public'));
 app.use(require('cookie-parser')());
@@ -55,6 +62,8 @@ app.use('summary', summaryRouter);
 app.use('/api/email', emailRoute);
 app.use(transcribeRouter.router)
 app.use("/", saveFileRouter);
+app.use(resetTheWorld);
+
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -75,14 +84,13 @@ swaggerAutogen(outputFile, endpointsFiles, options).then(() => {
 
 
 //const uri = process.env.ATLAS_URI;
-const mongo = await MongoMemoryServer.create();
-const uri = mongo.getUri()
-mongoose.connect(uri, { useNewUrlParser: true }
-);
-const connection = mongoose.connection;
-connection.once('open', () => {
-  console.log("MongoDB database connection established successfully");
-})
+MongoMemoryServer.create().then(
+  (mongo) => {
+    const uri = mongo.getUri();
+    mongoose.connect(uri, { useNewUrlParser: true });
+  }
+)
+
 
 app.listen(port, 'localhost', () => {
     console.log(`Server is running on port: ${port}`);

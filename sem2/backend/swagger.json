@@ -1,15 +1,10 @@
 {
-  "swagger": "2.0",
+  "openapi": "3.0.0",
   "info": {
     "version": "1.0.0",
     "title": "REST API",
     "description": ""
   },
-  "host": "localhost:3000",
-  "basePath": "/",
-  "schemes": [
-    "http"
-  ],
   "paths": {
     "/": {
       "get": {
@@ -27,26 +22,26 @@
     "/add": {
       "post": {
         "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "transcript": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK"
           },
           "400": {
             "description": "Bad Request"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "transcript": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -59,7 +54,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -78,7 +75,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -99,21 +98,8 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "transcript": {
-                  "example": "any"
-                },
-                "summaryPoints": {
-                  "example": "any"
-                }
-              }
+              "type": "string"
             }
           }
         ],
@@ -124,15 +110,61 @@
           "400": {
             "description": "Bad Request"
           }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "transcript": {
+                    "example": "any"
+                  },
+                  "summaryPoints": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },
-    "/api/save": {
+    "/test/reset-the-world": {
+      "post": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/saveFile": {
       "post": {
         "description": "",
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/summary": {
+      "post": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           }
         }
       }
@@ -145,7 +177,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -161,41 +195,22 @@
         }
       }
     },
-    "/signup": {
+    "/transcribe": {
       "post": {
         "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "password": {
-                  "example": "any"
-                },
-                "firstName": {
-                  "example": "any"
-                },
-                "lastName": {
-                  "example": "any"
-                },
-                "email": {
-                  "example": "any"
-                }
-              }
-            }
+        "responses": {
+          "default": {
+            "description": ""
           }
-        ],
+        }
+      }
+    },
+    "/api/save": {
+      "post": {
+        "description": "",
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         }
       }
@@ -203,26 +218,6 @@
     "/create": {
       "post": {
         "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "password": {
-                  "example": "any"
-                },
-                "username": {
-                  "example": "any"
-                },
-                "email": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -233,29 +228,65 @@
           "500": {
             "description": "Internal Server Error"
           }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "example": "any"
+                  },
+                  "email": {
+                    "example": "any"
+                  },
+                  "password": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },
     "/login": {
       "post": {
         "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "username": {
-                  "example": "any"
-                },
-                "password": {
-                  "example": "any"
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "example": "any"
+                  },
+                  "password": {
+                    "example": "any"
+                  }
                 }
               }
             }
           }
-        ],
+        }
+      }
+    },
+    "/logout": {
+      "post": {
+        "description": "",
         "responses": {
           "200": {
             "description": "OK"
@@ -267,25 +298,27 @@
       }
     }
   },
-  "definitions": {
-    "swagger": {
-      "type": "string",
-      "example": "2.0"
-    },
-    "info": {
-      "type": "object",
-      "properties": {
-        "title": {
-          "type": "string",
-          "example": "Meeting sumarizer"
-        },
-        "version": {
-          "type": "string",
-          "example": "0.1.0"
-        },
-        "description": {
-          "type": "string",
-          "example": "Meeting summarizer"
+  "components": {
+    "schemas": {
+      "swagger": {
+        "type": "string",
+        "example": "2.0"
+      },
+      "info": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Meeting sumarizer"
+          },
+          "version": {
+            "type": "string",
+            "example": "0.1.0"
+          },
+          "description": {
+            "type": "string",
+            "example": "Meeting summarizer"
+          }
         }
       }
     }
