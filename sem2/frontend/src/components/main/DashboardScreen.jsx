@@ -23,7 +23,7 @@ function DashboardScreen({ onUploadClick, handleMeetingDetailsClick, setSelected
 
     useEffect(() => {
         // Fetch data from your backend API here
-        fetch(`http://localhost:${port}`)
+        fetch(`http://localhost:${port}/meetingSummaries`)
             .then(response => response.json())
             .then(data => setMeetings(data))
             .catch(error => console.error('Error fetching data:', error));
