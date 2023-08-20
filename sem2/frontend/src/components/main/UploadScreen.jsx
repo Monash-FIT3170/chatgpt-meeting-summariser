@@ -34,7 +34,7 @@ function UploadScreen() {
     };
 
     const screenComponents = {
-        RecordingUpload: <RecordingUploadScreen onAddParticipant={addParticipant} />,
+        RecordingUpload: <RecordingUploadScreen onAddParticipant={handleMeetingParticipantsClick} />,
         MeetingParticipants: <MeetingParticipantsScreen participants={participants} onAddParticipant={addParticipant} onDeleteParticipant={deleteParticipant} />,
     };
 
@@ -215,7 +215,7 @@ function RecordingUploadScreen({ onAddParticipant }) {
                         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
                     </div>
                 )}
-                <button className={styles.add_participants_button} onClick={handleAddParticipantsClick}>
+                <button className={styles.add_participants_button} onClick={onAddParticipant}>
                     Add Meeting Participants
                 </button>
             </div>
