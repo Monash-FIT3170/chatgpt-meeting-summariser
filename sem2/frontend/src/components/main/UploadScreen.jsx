@@ -4,6 +4,7 @@ import styles from "./Dashboard.module.css";
 import loaderStyle from "./Loader.module.css";
 import { MeetingParticipantsTable } from "../meeting/MeetingParticipantsTable";
 import { BorderedHeading } from "../BorderedHeading";
+import LoadingJokes from "../LoadingJokes";
 
 function UploadScreen() {
     const [activeScreen, setActiveScreen] = useState("RecordingUpload");
@@ -225,6 +226,7 @@ function SummaryLoader({ }) {
         <>
             <div className={loaderStyle.container}>
                 <div className={loaderStyle.loader}></div>
+            <LoadingJokes/>
             </div>
         </>
     )

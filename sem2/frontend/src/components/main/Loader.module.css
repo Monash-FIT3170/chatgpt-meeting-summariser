@@ -6,6 +6,8 @@
   border-radius: 50%;
   height: 75px;
   width: 75px;
+  position: relative;
+  top: -2rem;
 }
 
 @-webkit-keyframes spin {
