@@ -8,10 +8,6 @@ function MeetingParticipantsTable({ participants, onDeleteParticipant, onAddPart
     const [newName, setNewName] = useState('');
     const [newEmail, setNewEmail] = useState('');
 
-    if (participants?.length === 0) {
-        return <p>No participants available.</p>;
-    }
-
     const handleAddNewParticipant = () => {
         if (newName && newEmail) {
             onAddParticipant(newName, newEmail);
