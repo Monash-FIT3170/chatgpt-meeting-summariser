@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { HeaderPill } from '../HeaderPill';
 import styles from './Dashboard.module.css';
 import axios from "axios"; 
+// const {transcribedScript} = require('./transcribe')
 
 
 var config = require('../../config.json');
@@ -38,40 +39,50 @@ function UploadScreen() {
 }
 
 function RecordingUploadScreen() {
-    const changeHandler = (event) => {
 
+    const changeHandler = async (event) => {
+        var meetingid = "";
         const fileExtension = event.target.files[0].name.split('.').pop();
         // ensure is a MP4 file 
         if( fileExtension === "MP4"|| fileExtension === "mp4"){
             console.log("is correctttt")
-            setIsFilePicked(true);
             document.getElementById("filename").innerText = event.target.files[0].name;
             // form data 
             const formData = new FormData();
             formData.append("mp4File", event.target.files[0]);
-            console.log(event.target.files[0].name)
-            console.log(port);
+
             // save to database 
-            axios.post(`http://localhost:${port}/saveFile`, formData)
-                .then(res => {
-                    // Display success message
-                    console.log("sucessss")
-                })
-                .catch(error => {
-                    // Display error message
-                    console.log("FAILED")
-                    // messageDiv.textContent = "An error occurred during upload.";
-                    console.log(error.response)
-                });
+            try{
+                const response = await axios.post(`http://localhost:${port}/saveFile`, formData);
+                meetingid = response.data.id;
+                console.log(meetingid);
+                console.log("successs");
+            }
+            catch (error){
+                console.log("FAILED")
+                console.log(error.response);
+
+            }
         }
         else{
             console.log("Wrong File format")
         }
+        if (meetingid!==""){
+            console.log("there is meeting");
+            axios.get(`http://localhost:${port}/${meetingid}`)
+                .then(res=>{
+                    console.log(res.data.summaryPoints);
+                    var summary_box = document.getElementById("summary_box");
+                    summary_box.innerText= res.data.summaryPoints;
+                })
+                .catch(error=>{
+                    console.log(error.response);
+                })
+        }
+
+
     };
 
-    const [selectedFile, setSelectedFile] = useState();
-    const [isFilePicked, setIsFilePicked] = useState(false);
-    const [isProcessing, setIsProcessing] = useState(false);
 
 
     return (
@@ -104,8 +115,8 @@ function RecordingUploadScreen() {
                         <path d="M3.86238e-05 7.97508C-0.0137254 12.3933 3.55682 15.9862 7.97508 16C12.3933 16.0137 15.9862 12.4432 16 8.02492C16.0137 3.60667 12.4432 0.0138027 8.02492 3.86238e-05C3.60667 -0.0137254 0.0138027 3.55682 3.86238e-05 7.97508ZM7.99533 9.49999L649.995 11.5L650.005 8.50001L8.00467 6.50001L7.99533 9.49999Z" fill="#E9F9FF" fill-opacity="0.25" />
                     </svg>
                 </div>
-                <div className={styles.summary_box}>
-                    hhhhh
+                <div className={styles.summary_box} id="summary_box">
+                    Please upload a recording to summarise it 
                 </div>
                 <div className={styles.buttons_container}>
                     <button className={styles.add_meeting_button}>

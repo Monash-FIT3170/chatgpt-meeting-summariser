@@ -97,7 +97,20 @@ router.post("/transcribe", async (req, res) => {
       }
 
 
+      // axios.post(`http://localhost:${port}/summary`)
       axios.post(`http://localhost:${port}/summary`)
+      .then((response) => {
+          console.log("successsssssss hdvevcw")
+          const savedMeetingSummaryId = response.data.id;
+          console.log(`Received Meeting Summary ID: ${savedMeetingSummaryId}`);
+          res.json({ id: savedMeetingSummaryId });
+
+          // Now you have the savedMeetingSummaryId, you can use it as needed
+      })
+      .catch((error) => {
+          console.error("Error while fetching meeting summary ID:", error);
+      });
+  
 })
 
 
