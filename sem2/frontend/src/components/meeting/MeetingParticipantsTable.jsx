@@ -3,6 +3,10 @@ import styles from "./meeting.module.css";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 function MeetingParticipantsTable({ participants, onDeleteParticipant }) {
+    if (participants?.length === 0) {
+        return <p>No participants available.</p>;
+    }
+
     return (
         <>
             <div

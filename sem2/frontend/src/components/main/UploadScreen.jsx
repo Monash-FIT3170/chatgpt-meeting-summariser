@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { HeaderPill } from "../HeaderPill";
 import styles from "./Dashboard.module.css";
 import { MeetingParticipantsTable } from "../meeting/MeetingParticipantsTable";
-import { BorderedHeading } from "../BorderedHeading";
 
 function UploadScreen() {
     const [activeScreen, setActiveScreen] = useState("RecordingUpload");
@@ -15,12 +14,12 @@ function UploadScreen() {
     };
 
     const addParticipant = (name, email) => {
-        const newParticipant = {
+        const newParticipant = { 
             id: participants.length + 1,
             name: name,
-            email: email,
+            email: email
         };
-        setParticipants((prev) => [...prev, newParticipant]);
+        setParticipants(prev => [...prev, newParticipant]);
     };
 
     const deleteParticipant = (id) => {
@@ -59,7 +58,8 @@ function UploadScreen() {
     );
 }
 
-function RecordingUploadScreen({ onAddParticipant }) {
+function RecordingUploadScreen({onAddParticipant}) {
+
     const [showAddParticipants, setShowAddParticipants] = useState(false);
     const [participantName, setParticipantName] = useState("");
     const [participantEmail, setParticipantEmail] = useState("");
@@ -126,7 +126,9 @@ function RecordingUploadScreen({ onAddParticipant }) {
     return (
         <>
             <div className={styles.upload_page}>
-                <BorderedHeading name="Upload new recording" />
+                <div className={styles.upload_heading}>
+                    Upload new recording
+                </div>
                 <div className={styles.file_upload_box}>
                     <div className={styles.file_upload_header_1}>
                         Upload Recording
@@ -229,6 +231,8 @@ function RecordingUploadScreen({ onAddParticipant }) {
                         onChange={e => setParticipantEmail(e.target.value)} 
                     />
                     <button onClick={handleSubmitParticipant}>Submit</button>
+                    <button onClick={handleCancelClick}>Cancel</button>
+                    {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
                 </div>
             )}
                 <button className={styles.add_participants_button} onClick={handleAddParticipantsClick}>
@@ -272,7 +276,7 @@ function MeetingParticipantsScreen({participants, onDeleteParticipant}) {
                     />
                 </svg>
             </div>
-            <MeetingParticipantsTable participants={participants} />
+            <MeetingParticipantsTable participants={participants} onDeleteParticipant={onDeleteParticipant} />
         </>
     );
 }
