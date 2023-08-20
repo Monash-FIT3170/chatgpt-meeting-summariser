@@ -1,12 +1,19 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
 const meetingSummarySchema = new Schema(
   {
     _id: mongoose.Schema.Types.ObjectId,
     transcript: { type: String, required: true },
     summaryPoints: { type: [String], required: true },
-    attendees: { type: [String], required: false },
+    attendees: { type: [String], required: false, validate: {
+      validator: (v) => {
+        return v.every(email => emailRegex.test(email));
+      },
+      message: props => `${props.value} is not a valid email address!`
+    } },
   },
   {
     timestamps: true,
