@@ -4,3 +4,5 @@ npm-debug.log
 .env
 .DS_Store
 package-lock.json
+# React Component Preview
+previewConfig.json
