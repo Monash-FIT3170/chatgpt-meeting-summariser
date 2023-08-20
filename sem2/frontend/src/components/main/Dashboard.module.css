@@ -15,6 +15,13 @@
     flex-shrink: 0;
 }
 
+.upload_logo{
+    width: 4rem;
+    height: 4rem;
+    flex-shrink: 0;
+    opacity: 0.4;
+}
+
 .welcome_back {
     display: flex;
     width: 29.25rem;

@@ -14,7 +14,7 @@ function UploadScreen() {
     };
 
     const addParticipant = (name, email) => {
-        const newParticipant = { 
+        const newParticipant = {
             id: participants.length + 1,
             name: name,
             email: email
@@ -28,7 +28,7 @@ function UploadScreen() {
 
     const screenComponents = {
         RecordingUpload: <RecordingUploadScreen onAddParticipant={addParticipant} />,
-        MeetingParticipants: <MeetingParticipantsScreen participants={participants} onAddParticipant={addParticipant} onDeleteParticipant={deleteParticipant}/>,
+        MeetingParticipants: <MeetingParticipantsScreen participants={participants} onAddParticipant={addParticipant} onDeleteParticipant={deleteParticipant} />,
     };
 
     return (
@@ -46,6 +46,7 @@ function UploadScreen() {
                         onClick={handleRecordingUploadClick}
                         isActive={activeScreen === "RecordingUpload"}
                     ></HeaderPill>
+                    <img className={styles.upload_logo} src='../../img/logo.png' alt='Minute Mind' />
                     <HeaderPill
                         name="Meeting Participants"
                         onClick={handleMeetingParticipantsClick}
@@ -58,7 +59,7 @@ function UploadScreen() {
     );
 }
 
-function RecordingUploadScreen({onAddParticipant}) {
+function RecordingUploadScreen({ onAddParticipant }) {
 
     const [showAddParticipants, setShowAddParticipants] = useState(false);
     const [participantName, setParticipantName] = useState("");
@@ -217,24 +218,24 @@ function RecordingUploadScreen({onAddParticipant}) {
                     project meetings? To help 'debug' the complexities!",
                 </div>
                 {showAddParticipants && (
-                <div>
-                    <input 
-                        type="text" 
-                        placeholder="Name" 
-                        value={participantName} 
-                        onChange={e => setParticipantName(e.target.value)} 
-                    />
-                    <input 
-                        type="email" 
-                        placeholder="Email" 
-                        value={participantEmail} 
-                        onChange={e => setParticipantEmail(e.target.value)} 
-                    />
-                    <button onClick={handleSubmitParticipant}>Submit</button>
-                    <button onClick={handleCancelClick}>Cancel</button>
-                    {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-                </div>
-            )}
+                    <div>
+                        <input
+                            type="text"
+                            placeholder="Name"
+                            value={participantName}
+                            onChange={e => setParticipantName(e.target.value)}
+                        />
+                        <input
+                            type="email"
+                            placeholder="Email"
+                            value={participantEmail}
+                            onChange={e => setParticipantEmail(e.target.value)}
+                        />
+                        <button onClick={handleSubmitParticipant}>Submit</button>
+                        <button onClick={handleCancelClick}>Cancel</button>
+                        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+                    </div>
+                )}
                 <button className={styles.add_participants_button} onClick={handleAddParticipantsClick}>
                     Add Meeting Participants
                 </button>
@@ -243,7 +244,7 @@ function RecordingUploadScreen({onAddParticipant}) {
     );
 }
 
-function MeetingParticipantsScreen({participants, onDeleteParticipant, onAddParticipant}) {
+function MeetingParticipantsScreen({ participants, onDeleteParticipant, onAddParticipant }) {
 
     return (
         <>
