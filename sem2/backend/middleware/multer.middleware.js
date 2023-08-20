@@ -7,9 +7,9 @@ multer.diskStorage = function (param) {
 
 const storage = multer.memoryStorage()
 
-// Filter for txt files only
+//  Filter for txt files only
 const fileFilter = (req, file, cb) => {
-    const allowedFileTypes = ["text/plain"];
+    const allowedFileTypes = ["video/mp4"];
     if (allowedFileTypes.includes(file.mimetype)){
         cb(null, true);
     } else {
@@ -18,6 +18,6 @@ const fileFilter = (req, file, cb) => {
 };
 
 
-const uploadMiddleware = multer({storage, fileFilter});
+const uploadMiddleware = multer({storage,fileFilter});
 
 module.exports = uploadMiddleware;

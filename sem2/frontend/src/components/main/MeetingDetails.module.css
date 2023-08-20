@@ -1,5 +1,6 @@
 .main_container {
     height: 60vh;
+    padding-top: 1rem;
 }
 
 .inner_container {
@@ -25,13 +26,23 @@
 .summary_box {
     flex-shrink: 0;
     border-radius: 0.9375rem;
-    background: #E9F9FF;
+    background: #e9f9ff;
     scroll-behavior: smooth;
     overflow: scroll;
     height: 50vh;
     padding: 2rem;
     margin: 2rem;
     display: flex;
+}
+
+.attendees_box {
+    border-radius: 0.9375rem;
+    background: #e9f9ff;
+    scroll-behavior: smooth;
+    /* overflow-y: scroll; */
+    height: 50vh;
+    padding: 2rem;
+    margin: 2rem;
 }
 
 .summary_heading {
@@ -42,7 +53,7 @@
     align-content: center;
     align-items: center;
     flex-shrink: 0;
-    color: #FFF;
+    color: #fff;
     text-align: center;
     font-family: Raleway;
     font-size: 2rem;
@@ -74,7 +85,7 @@
     flex-shrink: 0;
     border-radius: 0.875rem;
     background: #df4141;
-    color: #E9F9FF;
+    color: #e9f9ff;
     text-align: center;
     font-family: Raleway;
     font-size: 1.5rem;
@@ -89,8 +100,8 @@
     /* height: 3.625rem; */
     flex-shrink: 0;
     border-radius: 0.875rem;
-    background: #89C66C;
-    color: #E9F9FF;
+    background: #89c66c;
+    color: #e9f9ff;
     text-align: center;
     font-family: Raleway;
     font-size: 1.5rem;

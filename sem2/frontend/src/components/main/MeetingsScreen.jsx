@@ -18,20 +18,20 @@ const v1options = {
     nsecs: 5678,
 };
 
-function MeetingsScreen({ handleMeetingDetailsClick, setSelectedMeetingId }) {
+function MeetingsScreen({ onMeetingDetailsClick, setSelectedMeetingId }) {
     const [meeting, setMeetings] = useState([]);
 
     useEffect(() => {
         // Fetch data from your backend API here
-        fetch(`http://localhost:${port}`)
+        fetch(`http://localhost:${port}/meetingSummaries`)
             .then(response => response.json())
             .then(data => setMeetings(data))
             .catch(error => console.error('Error fetching data:', error));
     }, []);
     
     const handleMeetingCardClick = (meetingId) => {
-        handleMeetingDetailsClick()
-        setSelectedMeetingId(meetingId);
+        console.log(meetingId)
+        onMeetingDetailsClick(meetingId)
     }
 
     // Filter meetings

@@ -3,16 +3,18 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const usersRouter = require('./routes/user');
-const uploadRoute = require('./routes/upload');
+// const uploadRoute = require('./routes/upload');
 const meetingSummariesRouter = require('./routes/meetingSummaries');
+const transcribeRouter = require('./routes/transcribe');
+const saveFileRouter = require('./routes/saveFile')
 
-const summary = require('./routes/summary');
+const summaryRouter = require('./routes/summary');
 const emailRoute = require('./routes/sendEmail');
 
 require('dotenv').config();
 
 const app = express();
-const port = process.env.PORT || 5000; 
+const port = process.env.PORT || 5001; 
 
 app.use(require('serve-static')(__dirname + '/../../public'));
 app.use(require('cookie-parser')());
@@ -25,8 +27,10 @@ app.use(express.json());
 app.use(passport.initialize());
 app.use('/users', usersRouter);
 app.use('/meetingSummaries', meetingSummariesRouter);
-app.use(summary);
+app.use('summary', summaryRouter);
 app.use('/api/email', emailRoute);
+app.use(transcribeRouter.router)
+app.use("/", saveFileRouter);
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -36,7 +40,6 @@ app.use(function(req, res, next) {
 });
 
 const uri = process.env.ATLAS_URI;
-console.log(uri);
 mongoose.connect(uri, { useNewUrlParser: true }
 );
 const connection = mongoose.connection;
@@ -50,14 +53,4 @@ app.listen(port, 'localhost', () => {
 
 app.get('/health', (req, res) => {
   res.send('Server is online');
-});
-
-app.get('/meetings', async (req, res) => {
-  try {
-    const meetings = await MeetingSummary.find();
-    res.json(meetings);
-  } catch (error) {
-    console.error('Error fetching meetings:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
 });

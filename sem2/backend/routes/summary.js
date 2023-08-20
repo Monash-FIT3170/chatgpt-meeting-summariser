@@ -3,7 +3,7 @@ const UploadModel = require("../models/upload.model");
 const UploadMiddleware = require("../middleware/multer.middleware");
 const fs = require('fs');
 const path = require('path');
-
+const {transcribedScript} = require('./transcribe')
 let MeetingSummary = require("../models/meetingSummary.model");
 
 require("dotenv").config();
@@ -16,15 +16,14 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 
-const router = Router();
+const router = require("./user");
 
 
-router.post("/api/save", UploadMiddleware.single("transcript"), async (req, res) => {
-    if (!req.file || !req.file.buffer){
-        return res.status(400).send('Incorrect file uploaded.');
-    }
-    const transcript = req.file.buffer.toString();
+router.post("/summary", async (req, res) => {
 
+    console.log(transcribedScript)
+    // transcript = req.file.buffer.toString();
+    const transcript = transcribedScript[0].text;
     const completion = await openai.createChatCompletion({
         model: "gpt-3.5-turbo",
         messages: [
@@ -50,7 +49,7 @@ router.post("/api/save", UploadMiddleware.single("transcript"), async (req, res)
     const summaryPoints = completion.data.choices[0].message.content;
 
     const newMeetingSummary = new MeetingSummary({transcript, summaryPoints});
-    console.log(transcript);
+    // console.log(transcript);
     console.log(summaryPoints);
     newMeetingSummary
         .save()
@@ -62,23 +61,7 @@ router.post("/api/save", UploadMiddleware.single("transcript"), async (req, res)
         .catch((err) => res.status(400).json("Error: " + err));
 })
 
-// Delete a transcript
-// router.delete('/api/delete/:id', async (req, res) => {
-//     const { id } = req.params;
-//     try {
-//         const transcript = await UploadModel.findById(id);
-//         if (!transcript) {
-//             return res.status(404).send('Transcript not found');
-//         }
-//         const filePath = path.join(__dirname, '..', 'uploads', transcript.transcript);
-//         fs.unlinkSync(filePath); // Delete the file from the server
-//         await UploadModel.deleteOne({ _id: transcript._id }); // Delete the transcript from the database
-//         res.send('Transcript deleted successfully');
-//     } catch (err) {
-//         console.log(err);
-//         res.status(500).send('Internal Server Error');
-//     }
-// });
+
 
 router.delete('/api/delete/:id', async (req, res) => {
     const { id } = req.params;
