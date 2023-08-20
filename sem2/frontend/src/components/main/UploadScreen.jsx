@@ -98,12 +98,12 @@ function RecordingUploadScreen({ onAddParticipant }) {
 
     const changeHandler = async (event) => {
         var meetingid = "";
-        const fileExtension = event.target.files[0].name.split(".").pop();
-         // ensure is a MP4 file 
-        if (fileExtension === "MP4") {
-            console.log("is correctttt");
+        const fileExtension = event.target.files[0].name.split('.').pop();
+        // ensure is a MP4 file 
+        if( fileExtension === "MP4"|| fileExtension === "mp4"){
+            console.log("is correctttt")
             document.getElementById("filename").innerText = event.target.files[0].name;
-            // form data
+            // form data 
             const formData = new FormData();
             formData.append("mp4File", event.target.files[0]);
 
@@ -166,7 +166,7 @@ function RecordingUploadScreen({ onAddParticipant }) {
                         />
                     </div>
                 </div>
-                <div className={styles.summary_heading}>
+                <div className={styles.summary_heading}  >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="656"

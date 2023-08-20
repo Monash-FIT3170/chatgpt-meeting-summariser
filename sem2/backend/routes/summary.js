@@ -55,8 +55,9 @@ router.post("/summary", async (req, res) => {
         .save()
         .then((savedMeetingSummary) => {
             const savedMeetingSummaryId = savedMeetingSummary._id;
-            console.log(`Meeting summary saved with ID: ${savedMeetingSummaryId}`);
+            console.log(savedMeetingSummaryId)
             res.json({ id: savedMeetingSummaryId });
+
           })
         .catch((err) => res.status(400).json("Error: " + err));
 })
