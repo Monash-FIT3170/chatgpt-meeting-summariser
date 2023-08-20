@@ -5,6 +5,7 @@ import { MeetingParticipantsTable } from "../meeting/MeetingParticipantsTable";
 
 function UploadScreen() {
     const [activeScreen, setActiveScreen] = useState("RecordingUpload");
+    const [participants, setParticipants] = useState([]);
     const handleRecordingUploadClick = () => {
         setActiveScreen("RecordingUpload");
     };
@@ -12,9 +13,18 @@ function UploadScreen() {
         setActiveScreen("MeetingParticipants");
     };
 
+    const addParticipant = (name, email) => {
+        const newParticipant = { 
+            id: participants.length + 1,
+            name: name,
+            email: email
+        };
+        setParticipants(prev => [...prev, newParticipant]);
+    };
+
     const screenComponents = {
-        RecordingUpload: <RecordingUploadScreen />,
-        MeetingParticipants: <MeetingParticipantsScreen />,
+        RecordingUpload: <RecordingUploadScreen onAddParticipant={addParticipant} />,
+        MeetingParticipants: <MeetingParticipantsScreen participants={participants} />,
     };
 
     return (
@@ -44,7 +54,23 @@ function UploadScreen() {
     );
 }
 
-function RecordingUploadScreen() {
+function RecordingUploadScreen({onAddParticipant}) {
+
+    const [showAddParticipants, setShowAddParticipants] = useState(false);
+    const [participantName, setParticipantName] = useState("");
+    const [participantEmail, setParticipantEmail] = useState("");
+
+    const handleAddParticipantsClick = () => {
+        setShowAddParticipants(true);
+    };
+
+    const handleSubmitParticipant = () => {
+        onAddParticipant(participantName, participantEmail);
+        setParticipantName("");
+        setParticipantEmail("");
+        setShowAddParticipants(false);
+    };
+
     const changeHandler = (event) => {
         // set the selected file
         setSelectedFile(event.target.files[0]);
@@ -174,7 +200,24 @@ function RecordingUploadScreen() {
                     highlights for you!'", "Why did ChatGPT start attending
                     project meetings? To help 'debug' the complexities!",
                 </div>
-                <button className={styles.add_participants_button}>
+                {showAddParticipants && (
+                <div>
+                    <input 
+                        type="text" 
+                        placeholder="Name" 
+                        value={participantName} 
+                        onChange={e => setParticipantName(e.target.value)} 
+                    />
+                    <input 
+                        type="email" 
+                        placeholder="Email" 
+                        value={participantEmail} 
+                        onChange={e => setParticipantEmail(e.target.value)} 
+                    />
+                    <button onClick={handleSubmitParticipant}>Submit</button>
+                </div>
+            )}
+                <button className={styles.add_participants_button} onClick={handleAddParticipantsClick}>
                     Add Meeting Participants
                 </button>
             </div>
@@ -182,11 +225,7 @@ function RecordingUploadScreen() {
     );
 }
 
-function MeetingParticipantsScreen() {
-    let participants = [
-        { id: 1, name: "John Doe", email: "John.doe@gmail.com" },
-        { id: 2, name: "Jane Doe", email: "Jane.doe@gmail.com" },
-    ];
+function MeetingParticipantsScreen({participants}) {
 
     return (
         <>
