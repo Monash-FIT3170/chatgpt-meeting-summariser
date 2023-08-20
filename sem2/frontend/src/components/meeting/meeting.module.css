@@ -70,3 +70,15 @@
     justify-content: center;
     align-items: center;
 }
+
+.add_participant {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 1rem;
+    padding: 1rem;
+    border: 2px dashed #2891b9;
+    color: #2891b9;
+    border-radius: 0.625rem;
+}

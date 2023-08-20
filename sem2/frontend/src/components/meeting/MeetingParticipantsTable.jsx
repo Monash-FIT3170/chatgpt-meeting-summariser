@@ -43,6 +43,9 @@ function MeetingParticipantsTable({ participants }) {
                                 </div>
                             </div>
                         ))}
+                        <div className={styles.add_participant}>
+                            + Add New Participant
+                        </div>
                     </div>
                 </div>
             </div>
