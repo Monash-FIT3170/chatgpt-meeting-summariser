@@ -25,7 +25,6 @@ function MeetingParticipantsTable({ participants, onDeleteParticipant, onAddPart
             <div
                 style={{
                     alignItems: "center",
-                    display: "flex",
                     justifyContent: "center",
                 }}
             >

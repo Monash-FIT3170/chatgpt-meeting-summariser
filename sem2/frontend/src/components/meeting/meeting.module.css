@@ -1,13 +1,13 @@
 .meeting_participants_box {
-    width: 90rem;
+    /* width: 90rem; */
     font-size: 1.5rem;
     border-radius: 0.625rem;
-    margin: 1rem;
+    margin: 2rem;
     background: #e9f9ff;
 }
 
 .meeting_participants_header {
-    width: 90rem;
+    /* width: 90rem; */
     background: #2891b9;
     border-radius: 0.625rem 0.625rem 0rem 0rem;
     height: 5rem;
@@ -24,10 +24,10 @@
 }
 
 .meeting_participants_table {
-    width: 90rem;
-    max-height: 60rem;
+    /* width: 90rem; */
+    /* max-height: 60rem; */
     background: #e9f9ff;
-    height: 80rem;
+    /* height: 80rem; */
     border-radius: 0 0 0.625rem 0.625rem;
     border-top: 1px solid #2891b9;
     overflow-y: auto;
