@@ -2,9 +2,25 @@ import React, { useState } from "react";
 import styles from "./meeting.module.css";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
-function MeetingParticipantsTable({ participants, onDeleteParticipant }) {
+function MeetingParticipantsTable({ participants, onDeleteParticipant, onAddParticipant }) {
+
+    const [showAddForm, setShowAddForm] = useState(false);
+    const [newName, setNewName] = useState('');
+    const [newEmail, setNewEmail] = useState('');
+
     if (participants?.length === 0) {
         return <p>No participants available.</p>;
+    }
+
+    const handleAddNewParticipant = () => {
+        if (newName && newEmail) {
+            onAddParticipant(newName, newEmail);
+            setNewName('');
+            setNewEmail('');
+            setShowAddForm(false);
+        } else {
+            alert("Please fill in both name and email fields!");
+        }
     }
 
     return (
@@ -45,7 +61,24 @@ function MeetingParticipantsTable({ participants, onDeleteParticipant }) {
                                 </div>
                             </div>
                         ))}
-                        <div className={styles.add_participant}>
+                        {showAddForm && (
+                            <div className={styles.participant_line}>
+                                <input
+                                    type="text"
+                                    placeholder="Name"
+                                    value={newName}
+                                    onChange={e => setNewName(e.target.value)}
+                                />
+                                <input
+                                    type="email"
+                                    placeholder="Email"
+                                    value={newEmail}
+                                    onChange={e => setNewEmail(e.target.value)}
+                                />
+                                <button onClick={handleAddNewParticipant}>Submit</button>
+                            </div>
+                        )}
+                        <div className={styles.add_participant} onClick={() => setShowAddForm(true)}>
                             + Add New Participant
                         </div>
                     </div>

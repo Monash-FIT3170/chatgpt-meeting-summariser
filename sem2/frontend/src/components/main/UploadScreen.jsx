@@ -28,7 +28,7 @@ function UploadScreen() {
 
     const screenComponents = {
         RecordingUpload: <RecordingUploadScreen onAddParticipant={addParticipant} />,
-        MeetingParticipants: <MeetingParticipantsScreen participants={participants} onDeleteParticipant={deleteParticipant}/>,
+        MeetingParticipants: <MeetingParticipantsScreen participants={participants} onAddParticipant={addParticipant} onDeleteParticipant={deleteParticipant}/>,
     };
 
     return (
@@ -243,7 +243,7 @@ function RecordingUploadScreen({onAddParticipant}) {
     );
 }
 
-function MeetingParticipantsScreen({participants, onDeleteParticipant}) {
+function MeetingParticipantsScreen({participants, onDeleteParticipant, onAddParticipant}) {
 
     return (
         <>
@@ -276,7 +276,7 @@ function MeetingParticipantsScreen({participants, onDeleteParticipant}) {
                     />
                 </svg>
             </div>
-            <MeetingParticipantsTable participants={participants} onDeleteParticipant={onDeleteParticipant} />
+            <MeetingParticipantsTable participants={participants} onDeleteParticipant={onDeleteParticipant} onAddParticipant={onAddParticipant} />
         </>
     );
 }
