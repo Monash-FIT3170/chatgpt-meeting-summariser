@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./meeting.module.css";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
-function MeetingParticipantsTable({ participants }) {
+function MeetingParticipantsTable({ participants, onDeleteParticipant }) {
     if (participants?.length === 0) {
         return <p>No participants available.</p>;
     }
@@ -37,6 +37,8 @@ function MeetingParticipantsTable({ participants }) {
                                     <span
                                         class="form-item-icon material-symbols-rounded"
                                         className={styles.icon}
+                                        onClick={() => onDeleteParticipant(participant.id)}
+                                        style={{ cursor: 'pointer' }}
                                     >
                                         <DeleteOutlineIcon />
                                     </span>

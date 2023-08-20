@@ -22,9 +22,13 @@ function UploadScreen() {
         setParticipants(prev => [...prev, newParticipant]);
     };
 
+    const deleteParticipant = (id) => {
+        setParticipants(prev => prev.filter(participant => participant.id !== id));
+    };
+
     const screenComponents = {
         RecordingUpload: <RecordingUploadScreen onAddParticipant={addParticipant} />,
-        MeetingParticipants: <MeetingParticipantsScreen participants={participants} />,
+        MeetingParticipants: <MeetingParticipantsScreen participants={participants} onDeleteParticipant={deleteParticipant}/>,
     };
 
     return (
@@ -59,16 +63,28 @@ function RecordingUploadScreen({onAddParticipant}) {
     const [showAddParticipants, setShowAddParticipants] = useState(false);
     const [participantName, setParticipantName] = useState("");
     const [participantEmail, setParticipantEmail] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     const handleAddParticipantsClick = () => {
         setShowAddParticipants(true);
     };
 
+    const handleCancelClick = () => {
+        setShowAddParticipants(false);
+        setParticipantName("");
+        setParticipantEmail("");
+    };
+
     const handleSubmitParticipant = () => {
+        if (!participantName.trim() || !participantEmail.trim()) {
+            setErrorMessage("Both fields are required.");
+            return;
+        }
         onAddParticipant(participantName, participantEmail);
         setParticipantName("");
         setParticipantEmail("");
         setShowAddParticipants(false);
+        setErrorMessage("");
     };
 
     const changeHandler = (event) => {
@@ -215,6 +231,8 @@ function RecordingUploadScreen({onAddParticipant}) {
                         onChange={e => setParticipantEmail(e.target.value)} 
                     />
                     <button onClick={handleSubmitParticipant}>Submit</button>
+                    <button onClick={handleCancelClick}>Cancel</button>
+                    {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
                 </div>
             )}
                 <button className={styles.add_participants_button} onClick={handleAddParticipantsClick}>
@@ -225,7 +243,7 @@ function RecordingUploadScreen({onAddParticipant}) {
     );
 }
 
-function MeetingParticipantsScreen({participants}) {
+function MeetingParticipantsScreen({participants, onDeleteParticipant}) {
 
     return (
         <>
@@ -258,7 +276,7 @@ function MeetingParticipantsScreen({participants}) {
                     />
                 </svg>
             </div>
-            <MeetingParticipantsTable participants={participants} />
+            <MeetingParticipantsTable participants={participants} onDeleteParticipant={onDeleteParticipant} />
         </>
     );
 }
