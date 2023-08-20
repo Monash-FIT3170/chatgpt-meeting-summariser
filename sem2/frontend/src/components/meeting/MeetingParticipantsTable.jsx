@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "./meeting.module.css";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 function MeetingParticipantsTable({ participants, onDeleteParticipant, onAddParticipant }) {
 
@@ -48,7 +49,7 @@ function MeetingParticipantsTable({ participants, onDeleteParticipant, onAddPart
                                 <div className={styles.t4}>
                                     <span
                                         class="form-item-icon material-symbols-rounded"
-                                        className={styles.icon}
+                                        className={styles.delete_icon}
                                         onClick={() => onDeleteParticipant(participant.id)}
                                         style={{ cursor: 'pointer' }}
                                     >
@@ -59,19 +60,35 @@ function MeetingParticipantsTable({ participants, onDeleteParticipant, onAddPart
                         ))}
                         {showAddForm && (
                             <div className={styles.participant_line}>
-                                <input
-                                    type="text"
-                                    placeholder="Name"
-                                    value={newName}
-                                    onChange={e => setNewName(e.target.value)}
-                                />
-                                <input
-                                    type="email"
-                                    placeholder="Email"
-                                    value={newEmail}
-                                    onChange={e => setNewEmail(e.target.value)}
-                                />
-                                <button onClick={handleAddNewParticipant}>Submit</button>
+                                <div className={styles.t1}></div>
+                                <div className={styles.t2}>
+                                    <input
+                                        type="text"
+                                        placeholder="Name"
+                                        value={newName}
+                                        className={styles.text_input}
+                                        onChange={e => setNewName(e.target.value)}
+                                    />
+                                </div>
+                                <div className={styles.t3}>
+                                    <input
+                                        type="email"
+                                        placeholder="Email"
+                                        value={newEmail}
+                                        className={styles.text_input}
+                                        onChange={e => setNewEmail(e.target.value)}
+                                    />
+                                </div>
+                                <div className={styles.t4}>                                    
+                                <span
+                                        class="form-item-icon material-symbols-rounded"
+                                        className={styles.add_icon}
+                                        onClick={handleAddNewParticipant}
+                                        style={{ cursor: 'pointer' }}
+                                    >
+                                        <CheckCircleOutlineIcon />
+                                    </span>
+                                </div>
                             </div>
                         )}
                         <div className={styles.add_participant} onClick={() => setShowAddForm(true)}>

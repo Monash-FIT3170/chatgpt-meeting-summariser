@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import { HeaderPill } from '../HeaderPill';
-import styles from './Dashboard.module.css';
-import axios from "axios"; 
-// const {transcribedScript} = require('./transcribe')
+import React, { useState } from "react";
+import { HeaderPill } from "../HeaderPill";
+import styles from "./Dashboard.module.css";
 import { MeetingParticipantsTable } from "../meeting/MeetingParticipantsTable";
 import { BorderedHeading } from "../BorderedHeading";
+import axios from "axios"; 
 
 var config = require('../../config.json');
 const port = config.port ||5001;
@@ -106,7 +105,7 @@ function RecordingUploadScreen({ onAddParticipant }) {
             // form data 
             const formData = new FormData();
             formData.append("mp4File", event.target.files[0]);
-
+            console.log("tryyyy")
             // save to database 
             try{
                 const response = await axios.post(`http://localhost:${port}/saveFile`, formData);
@@ -162,8 +161,7 @@ function RecordingUploadScreen({ onAddParticipant }) {
                             type="file"
                             id="upload-btn"
                             hidden
-                            onChange={changeHandler}
-                        />
+                            onChange={changeHandler}/>
                     </div>
                 </div>
                 <div className={styles.summary_heading}  >
@@ -196,7 +194,7 @@ function RecordingUploadScreen({ onAddParticipant }) {
                     </svg>
                 </div>
                 <div className={styles.summary_box} id="summary_box">
-                    Please upload a recording to summarise it 
+                    
                 </div>
                 {showAddParticipants && (
                     <div>
@@ -234,5 +232,15 @@ function MeetingParticipantsScreen({ participants, onDeleteParticipant, onAddPar
         </>
     );
 }
+
+// function SummaryLoader({ }) {
+//     return (
+//         <>
+//             <div className={loaderStyle.container}>
+//                 <div className={loaderStyle.loader}></div>
+//             </div>
+//         </>
+//     )
+// }
 
 export { UploadScreen };
