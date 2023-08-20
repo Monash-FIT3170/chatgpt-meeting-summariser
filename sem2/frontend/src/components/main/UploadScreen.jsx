@@ -1,8 +1,15 @@
-import React, { useState } from "react";
-import { HeaderPill } from "../HeaderPill";
-import styles from "./Dashboard.module.css";
+import React, { useState } from 'react';
+import { HeaderPill } from '../HeaderPill';
+import styles from './Dashboard.module.css';
+import axios from "axios"; 
+// const {transcribedScript} = require('./transcribe')
 import { MeetingParticipantsTable } from "../meeting/MeetingParticipantsTable";
 import { BorderedHeading } from "../BorderedHeading";
+
+var config = require('../../config.json');
+const port = config.port ||5001;
+
+
 
 function UploadScreen() {
     const [activeScreen, setActiveScreen] = useState("RecordingUpload");
@@ -89,41 +96,50 @@ function RecordingUploadScreen({ onAddParticipant }) {
         setErrorMessage("");
     };
 
-    const changeHandler = (event) => {
-        // set the selected file
-        setSelectedFile(event.target.files[0]);
+    const changeHandler = async (event) => {
+        var meetingid = "";
         const fileExtension = event.target.files[0].name.split(".").pop();
+         // ensure is a MP4 file 
         if (fileExtension === "MP4") {
             console.log("is correctttt");
-            setIsFilePicked(true);
-            document.getElementById("filename").innerText =
-                event.target.files[0].name;
+            document.getElementById("filename").innerText = event.target.files[0].name;
             // form data
             const formData = new FormData();
-            formData.append("transcript", selectedFile);
-            console.log(event.target.files[0].name);
-            // console.log(port);
+            formData.append("mp4File", event.target.files[0]);
 
-            // axios.post(`http://localhost:${port}/saveFile`, formData)
-            //     .then(res => {
-            //         // Display success message
-            //         console.log("here")
-            //         console.log("sucessss")
-            //     })
-            //     .catch(error => {
-            //         // Display error message
-            //         console.log("FAILED")
-            //         // messageDiv.textContent = "An error occurred during upload.";
-            //         console.error(error);
-            //     });
-        } else {
-            console.log("Wrong File format");
+            // save to database 
+            try{
+                const response = await axios.post(`http://localhost:${port}/saveFile`, formData);
+                meetingid = response.data.id;
+                console.log(meetingid);
+                console.log("successs");
+            }
+            catch (error){
+                console.log("FAILED")
+                console.log(error.response);
+
+            }
         }
+        else{
+            console.log("Wrong File format")
+        }
+        if (meetingid!==""){
+            console.log("there is meeting");
+            axios.get(`http://localhost:${port}/${meetingid}`)
+                .then(res=>{
+                    console.log(res.data.summaryPoints);
+                    var summary_box = document.getElementById("summary_box");
+                    summary_box.innerText= res.data.summaryPoints;
+                })
+                .catch(error=>{
+                    console.log(error.response);
+                })
+        }
+
+
     };
 
-    const [selectedFile, setSelectedFile] = useState();
-    const [isFilePicked, setIsFilePicked] = useState(false);
-    const [isProcessing, setIsProcessing] = useState(false);
+
 
     return (
         <>
@@ -179,42 +195,8 @@ function RecordingUploadScreen({ onAddParticipant }) {
                         />
                     </svg>
                 </div>
-                <div className={styles.summary_box}>
-                    "Why did ChatGPT get hired to summarize meetings? Because
-                    it's really good at 'meeting' expectations!", "ChatGPT
-                    walked into a meeting and said, 'I'm here to take notes and
-                    chew bubblegum... and I'm all out of bubblegum!'", "Why did
-                    ChatGPT become a meeting summarizer? Because it can handle
-                    'byte'-sized information!", "Why did ChatGPT start attending
-                    meetings? To prove that it's not just a 'virtual'
-                    participant!", "Why was ChatGPT the best choice for meeting
-                    summaries? Because it never forgets, unlike some human
-                    attendees!", "ChatGPT's favorite part of summarizing
-                    meetings? Finding the 'punchline' of the conversation!",
-                    "How does ChatGPT like its coffee during meetings? With a
-                    little 'byte' of cream and a 'sum' of sugar!", "Why did
-                    ChatGPT go to the meeting? To 'interface' with important
-                    information!", "ChatGPT's advice for a successful meeting
-                    summary? Just 'input' the main points and 'output' the
-                    rest!", "Why did ChatGPT start summarizing board meetings?
-                    Because it wanted to be the 'board's' best friend!", "Why
-                    did ChatGPT always volunteer for meeting summaries? Because
-                    it was 'programmed' to excel at it!", "What do you call a
-                    meeting that ChatGPT summarizes? A 'bytes'-sized
-                    conference!", "Why did ChatGPT join the business meeting? To
-                    add a touch of 'AI' to the conversation!", "Why was ChatGPT
-                    a great choice for summarizing team huddles? Because it's
-                    'text'-book perfect!", "Why did ChatGPT start summarizing
-                    brainstorming sessions? Because it wanted to be the 'bright'
-                    side of the meeting!", "Why was ChatGPT a hit at the sales
-                    meeting? Because it had the perfect 'pitch' for summaries!",
-                    "What's ChatGPT's favorite part of summarizing meetings?
-                    Finding the 'kernel' of the discussion!", "Why did ChatGPT
-                    get an award for meeting summaries? Because it's always
-                    'ahead' of the curve!", "What does ChatGPT say when it
-                    finishes summarizing a long meeting? 'I've 'coded' the
-                    highlights for you!'", "Why did ChatGPT start attending
-                    project meetings? To help 'debug' the complexities!",
+                <div className={styles.summary_box} id="summary_box">
+                    Please upload a recording to summarise it 
                 </div>
                 {showAddParticipants && (
                     <div>

@@ -29,11 +29,27 @@ router.post("/transcribe", async (req, res) => {
 
     var chunknum = await splitVideoBySize(inputFilePath, chunkSizeInMB);
 
-    console.log("here")
-
     for (var i = 1; i < chunknum; i++) {
         const formData = new FormData();
         let chunkPath = path.join(destinationPath,`uploads/chunks/chunk_${i}.mp4`)
+
+        //check chunk length
+        // Use ffprobe to get video metadata
+        const metadata = await new Promise((resolve, reject) => {
+            ffmpeg.ffprobe(chunkPath, (err, metadata) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(metadata);
+                }
+            });
+        });
+
+        if (metadata.format.duration < 1) {
+            console.log(metadata.format.duration)
+            continue
+        } 
+
         formData.append("model", model);
         formData.append("file", fs.createReadStream(chunkPath));
         console.log(`transcribing chunk_${i}.mp4`)
@@ -81,7 +97,20 @@ router.post("/transcribe", async (req, res) => {
       }
 
 
+      // axios.post(`http://localhost:${port}/summary`)
       axios.post(`http://localhost:${port}/summary`)
+      .then((response) => {
+          console.log("successsssssss hdvevcw")
+          const savedMeetingSummaryId = response.data.id;
+          console.log(`Received Meeting Summary ID: ${savedMeetingSummaryId}`);
+          res.json({ id: savedMeetingSummaryId });
+
+          // Now you have the savedMeetingSummaryId, you can use it as needed
+      })
+      .catch((error) => {
+          console.error("Error while fetching meeting summary ID:", error);
+      });
+  
 })
 
 

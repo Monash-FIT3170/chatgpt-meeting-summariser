@@ -30,7 +30,21 @@ router.post("/saveFile", upload.single("mp4File"), (req, res) => {
 
      console.log("File uploaded successfully:", req.file.originalname);
      axios.post(`http://localhost:${port}/transcribe`)
-     return res.status(200).json({ message: "File uploaded and renamed successfully." });
+        .then((response) => {
+            const savedMeetingSummaryId = response.data.id;
+            console.log(`Received Meeting Summary ID for save fileee: ${savedMeetingSummaryId}`);
+            // res.json({ id: savedMeetingSummaryId });
+            return res.status(200).json({
+                id: savedMeetingSummaryId,
+                message: "File uploaded and renamed successfully."
+            });
+        })
+        .catch((error) => {
+            console.error("Error while fetching meeting summary ID:", error);
+        });
+
+    //  return res.status(200).json({ message: "File uploaded and renamed successfully." });
+
 });
 
 module.exports = router;
