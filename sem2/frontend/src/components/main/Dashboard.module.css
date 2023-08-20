@@ -359,7 +359,7 @@ label:hover {
 
 .summary_box {
     width: 90rem;
-    max-height: 32rem;
+    max-height: 28rem;
     flex-shrink: 0;
     border-radius: 0.9375rem;
     background: #e9f9ff;

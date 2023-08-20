@@ -50,7 +50,7 @@ function MeetingDetails({ meetingId, isMeetingDetailsActive, handleYourMeetingsC
                         <div className={styles.container}>
                             <div className={styles.left_container}>
                                 <div className={styles.summary_box}>
-                                    {meetingDetails?.summary_points}
+                                    {meetingDetails?.summaryPoints}
                                 </div>
                             </div>
                             <div className={styles.right_container}>
