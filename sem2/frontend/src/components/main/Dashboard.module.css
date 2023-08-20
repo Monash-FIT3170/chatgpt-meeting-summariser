@@ -22,7 +22,7 @@
     flex-direction: column;
     justify-content: center;
     flex-shrink: 0;
-    color: #FFF;
+    color: #fff;
     text-align: center;
     font-family: Raleway;
     font-size: 2rem;
@@ -38,14 +38,14 @@
     flex-direction: column;
     justify-content: center;
     flex-shrink: 0;
-    color: #FFF;
+    color: #fff;
     text-align: center;
     font-family: Raleway;
     font-size: 1.25rem;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
-    margin-left: 2rem
+    margin-left: 2rem;
 }
 
 .card_hr {
@@ -55,8 +55,7 @@
 .card_container {
     display: flex;
     flex-direction: column;
-    background: rgba(0, 0, 0, 0.00);
-
+    background: rgba(0, 0, 0, 0);
 }
 
 .draft_card {
@@ -65,8 +64,8 @@
     height: 9.46169rem;
     flex-shrink: 0;
     border-radius: 0.92888rem;
-    border-left: 8px solid #FF8B28;
-    background: #ECDFCB;
+    border-left: 8px solid #ff8b28;
+    background: #ecdfcb;
     position: relative;
 }
 
@@ -79,7 +78,7 @@
     width: 7.63444rem;
     height: 1.90969rem;
     flex-shrink: 0;
-    fill: var(--in-progress, #E9B363);
+    fill: var(--in-progress, #e9b363);
     position: absolute;
     bottom: 1rem;
     left: 1rem;
@@ -90,7 +89,7 @@
     width: 1.69138rem;
     height: 2.51144rem;
     flex-shrink: 0;
-    color: #E9B363;
+    color: #e9b363;
     text-align: center;
     font-family: SF Pro;
     font-size: 2.22938rem;
@@ -107,7 +106,7 @@
     width: 17.73394rem;
     height: 1.78419rem;
     flex-shrink: 0;
-    color: #1C64CE;
+    color: #1c64ce;
     text-align: justify;
     font-family: Raleway;
     font-size: 1.5rem;
@@ -123,8 +122,8 @@
     flex-shrink: 0;
     border-radius: 0.92888rem;
     border-radius: 0.92888rem;
-    border-left: 8px solid #2891B9;
-    background: #E9F9FF;
+    border-left: 8px solid #2891b9;
+    background: #e9f9ff;
     position: relative;
 }
 
@@ -137,7 +136,7 @@
     width: 7.63444rem;
     height: 1.90969rem;
     flex-shrink: 0;
-    fill: var(--in-progress, #2891B9);
+    fill: var(--in-progress, #2891b9);
     position: absolute;
     bottom: 1rem;
     left: 1rem;
@@ -150,7 +149,7 @@
     flex-direction: column;
     justify-content: center;
     flex-shrink: 0;
-    color: #0D60DC;
+    color: #0d60dc;
     text-align: center;
     font-family: SF Pro;
     font-size: 2.22938rem;
@@ -170,7 +169,7 @@
 
 .new_meeting_box {
     border-radius: 0.875rem;
-    border: 3px dashed #1C89B3;
+    border: 3px dashed #1c89b3;
     background: rgba(217, 217, 217, 0.08);
     width: 80rem;
     height: 32rem;
@@ -181,7 +180,7 @@
 }
 
 .create_new_meeting {
-    color: #ECDFCB;
+    color: #ecdfcb;
     text-align: center;
     font-family: Raleway;
     font-size: 2rem;
@@ -199,7 +198,7 @@
 .create_new_meeting:hover {
     cursor: pointer;
     transform: scale(1.15);
-    color: #E9B363;
+    color: #e9b363;
 }
 
 .upload_page {
@@ -223,7 +222,7 @@
 }
 
 .upload_heading {
-    color: #FFF;
+    color: #fff;
     text-align: center;
     font-family: Raleway;
     font-size: 2rem;
@@ -237,7 +236,7 @@
     height: 9rem;
     flex-shrink: 0;
     border-radius: 0.92888rem;
-    background: #141E30;
+    background: #141e30;
     align-items: center;
     display: flex;
     justify-content: center;
@@ -252,7 +251,7 @@
     flex-direction: column;
     justify-content: center;
     flex-shrink: 0;
-    color: #FFF;
+    color: #fff;
     text-align: center;
     font-family: Raleway;
     font-size: 1.5rem;
@@ -262,7 +261,7 @@
 }
 
 .file_upload_header_2 {
-    color: #FFF;
+    color: #fff;
     text-align: center;
     font-family: Raleway;
     font-size: 1.125rem;
@@ -282,7 +281,7 @@
     width: 22.75rem;
     height: 3.125rem;
     flex-shrink: 0;
-    background: rgba(238, 238, 238, 0.80);
+    background: rgba(238, 238, 238, 0.8);
     justify-content: center;
     display: flex;
     flex-direction: column;
@@ -300,12 +299,12 @@
     height: 3.125rem;
     flex-shrink: 0;
     border-radius: 0.9375rem 0rem 0rem 0.9375rem;
-    background: #FF8B28;
+    background: #ff8b28;
 }
 
 label {
     border-radius: 0rem 0.9375rem 0.9375rem 0rem;
-    background: #FF8B28;
+    background: #ff8b28;
     width: 6.625rem;
     height: 3.125rem;
     flex-shrink: 0;
@@ -333,7 +332,7 @@ label:hover {
     flex-direction: column;
     justify-content: center;
     flex-shrink: 0;
-    color: #FFF;
+    color: #fff;
     text-align: center;
     font-family: Raleway;
     font-size: 2rem;
@@ -355,7 +354,7 @@ label:hover {
     max-height: 32rem;
     flex-shrink: 0;
     border-radius: 0.9375rem;
-    background: #E9F9FF;
+    background: #e9f9ff;
     scroll-behavior: smooth;
     overflow: scroll;
     height: 80rem;
@@ -371,8 +370,8 @@ label:hover {
     height: 3.625rem;
     flex-shrink: 0;
     border-radius: 0.875rem;
-    background: #89C66C;
-    color: #E9F9FF;
+    background: #89c66c;
+    color: #e9f9ff;
     text-align: center;
     font-family: Raleway;
     font-size: 1.5rem;
@@ -410,7 +409,7 @@ label:hover {
     height: 4.1875rem;
     flex-shrink: 0;
     border-radius: 0.625rem 0.625rem 0rem 0rem;
-    background: #2891B9;
+    background: #2891b9;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -418,7 +417,7 @@ label:hover {
 }
 
 .participants_header_text {
-    color: #FFF;
+    color: #fff;
     text-align: center;
     font-family: Raleway;
     font-size: 1.5rem;
@@ -428,21 +427,20 @@ label:hover {
     margin: 0 4rem;
 }
 
-
 .participant {
     width: 91.25rem;
     height: 4.1875rem;
     flex-shrink: 0;
-    border-top: 1px solid #2891B9;
-    border-bottom: 1px solid #2891B9;
-    background: rgba(217, 217, 217, 0.00);
+    border-top: 1px solid #2891b9;
+    border-bottom: 1px solid #2891b9;
+    background: rgba(217, 217, 217, 0);
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
 .participant_text {
-    color: #141E30;
+    color: #141e30;
     text-align: center;
     font-family: Raleway;
     font-size: 1.5rem;
@@ -456,6 +454,20 @@ label:hover {
     width: 91.25rem;
     height: 40rem;
     flex-shrink: 0;
-    border-radius:  0 0 0.625rem 0.625rem;
-    background: #E9F9FF;
+    border-radius: 0 0 0.625rem 0.625rem;
+    background: #e9f9ff;
+}
+
+.heading_box {
+    display: flex;
+    width: 100%;
+    height: 2.75rem;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.heading_line {
+    stroke-width: 3px;
 }
