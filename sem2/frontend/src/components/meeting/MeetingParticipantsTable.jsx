@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import styles from "./meeting.module.css";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import axios from 'axios';
 
-function MeetingParticipantsTable({ participants, onDeleteParticipant, onAddParticipant }) {
+var config = require('../../config.json');
+const port = config.port || 5001;
+
+function MeetingParticipantsTable({ participants, onDeleteParticipant, onAddParticipant, showSendEmailButton = true }) {
 
     const [showAddForm, setShowAddForm] = useState(false);
     const [newName, setNewName] = useState('');
@@ -19,6 +23,20 @@ function MeetingParticipantsTable({ participants, onDeleteParticipant, onAddPart
             alert("Please fill in both name and email fields!");
         }
     }
+
+    const sendEmail = () => {
+        const data = {
+            email: participants.map(participant => participant.email)
+        }
+
+        axios
+            .post(`http://localhost:${port}/api/email`, data)
+            .then((res) => {
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
 
     return (
         <>
@@ -96,6 +114,13 @@ function MeetingParticipantsTable({ participants, onDeleteParticipant, onAddPart
                     </div>
                 </div>
             </div>
+            {showSendEmailButton && (
+                <div className={styles.button_container}>
+                <button className={`${styles.email_button} ${styles.button_style}`} onClick={sendEmail} >
+                            Send Email
+                </button>
+                </div>
+            )}
         </>
     );
 }

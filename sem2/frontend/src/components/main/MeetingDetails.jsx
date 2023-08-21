@@ -90,7 +90,7 @@ function MeetingDetails({ meetingId, handleYourMeetingsClick }) {
                         </div>
                     </div>
                     <div className={styles.attendees_container}>
-                    <MeetingParticipantsTable participants={participants} onDeleteParticipant={deleteParticipant} onAddParticipant={addParticipant} />
+                    <MeetingParticipantsTable participants={participants} onDeleteParticipant={deleteParticipant} onAddParticipant={addParticipant} showSendEmailButton={false}/>
                     </div>
                     <div className={styles.button_container}>
                         <button className={`${styles.delete_button} ${styles.button_style}`} onClick={handleDelete}>
@@ -104,8 +104,6 @@ function MeetingDetails({ meetingId, handleYourMeetingsClick }) {
                         </button>
                     </div>
                 </div>
-
-
             </div>
         </>
     )
