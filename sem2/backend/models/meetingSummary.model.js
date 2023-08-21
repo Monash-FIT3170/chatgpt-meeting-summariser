@@ -19,6 +19,8 @@ const attendeeSchema = new Schema({
 
 const meetingSummarySchema = new Schema(
   {
+    date: { type: Date, required: false },
+    startTime: { type: String, required: false }, 
     transcript: { type: String, required: true },
     summaryPoints: { type: [String], required: true },
     attendees: { type: [attendeeSchema], required: false },

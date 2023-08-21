@@ -19,6 +19,8 @@ router.route("/").get((req, res) => {
 router.route("/add").post(async (req, res) => {
   const transcript = req.body.transcript;
   const attendees = req.body.attendees;
+  const date = req.body.date;
+  const startTime = req.body.startTime; 
   // const summaryPoints = req.body.summaryPoints;
 
   const completion = await openai.createChatCompletion({
@@ -45,7 +47,7 @@ router.route("/add").post(async (req, res) => {
 
   const summaryPoints = completion.data.choices[0].message.content;
 
-  const newMeetingSummary = new MeetingSummary({ transcript, summaryPoints, attendees });
+  const newMeetingSummary = new MeetingSummary({ date, startTime, transcript, summaryPoints, attendees });
 
   newMeetingSummary
     .save()
