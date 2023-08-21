@@ -233,14 +233,14 @@ function MeetingParticipantsScreen({ participants, onDeleteParticipant, onAddPar
     );
 }
 
-// function SummaryLoader({ }) {
-//     return (
-//         <>
-//             <div className={loaderStyle.container}>
-//                 <div className={loaderStyle.loader}></div>
-//             </div>
-//         </>
-//     )
-// }
+function SummaryLoader({ }) {
+    return (
+        <>
+            <div className={loaderStyle.container}>
+                <div className={loaderStyle.loader}></div>
+            </div>
+        </>
+    )
+}
 
 export { UploadScreen };
