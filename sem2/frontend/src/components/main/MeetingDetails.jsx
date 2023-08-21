@@ -30,8 +30,7 @@ function MeetingDetails({ meetingId, isMeetingDetailsActive, handleYourMeetingsC
             .get(`http://localhost:${port}/${meetingId}`)
             .then((res) => {
                 setMeetingDetails(res.data)
-                setParticipants(meetingDetails?.attendees)
-                console.log(res.data)
+                setParticipants(res.data?.attendees)
             })
             .catch((err) => {
                 console.log(err);
@@ -50,6 +49,7 @@ function MeetingDetails({ meetingId, isMeetingDetailsActive, handleYourMeetingsC
     };
 
     const handleSave = () => {
+        
     };
 
     useEffect(() => {
