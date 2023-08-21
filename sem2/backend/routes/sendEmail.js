@@ -1,4 +1,3 @@
-
 const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
@@ -18,8 +17,6 @@ router.post('/', async (req, res) => {
 
     // Create a transporter using nodemailer
     const transporter = nodemailer.createTransport({
-      // Set up your email provider's configuration here
-      // For example, using SMTP:
       service: 'Outlook',
       auth: {
         user: 'minute-mind.3170@outlook.com',
@@ -27,14 +24,12 @@ router.post('/', async (req, res) => {
       }
     });
 
-    
-
     // Prepare the email message
     const mailOptions = {
       from: 'minute-mind.3170@outlook.com',
       to: email,
       subject: "Meeting Summary",
-      body: "Please find the attatched meeting summary",
+      text: "Hi,\n\n\nPlease find the attatched meeting summary.\n\n\nRegards,\nThe Minute Mind",  // <-- Changed this from 'body' to 'text'
       attachments: [
         {
           filename: 'summary.txt',
@@ -60,4 +55,3 @@ router.post('/', async (req, res) => {
 });
 
 module.exports = router;
-// POST route for sending an email
