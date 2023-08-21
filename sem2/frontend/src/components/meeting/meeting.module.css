@@ -49,6 +49,8 @@
 .t2 {
     float: left;
     width: 30%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .t3 {

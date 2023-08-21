@@ -8,7 +8,7 @@ import { MeetingParticipantsTable } from '../meeting/MeetingParticipantsTable';
 var config = require('../../config.json');
 const port = config.port || 5000;
 
-function MeetingDetails({ meetingId, isMeetingDetailsActive, handleYourMeetingsClick }) {
+function MeetingDetails({ meetingId, handleYourMeetingsClick }) {
     const [meetingDetails, setMeetingDetails] = useState(null)
     
     const [participants, setParticipants] = useState([]);
@@ -47,6 +47,17 @@ function MeetingDetails({ meetingId, isMeetingDetailsActive, handleYourMeetingsC
             });
     };
 
+    const handleResend = () => {
+        console.log(participants, meetingDetails)
+        // axios
+        //     .get(`http://localhost:${port}/meetingSummaries/update/${meetingId}`)
+        //     .then((res) => {
+        //     })
+        //     .catch((err) => {
+        //         console.log(err);
+        //     });
+    };
+
     const handleSave = () => {
         axios
             .post(`http://localhost:${port}/meetingSummaries/update/${meetingId}`, {...meetingDetails, attendees: participants})
@@ -79,10 +90,13 @@ function MeetingDetails({ meetingId, isMeetingDetailsActive, handleYourMeetingsC
                     <MeetingParticipantsTable participants={participants} onDeleteParticipant={deleteParticipant} onAddParticipant={addParticipant} />
                     </div>
                     <div className={styles.button_container}>
-                        <button className={styles.delete_button} onClick={handleDelete}>
+                        <button className={`${styles.delete_button} ${styles.button_style}`} onClick={handleDelete}>
                             Delete
                         </button>
-                        <button className={styles.save_button} onClick={handleSave}>
+                        <button className={`${styles.resend_button} ${styles.button_style}`} onClick={handleResend}>
+                            Resend Emails
+                        </button>
+                        <button className={`${styles.save_button} ${styles.button_style}`} onClick={handleSave}>
                             Save
                         </button>
                     </div>
