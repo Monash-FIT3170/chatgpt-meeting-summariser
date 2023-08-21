@@ -49,7 +49,7 @@ const CreateAccount = ({ setIsCreateAccountOpen }) => {
 
         try {
             // Send POST request to create route
-            const response = await axios.post('http://localhost:5000/users/create', user);
+            const response = await axios.post('http://localhost:5001/users/create', user);
             if (response.data.status === 0) {
                 console.log('User authenticated');
             } else {
