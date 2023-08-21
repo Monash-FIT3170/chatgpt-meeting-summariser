@@ -14,15 +14,14 @@ function MeetingDetails({ meetingId, isMeetingDetailsActive, handleYourMeetingsC
     const [participants, setParticipants] = useState([]);
     const addParticipant = (name, email) => {
         const newParticipant = {
-            id: participants.length + 1,
             name: name,
             email: email
         };
         setParticipants(prev => [...prev, newParticipant]);
     };
 
-    const deleteParticipant = (id) => {
-        setParticipants(prev => prev.filter(participant => participant.id !== id));
+    const deleteParticipant = (email) => {
+        setParticipants(prev => prev.filter(participant => participant.email !== email));
     };
 
     const fetchMeetingDetails = () => {
@@ -49,7 +48,13 @@ function MeetingDetails({ meetingId, isMeetingDetailsActive, handleYourMeetingsC
     };
 
     const handleSave = () => {
-        
+        axios
+            .post(`http://localhost:${port}/meetingSummaries/update/${meetingId}`, {...meetingDetails, attendees: participants})
+            .then((res) => {
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
 
     useEffect(() => {

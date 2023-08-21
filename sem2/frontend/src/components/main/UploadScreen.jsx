@@ -23,15 +23,14 @@ function UploadScreen() {
 
     const addParticipant = (name, email) => {
         const newParticipant = {
-            id: participants.length + 1,
             name: name,
             email: email
         };
         setParticipants(prev => [...prev, newParticipant]);
     };
 
-    const deleteParticipant = (id) => {
-        setParticipants(prev => prev.filter(participant => participant.id !== id));
+    const deleteParticipant = (email) => {
+        setParticipants(prev => prev.filter(participant => participant.email !== email));
     };
 
     const screenComponents = {

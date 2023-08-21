@@ -49,7 +49,7 @@ function MeetingParticipantsTable({ participants, onDeleteParticipant, onAddPart
                                     <span
                                         class="form-item-icon material-symbols-rounded"
                                         className={styles.delete_icon}
-                                        onClick={() => onDeleteParticipant(participant.id)}
+                                        onClick={() => onDeleteParticipant(participant.email)}
                                         style={{ cursor: 'pointer' }}
                                     >
                                         <DeleteOutlineIcon />

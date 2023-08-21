@@ -19,15 +19,9 @@ const attendeeSchema = new Schema({
 
 const meetingSummarySchema = new Schema(
   {
-    // _id: mongoose.Schema.Types.ObjectId,
     transcript: { type: String, required: true },
     summaryPoints: { type: [String], required: true },
-    attendees: { type: [attendeeSchema], required: false, validate: {
-      validator: (v) => {
-        return v.every(email => emailRegex.test(email));
-      },
-      message: props => `${props.value} is not a valid email address!`
-    } },
+    attendees: { type: [attendeeSchema], required: false },
   },
   {
     timestamps: true,

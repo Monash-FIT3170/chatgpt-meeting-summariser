@@ -68,6 +68,7 @@ router.route("/update/:id").post((req, res) => {
     .then((meetingSummary) => {
       meetingSummary.transcript = req.body.transcript;
       meetingSummary.summaryPoints = req.body.summaryPoints;
+      meetingSummary.attendees = req.body.attendees
 
       meetingSummary
         .save()
