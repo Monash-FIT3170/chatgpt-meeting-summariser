@@ -20,6 +20,8 @@ const CreateAccount = ({ setIsCreateAccountOpen }) => {
 
     const modalRef = useRef(null);
     
+    
+    const [createError, setCreateError] = useState(null); // State for login error
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -50,11 +52,9 @@ const CreateAccount = ({ setIsCreateAccountOpen }) => {
         try {
             // Send POST request to create route
             const response = await axios.post('http://localhost:5001/users/create', user);
-            if (response.data.status === 0) {
-                console.log('User authenticated');
-            } else {
-                console.log('Authentication failed:', response.data.message);
-            }
+            console.log('User created');
+            handleClose();
+             
         } catch (error) {
             console.error('Error:', error);
         }
@@ -94,12 +94,14 @@ const CreateAccount = ({ setIsCreateAccountOpen }) => {
                         <input type="password" placeholder="Password" onChange={handlePasswordChange}>
                         </input>
                     </div>
+                    {createError && <p className={styles.redtext}>{createError}</p>}
                     <a className={styles.submit} onClick={handleSubmit}>
                         <span></span>
                         <span></span>
                         <span></span>
                         <span></span>
                         Create Account
+
                     </a>
                 </form>
                 <hr className={styles.hr_colour}></hr>
