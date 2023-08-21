@@ -23,9 +23,12 @@ const router = require("./user");
 router.post("/summary", async (req, res) => {
     const transcriptChunks = transcribedScript
     let summaryChunks = ""
+    let transcript = ""
+    console.log("no. chunks:", transcriptChunks.length)
     for (var i = 0; i < transcriptChunks.length; i++) {
         console.log("summarising chunk", i+1, "of", transcriptChunks.length)
         let transcriptChunk = transcriptChunks[i].text
+        transcript = transcript.concat(transcriptChunk)
 
         const chunkCompletion = await openai.createChatCompletion({
             model: "gpt-3.5-turbo",
@@ -75,10 +78,8 @@ router.post("/summary", async (req, res) => {
 
     const summaryPoints = fullCompletion.data.choices[0].message.content;
 
-    const newMeetingSummary = new MeetingSummary({transcript, summaryPoints});
-    // console.log(transcript);
-    console.log(summaryPoints);
-    newMeetingSummary
+    const newMeetingSummary = new MeetingSummary({transcript: transcript, summaryPoints});
+    await newMeetingSummary
         .save()
         .then((savedMeetingSummary) => {
             const savedMeetingSummaryId = savedMeetingSummary._id;
@@ -86,7 +87,10 @@ router.post("/summary", async (req, res) => {
             res.json({ id: savedMeetingSummaryId });
 
           })
-        .catch((err) => res.status(400).json("Error: " + err));
+        .catch((err) => {
+            console.log("save summary failed")
+            res.status(400).json("Error: " + err)
+        });
 })
 
 
