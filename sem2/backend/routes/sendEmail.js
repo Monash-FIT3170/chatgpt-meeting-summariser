@@ -38,7 +38,7 @@ router.post('/', async (req, res) => {
       attachments: [
         {
           filename: 'summary.txt',
-          content: meetingSummary.summaryPoints
+          content: meetingSummary.summaryPoints.join(' ')
         }
       ]
     };

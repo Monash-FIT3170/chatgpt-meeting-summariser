@@ -48,14 +48,17 @@ function MeetingDetails({ meetingId, handleYourMeetingsClick }) {
     };
 
     const handleResend = () => {
-        console.log(participants, meetingDetails)
-        // axios
-        //     .get(`http://localhost:${port}/meetingSummaries/update/${meetingId}`)
-        //     .then((res) => {
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //     });
+        const data = {
+            email: participants.map(participant => participant.email)
+        }
+
+        axios
+            .post(`http://localhost:${port}/api/email`, data)
+            .then((res) => {
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
 
     const handleSave = () => {
