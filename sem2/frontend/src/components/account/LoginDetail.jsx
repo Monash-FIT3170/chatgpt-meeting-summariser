@@ -5,12 +5,15 @@ import CreateAccount from './CreateAccount';
 import PersonIcon from "@mui/icons-material/Person";
 import LockIcon from "@mui/icons-material/Lock";
 import { Google, Facebook, GitHub } from '@mui/icons-material';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import GoogleLoginComponent from './alt_login/GoogleMUILogin';
 
+
+
 function LoginDetail() {
     const [isCreateAccountOpen, setIsCreateAccountOpen] = useState(false);
-
     const handleCreateAccountClick = () => {
         setIsCreateAccountOpen(true);
     };
@@ -41,14 +44,14 @@ function LoginDetail() {
             password: password,
         };
 
-
         try {
-            const response = await axios.post('http://localhost:5000/users/login', user); // Send POST request to /login via axios
+            const response = await axios.post('http://localhost:5001/users/login', user); // Send POST request to /login via axios
+            console.log("logging in")
             console.log('Login successful:', response.data.message);
             setLoginError(null); // Reset any previous login error
             // Redirect the user to a new page on successful login
         
-            window.location.href = '/dashboard';
+            window.location.href = '/home';
         } catch (error) {
             console.error('Login failed:', error);
             setLoginError('Invalid credentials');
@@ -81,6 +84,7 @@ function LoginDetail() {
                             <input type="password" placeholder="Password" onChange={handlePasswordChange}>
                             </input>
                         </div>
+                        {loginError && <p className={styles.redtext}>{loginError}</p>}
                         <a className={styles.submit} onClick={handleSubmit}>
                             <span></span>
                             <span></span>

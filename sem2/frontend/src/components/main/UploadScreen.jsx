@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { HeaderPill } from "../HeaderPill";
 import styles from "./Dashboard.module.css";
+import loaderStyle from "./Loader.module.css";
 import { MeetingParticipantsTable } from "../meeting/MeetingParticipantsTable";
 import { BorderedHeading } from "../BorderedHeading";
+import LoadingJokes from "../LoadingJokes";
 import axios from "axios"; 
-
 var config = require('../../config.json');
 const port = config.port ||5001;
 
@@ -194,7 +195,7 @@ function RecordingUploadScreen({ onAddParticipant }) {
                     </svg>
                 </div>
                 <div className={styles.summary_box} id="summary_box">
-                    
+                    <SummaryLoader></SummaryLoader>
                 </div>
                 {showAddParticipants && (
                     <div>
@@ -238,6 +239,7 @@ function SummaryLoader({ }) {
         <>
             <div className={loaderStyle.container}>
                 <div className={loaderStyle.loader}></div>
+            <LoadingJokes/>
             </div>
         </>
     )
