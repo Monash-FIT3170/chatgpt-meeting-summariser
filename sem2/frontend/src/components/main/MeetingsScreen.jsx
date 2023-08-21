@@ -18,7 +18,7 @@ const v1options = {
     nsecs: 5678,
 };
 
-function MeetingsScreen({ onMeetingDetailsClick, setSelectedMeetingId }) {
+function MeetingsScreen({ onMeetingDetailsClick }) {
     const [meeting, setMeetings] = useState([]);
 
     useEffect(() => {
@@ -30,7 +30,6 @@ function MeetingsScreen({ onMeetingDetailsClick, setSelectedMeetingId }) {
     }, []);
     
     const handleMeetingCardClick = (meetingId) => {
-        console.log(meetingId)
         onMeetingDetailsClick(meetingId)
     }
 

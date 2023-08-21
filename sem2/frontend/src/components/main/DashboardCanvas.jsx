@@ -22,7 +22,7 @@ function DashboardCanvas() {
     };
 
     const screenComponents = {
-        "Dashboard": <DashboardScreen onUploadClick={handleUploadClick}/>,
+        "Dashboard": <DashboardScreen onUploadClick={handleUploadClick} handleMeetingDetailsClick={handleMeetingDetailsClick}/>,
         "Upload": <UploadScreen/>,
         "Meetings": <MeetingsScreen onMeetingDetailsClick={handleMeetingDetailsClick}/>,
         "Meeting-Details": <MeetingDetails meetingId={selectedMeetingId} />

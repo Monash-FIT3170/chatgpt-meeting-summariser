@@ -30,8 +30,7 @@ function DashboardScreen({ onUploadClick, handleMeetingDetailsClick, setSelected
     }, []);
 
     const handleMeetingCardClick = (meetingId) => {
-        handleMeetingDetailsClick()
-        setSelectedMeetingId(meetingId);
+        handleMeetingDetailsClick(meetingId)
     }
 
     const latestMeetings = meeting.slice(0, 10);
