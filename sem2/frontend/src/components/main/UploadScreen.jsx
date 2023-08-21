@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { HeaderPill } from "../HeaderPill";
 import styles from "./Dashboard.module.css";
+import loaderStyle from "./Loader.module.css";
 import { MeetingParticipantsTable } from "../meeting/MeetingParticipantsTable";
 import { BorderedHeading } from "../BorderedHeading";
 import LoadingJokes from "../LoadingJokes";
@@ -194,7 +195,7 @@ function RecordingUploadScreen({ onAddParticipant }) {
                     </svg>
                 </div>
                 <div className={styles.summary_box} id="summary_box">
-                    
+                    <SummaryLoader></SummaryLoader>
                 </div>
                 {showAddParticipants && (
                     <div>
