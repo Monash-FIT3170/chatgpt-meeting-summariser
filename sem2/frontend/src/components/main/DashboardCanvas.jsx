@@ -25,7 +25,7 @@ function DashboardCanvas() {
         "Dashboard": <DashboardScreen onUploadClick={handleUploadClick} handleMeetingDetailsClick={handleMeetingDetailsClick}/>,
         "Upload": <UploadScreen/>,
         "Meetings": <MeetingsScreen onMeetingDetailsClick={handleMeetingDetailsClick}/>,
-        "Meeting-Details": <MeetingDetails meetingId={selectedMeetingId} />
+        "Meeting-Details": <MeetingDetails meetingId={selectedMeetingId} handleYourMeetingsClick={handleYourMeetingsClick} />
     }
 
     return (
