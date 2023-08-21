@@ -16,6 +16,9 @@ function MeetingCard({ card_title, id, completed, onCardClick }) {
             </div>
             <svg xmlns="http://www.w3.org/2000/svg" width="124" height="32" viewBox="0 0 124 32" fill="none" className={card_style.status}>
                 <path d="M0.85498 15.3131C0.85498 7.10487 7.5091 0.450745 15.7174 0.450745H108.143C116.352 0.450745 123.006 7.10486 123.006 15.3131V16.1435C123.006 24.3518 116.352 31.0059 108.143 31.0059H15.7174C7.5091 31.0059 0.85498 24.3518 0.85498 16.1436V15.3131Z" fill={card_style.status_colour} />
+                <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fill="white">
+                    {completed ? 'Completed' : 'Draft'}
+                </text>
             </svg>
             <div className={card_style.chevron}>
                 &gt;

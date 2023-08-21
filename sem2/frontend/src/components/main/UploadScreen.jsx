@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import { HeaderPill } from "../HeaderPill";
 import styles from "./Dashboard.module.css";
-import loaderStyle from "./Loader.module.css";
 import { MeetingParticipantsTable } from "../meeting/MeetingParticipantsTable";
 import { BorderedHeading } from "../BorderedHeading";
 import LoadingJokes from "../LoadingJokes";
+import axios from "axios"; 
+var config = require('../../config.json');
+const port = config.port ||5001;
+
+
 
 function UploadScreen() {
     const [activeScreen, setActiveScreen] = useState("RecordingUpload");
@@ -30,7 +34,7 @@ function UploadScreen() {
     };
 
     const screenComponents = {
-        RecordingUpload: <RecordingUploadScreen onAddParticipant={addParticipant} />,
+        RecordingUpload: <RecordingUploadScreen onAddParticipant={handleMeetingParticipantsClick} />,
         MeetingParticipants: <MeetingParticipantsScreen participants={participants} onAddParticipant={addParticipant} onDeleteParticipant={deleteParticipant} />,
     };
 
@@ -91,41 +95,50 @@ function RecordingUploadScreen({ onAddParticipant }) {
         setErrorMessage("");
     };
 
-    const changeHandler = (event) => {
-        // set the selected file
-        setSelectedFile(event.target.files[0]);
-        const fileExtension = event.target.files[0].name.split(".").pop();
-        if (fileExtension === "MP4") {
-            console.log("is correctttt");
-            setIsFilePicked(true);
-            document.getElementById("filename").innerText =
-                event.target.files[0].name;
-            // form data
+    const changeHandler = async (event) => {
+        var meetingid = "";
+        const fileExtension = event.target.files[0].name.split('.').pop();
+        // ensure is a MP4 file 
+        if( fileExtension === "MP4"|| fileExtension === "mp4"){
+            console.log("is correctttt")
+            document.getElementById("filename").innerText = event.target.files[0].name;
+            // form data 
             const formData = new FormData();
-            formData.append("transcript", selectedFile);
-            console.log(event.target.files[0].name);
-            // console.log(port);
+            formData.append("mp4File", event.target.files[0]);
+            console.log("tryyyy")
+            // save to database 
+            try{
+                const response = await axios.post(`http://localhost:${port}/saveFile`, formData);
+                meetingid = response.data.id;
+                console.log(meetingid);
+                console.log("successs");
+            }
+            catch (error){
+                console.log("FAILED")
+                console.log(error.response);
 
-            // axios.post(`http://localhost:${port}/saveFile`, formData)
-            //     .then(res => {
-            //         // Display success message
-            //         console.log("here")
-            //         console.log("sucessss")
-            //     })
-            //     .catch(error => {
-            //         // Display error message
-            //         console.log("FAILED")
-            //         // messageDiv.textContent = "An error occurred during upload.";
-            //         console.error(error);
-            //     });
-        } else {
-            console.log("Wrong File format");
+            }
         }
+        else{
+            console.log("Wrong File format")
+        }
+        if (meetingid!==""){
+            console.log("there is meeting");
+            axios.get(`http://localhost:${port}/${meetingid}`)
+                .then(res=>{
+                    console.log(res.data.summaryPoints);
+                    var summary_box = document.getElementById("summary_box");
+                    summary_box.innerText= res.data.summaryPoints;
+                })
+                .catch(error=>{
+                    console.log(error.response);
+                })
+        }
+
+
     };
 
-    const [selectedFile, setSelectedFile] = useState();
-    const [isFilePicked, setIsFilePicked] = useState(false);
-    const [isProcessing, setIsProcessing] = useState(false);
+
 
     return (
         <>
@@ -148,11 +161,10 @@ function RecordingUploadScreen({ onAddParticipant }) {
                             type="file"
                             id="upload-btn"
                             hidden
-                            onChange={changeHandler}
-                        />
+                            onChange={changeHandler}/>
                     </div>
                 </div>
-                <div className={styles.summary_heading}>
+                <div className={styles.summary_heading}  >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="656"
@@ -181,8 +193,8 @@ function RecordingUploadScreen({ onAddParticipant }) {
                         />
                     </svg>
                 </div>
-                <div className={styles.summary_box}>
-                    <SummaryLoader></SummaryLoader>
+                <div className={styles.summary_box} id="summary_box">
+                    
                 </div>
                 {showAddParticipants && (
                     <div>
@@ -203,7 +215,7 @@ function RecordingUploadScreen({ onAddParticipant }) {
                         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
                     </div>
                 )}
-                <button className={styles.add_participants_button} onClick={handleAddParticipantsClick}>
+                <button className={styles.add_participants_button} onClick={onAddParticipant}>
                     Add Meeting Participants
                 </button>
             </div>

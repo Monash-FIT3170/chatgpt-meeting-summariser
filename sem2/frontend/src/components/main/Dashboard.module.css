@@ -387,11 +387,39 @@ label:hover {
     font-weight: 700;
     line-height: normal;
     border: none;
+
 }
 
 .add_participants_button:hover {
     background: #95d876;
 }
+
+.add_meeting_button {
+    width: 22.5rem;
+    height: 3.625rem;
+    flex-shrink: 0;
+    border-radius: 0.875rem;
+    background: #7db2c8;
+    color: #E9F9FF;
+    text-align: center;
+    font-family: Raleway;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    border: none;
+}
+
+.add_meeting_button:hover {
+    background: #8fc5e0;
+}
+
+.buttons_container{
+    display: flex ;
+    gap:2rem;
+    align-items: flex-start;
+}
+
 
 .modal {
     position: fixed;

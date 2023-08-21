@@ -34,6 +34,10 @@ function MeetingsScreen({ onMeetingDetailsClick, setSelectedMeetingId }) {
         onMeetingDetailsClick(meetingId)
     }
 
+    // Filter meetings
+    const inProgessMeetings = meeting.filter(meeting => !meeting.completed);
+    const completedMeetings = meeting.filter(meeting => meeting.completed);
+
     return (
         <>
             <div className={styles.logo_container}>
@@ -46,7 +50,7 @@ function MeetingsScreen({ onMeetingDetailsClick, setSelectedMeetingId }) {
             <div className={styles.card_container}>
                 <ColoredLine colour="#FF8B28" />
                 <div style={{ width: "100%", overflow: "auto", display: "flex" }}>
-                    {meeting.map(meeting => (
+                    {inProgessMeetings.map(meeting => (
                             <MeetingCard
                                 id={meeting._id}
                                 card_title={meeting.meeting_name}
@@ -61,11 +65,15 @@ function MeetingsScreen({ onMeetingDetailsClick, setSelectedMeetingId }) {
             </div>
             <div className={styles.card_container}>
                 <ColoredLine colour="#2891B9" />
-                {/* Split completed meetings between these two maps somehow */}
                 <div style={{ width: "100%", overflow: "auto", display: "flex" }}>
-                    {map(range(50), _ => (
-                        <MeetingCard card_title="Completed card" key={uuidv1(v1options)} completed={true} onCardClick={handleMeetingCardClick}/>
-                    ))}
+                    {completedMeetings.map(meeting => (
+                            <MeetingCard
+                                id={meeting._id}
+                                card_title={meeting.meeting_name}
+                                completed={meeting.completed}
+                                onCardClick={handleMeetingCardClick}
+                            />
+                        ))}
                 </div>
             </div>
         </>

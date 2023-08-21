@@ -16,7 +16,11 @@
 }
 
 .left_container {
-    width: 60vw;
+    width: 100vw;
+}
+
+.attendees_container {
+    width: 100vw;
 }
 
 .right_container {

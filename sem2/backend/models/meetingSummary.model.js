@@ -5,7 +5,7 @@ const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
 const meetingSummarySchema = new Schema(
   {
-    _id: mongoose.Schema.Types.ObjectId,
+    // _id: mongoose.Schema.Types.ObjectId,
     transcript: { type: String, required: true },
     summaryPoints: { type: [String], required: true },
     attendees: { type: [String], required: false, validate: {
