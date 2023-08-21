@@ -48,6 +48,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    
 }
 
 .headerPill {
@@ -79,4 +80,13 @@ body {
 .headerSmallPill{
     position: relative;
     bottom: -20px;
+}
+
+
+.LogoutButton {
+    position: fixed;
+    top: 0;
+    left: 0;
+    
+    z-index: 999;
 }
