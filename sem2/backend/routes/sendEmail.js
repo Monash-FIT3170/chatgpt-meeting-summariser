@@ -3,19 +3,12 @@ const router = express.Router();
 const nodemailer = require('nodemailer');
 const MeetingSummary = require('../models/meetingSummary.model');
 
-// POST route for sending an email
-router.post('/', async (req, res) => {
+async function sendEmail(meetingSummary, email, res) {
   try {
-    // Retrieve the meeting summary from the database
-    const meetingSummary = await MeetingSummary.findOne().sort({ createdAt: -1 });
-
     if (!meetingSummary) {
       return res.status(404).send('Meeting summary not found');
     }
 
-    const {email} = req.body;
-
-    // Create a transporter using nodemailer
     const transporter = nodemailer.createTransport({
       service: 'Outlook',
       auth: {
@@ -24,12 +17,11 @@ router.post('/', async (req, res) => {
       }
     });
 
-    // Prepare the email message
     const mailOptions = {
       from: 'minute-mind.3170@outlook.com',
       to: email,
-      subject: "Meeting Summary",
-      text: "Hi,\n\n\nPlease find the attatched meeting summary.\n\n\nRegards,\nThe Minute Mind",  // <-- Changed this from 'body' to 'text'
+      subject: 'Meeting Summary',
+      text: 'Hi,\n\nPlease find the attached meeting summary.\n\nRegards,\nThe Minute Mind',
       attachments: [
         {
           filename: 'summary.txt',
@@ -38,7 +30,6 @@ router.post('/', async (req, res) => {
       ]
     };
 
-    // Send the email
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.log('Error:', error);
@@ -48,6 +39,30 @@ router.post('/', async (req, res) => {
         res.send('Email sent successfully!');
       }
     });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('An error occurred while sending the email.');
+  }
+}
+
+router.post('/', async (req, res) => {
+  try {
+    const meetingSummary = await MeetingSummary.findOne().sort({ createdAt: -1 });
+    const { email } = req.body;
+    sendEmail(meetingSummary, email, res);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('An error occurred while sending the email.');
+  }
+});
+
+router.post('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const meetingSummary = await MeetingSummary.findById(id);
+    console.log(meetingSummary)
+    const { email } = req.body;
+    sendEmail(meetingSummary, email, res);
   } catch (error) {
     console.error('Error:', error);
     res.status(500).send('An error occurred while sending the email.');

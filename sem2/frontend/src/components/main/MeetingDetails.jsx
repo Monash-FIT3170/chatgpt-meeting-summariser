@@ -53,7 +53,7 @@ function MeetingDetails({ meetingId, handleYourMeetingsClick }) {
         toast.success('Emails have been sent');
 
         axios
-            .post(`http://localhost:${port}/api/email`, data)
+            .post(`http://localhost:${port}/api/email/${meetingDetails._id}`, data)
             .then((res) => { })
             .catch((err) => {
                 toast.error('Something went wrong')
