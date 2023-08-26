@@ -8,7 +8,7 @@ const bcrypt = require('bcrypt');
 //         .catch(err => res.status(400).json('Error: ' + err));
 // });
 
-module.exports = {createUser, router};
+
 
 async function createUser(username, email, password) {
     const salt = await bcrypt.genSalt();
@@ -19,7 +19,6 @@ async function createUser(username, email, password) {
         "password": hashedPassword,
         "salt": salt
     }
-    console.log(user_detail);
     return new User(user_detail);
 }
 
@@ -76,3 +75,8 @@ router.post('/logout', (req, res) => {
     });
   });
 
+
+module.exports = {
+  createUser: createUser,
+  router: router
+};

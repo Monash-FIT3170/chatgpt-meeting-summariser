@@ -2,7 +2,7 @@ const axios = require("axios");
 const fs = require("fs");
 const path= require("path");
 const FormData = require("form-data");
-const router = require("./user");
+const router = require('express').Router();
 const filesize = require('filesize');
 const ffmpeg = require('fluent-ffmpeg');
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
@@ -156,8 +156,6 @@ async function splitVideoBySize(inputFilePath, chunkSizeInMB) {
       console.error('Error occurred:', error);
     }
   }
-  
-
 
 
 

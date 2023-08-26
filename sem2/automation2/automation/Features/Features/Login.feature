@@ -1,9 +1,8 @@
-﻿Feature: Feature1
+﻿Feature: As a user I want to login sucessfully
 
 A short summary of the feature
 
-@tag1
-Scenario: [scenario name]
+Scenario: 
 	Given [context]
 	When [action]
 	Then [outcome]

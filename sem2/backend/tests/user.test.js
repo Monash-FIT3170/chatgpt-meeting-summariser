@@ -1,4 +1,4 @@
-import {createUser} from "../routes/user";
+const createUser = require("../routes/user").createUser;
 const db = require('../db');
 
 beforeAll(async () => await db.connect())

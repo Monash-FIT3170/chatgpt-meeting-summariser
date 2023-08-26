@@ -16,7 +16,7 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 
-const router = require("./user");
+const router = require('express').Router();
 
 
 router.post("/summary", async (req, res) => {
@@ -114,6 +114,3 @@ router.route("/update/:id").post((req, res) => {
 });
 
 module.exports = router;
-
-
-//module.exports = router;

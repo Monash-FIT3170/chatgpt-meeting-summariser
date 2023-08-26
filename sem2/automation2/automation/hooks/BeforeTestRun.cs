@@ -1,4 +1,5 @@
-﻿using TechTalk.SpecFlow;
+﻿using Helpers;
+using TechTalk.SpecFlow;
 
 namespace Hooks;
 
@@ -13,9 +14,9 @@ public class BeforeTestRun
     }
 
     [BeforeTestRun]
-    public void BeforeTest()
+    public async void BeforeTest()
     {
         //reset the world
-
+        await ApiHelper.ResetTheWorld();
     }
 }
