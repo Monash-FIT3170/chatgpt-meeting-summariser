@@ -21,6 +21,7 @@ body {
     flex-direction: row;
     width: 100%;
     background: #141e30;
+    align-items: center;
 }
 
 .header img {
@@ -85,9 +86,11 @@ body {
 
 .LogoutButton {
     position: fixed;
-    top: 0;
-    left: 0;
+    top: 1.5rem;
+    left: 1rem;
     background-color: #141E30;
     color: #FF8B28;
     z-index: 999;
+    border: none;
+
 }
