@@ -5,8 +5,6 @@ import CreateAccount from './CreateAccount';
 import PersonIcon from "@mui/icons-material/Person";
 import LockIcon from "@mui/icons-material/Lock";
 import { Google, Facebook, GitHub } from '@mui/icons-material';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 import GoogleLoginComponent from './alt_login/GoogleMUILogin';
 
@@ -54,7 +52,7 @@ function LoginDetail() {
             window.location.href = '/home';
         } catch (error) {
             console.error('Login failed:', error);
-            setLoginError('Invalid credentials');
+            setLoginError('Invalid username or password');
         }
 
         console.log(user);
@@ -84,7 +82,8 @@ function LoginDetail() {
                             <input type="password" placeholder="Password" onChange={handlePasswordChange}>
                             </input>
                         </div>
-                        {loginError && <p className={styles.redtext}>{loginError}</p>}
+                        {/*Adding error info*/ }
+                        {loginError && <p class={`${styles.textorange}`}>{loginError}</p>}         
                         <a className={styles.submit} onClick={handleSubmit}>
                             <span></span>
                             <span></span>
