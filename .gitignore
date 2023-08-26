@@ -6,3 +6,6 @@ npm-debug.log
 package-lock.json
 # React Component Preview
 previewConfig.json
+/.vs
+/sem2/automation2/.vs
+/sem2/automation2/automation/.vs

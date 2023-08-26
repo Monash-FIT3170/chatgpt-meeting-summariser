@@ -13,7 +13,7 @@ namespace Helpers
 
         public static async Task ResetTheWorld()
         {
-            client.BaseAddress = new Uri(ConfigurationManager.AppSettings["apiUri"]!);
+            client.BaseAddress = new Uri(AppSettings.ApiUrl);
             await client.PostAsync("/test/reset-the-world", null);
         }
     }
