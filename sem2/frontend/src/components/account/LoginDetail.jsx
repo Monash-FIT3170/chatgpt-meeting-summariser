@@ -5,12 +5,17 @@ import CreateAccount from './CreateAccount';
 import PersonIcon from "@mui/icons-material/Person";
 import LockIcon from "@mui/icons-material/Lock";
 import { Google, Facebook, GitHub } from '@mui/icons-material';
-
+import { useNavigate } from 'react-router-dom';
 import GoogleLoginComponent from './alt_login/GoogleMUILogin';
 
+var config = require('../../config.json');
+const port = config.port || 5001;
+
+function LoginDetail({userHasAuthenticated}) {
+    
 
 
-function LoginDetail() {
+    const navigate = useNavigate();
     const [isCreateAccountOpen, setIsCreateAccountOpen] = useState(false);
     const handleCreateAccountClick = () => {
         setIsCreateAccountOpen(true);
@@ -43,13 +48,13 @@ function LoginDetail() {
         };
 
         try {
-            const response = await axios.post('http://localhost:5001/users/login', user); // Send POST request to /login via axios
+            const response = await axios.post(`http://localhost:${port}/users/login`, user); // Send POST request to /login via axios
             console.log("logging in")
             console.log('Login successful:', response.data.message);
             setLoginError(null); // Reset any previous login error
             // Redirect the user to a new page on successful login
-        
-            window.location.href = '/home';
+            userHasAuthenticated(true); //used to validate routes in App file
+            navigate('/home'); // Navigate to /home
         } catch (error) {
             console.error('Login failed:', error);
             setLoginError('Invalid username or password');
