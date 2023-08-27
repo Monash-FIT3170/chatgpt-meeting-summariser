@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { BorderedHeading } from '../BorderedHeading';
 import { MeetingParticipantsTable } from '../meeting/MeetingParticipantsTable';
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 var config = require('../../config.json');
 const port = config.port || 5000;
@@ -60,6 +61,18 @@ function MeetingDetails({ meetingId, handleYourMeetingsClick }) {
             });
     };
 
+    const handleMarkAsCompleted = () => {
+        axios
+            .post(`http://localhost:${port}/meetingSummaries/markAsCompleted/${meetingId}`)
+            .then((res) => {
+                setMeetingDetails({...meetingDetails, completed: true})
+                toast.success('Marked as completed');
+            })
+            .catch((err) => {
+                toast.error('Something went wrong')
+            });
+    };
+
     const handleSave = () => {
         axios
             .post(`http://localhost:${port}/meetingSummaries/update/${meetingId}`, { ...meetingDetails, attendees: participants })
@@ -90,7 +103,7 @@ function MeetingDetails({ meetingId, handleYourMeetingsClick }) {
                 />
                 <div className={styles.inner_container}>
                     <div className={styles.meeting_box}>
-                        <BorderedHeading name="Meeting Details" />
+                        <BorderedHeading name={meetingDetails?.meeting_name ?? "Meeting Details"} />
                         <div className={styles.container}>
                             <div className={styles.left_container}>
                                 <div className={styles.summary_box}>
@@ -109,6 +122,9 @@ function MeetingDetails({ meetingId, handleYourMeetingsClick }) {
                         <button className={`${styles.resend_button} ${styles.button_style}`} onClick={handleResend}>
                             Resend Emails
                         </button>
+                        {!meetingDetails?.completed && <button className={`${styles.mark_as_completed_button} ${styles.button_style}`} onClick={handleMarkAsCompleted}>
+                            Mark as Completed
+                        </button>}
                         <button className={`${styles.save_button} ${styles.button_style}`} onClick={handleSave}>
                             Save
                         </button>
