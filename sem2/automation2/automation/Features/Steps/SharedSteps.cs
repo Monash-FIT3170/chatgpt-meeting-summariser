@@ -3,6 +3,7 @@ using TechTalk.SpecFlow;
 
 namespace Features.Steps;
 
+[Binding]
 public class SharedSteps
 {
 
