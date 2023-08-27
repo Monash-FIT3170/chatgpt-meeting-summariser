@@ -26,7 +26,6 @@ public class LoginSteps
     }
 
 
-
     [Given(@"I have filled invalid <detail>")]
     public void GivenIHaveFilledInvalidDetail()
     {

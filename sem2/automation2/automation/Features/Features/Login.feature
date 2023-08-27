@@ -1,8 +1,8 @@
-﻿Feature: As a user I want to login sucessfully
+﻿Feature: User login
 
 A short summary of the feature
 
-@critical
+@Critical
 Scenario: Login successful with valid credentials 
 	Given I am on the 'login' page
 	And I have filled in valid login details
@@ -10,7 +10,7 @@ Scenario: Login successful with valid credentials
 	Then I am redirected to the 'dashboard' page
 
 
-@critical
+@Critical
 Scenario Outline: Attempt to login with invalid details fails
 	Given I am on the 'login' page
 	And I have filled invalid <detail>

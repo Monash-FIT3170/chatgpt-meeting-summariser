@@ -20,8 +20,8 @@ namespace Features.Features
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("As a user I want to login sucessfully")]
-    public partial class AsAUserIWantToLoginSucessfullyFeature
+    [NUnit.Framework.DescriptionAttribute("User login")]
+    public partial class UserLoginFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
@@ -35,7 +35,7 @@ namespace Features.Features
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "As a user I want to login sucessfully", "A short summary of the feature", ProgrammingLanguage.CSharp, featureTags);
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "User login", "A short summary of the feature", ProgrammingLanguage.CSharp, featureTags);
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -75,11 +75,11 @@ namespace Features.Features
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Login successful with valid credentials")]
-        [NUnit.Framework.CategoryAttribute("critical")]
+        [NUnit.Framework.CategoryAttribute("Critical")]
         public void LoginSuccessfulWithValidCredentials()
         {
             string[] tagsOfScenario = new string[] {
-                    "critical"};
+                    "Critical"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Login successful with valid credentials", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 6
@@ -110,11 +110,11 @@ this.ScenarioInitialize(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Attempt to login with invalid details fails")]
-        [NUnit.Framework.CategoryAttribute("critical")]
+        [NUnit.Framework.CategoryAttribute("Critical")]
         public void AttemptToLoginWithInvalidDetailsFails()
         {
             string[] tagsOfScenario = new string[] {
-                    "critical"};
+                    "Critical"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Attempt to login with invalid details fails", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 14
