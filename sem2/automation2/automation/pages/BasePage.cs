@@ -22,7 +22,5 @@ namespace Pages
         {
             return true;
         }
-
-
     }
 }
