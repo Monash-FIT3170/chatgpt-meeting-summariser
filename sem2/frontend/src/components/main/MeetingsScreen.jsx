@@ -52,7 +52,7 @@ function MeetingsScreen({ onMeetingDetailsClick }) {
                     {inProgessMeetings.map(meeting => (
                             <MeetingCard
                                 id={meeting._id}
-                                card_title={meeting.meeting_name}
+                                card_title={meeting.meeting_name ? meeting.meeting_name : `Meeting ${meeting.createdAt.slice(0, 10)}`}
                                 completed={meeting.completed}
                                 onCardClick={handleMeetingCardClick}
                             />
@@ -68,7 +68,7 @@ function MeetingsScreen({ onMeetingDetailsClick }) {
                     {completedMeetings.map(meeting => (
                             <MeetingCard
                                 id={meeting._id}
-                                card_title={meeting.meeting_name}
+                                card_title={meeting.meeting_name ? meeting.meeting_name : `Meeting ${meeting.createdAt.slice(0, 10)}`}
                                 completed={meeting.completed}
                                 onCardClick={handleMeetingCardClick}
                             />
