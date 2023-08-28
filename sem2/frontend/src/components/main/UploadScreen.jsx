@@ -72,6 +72,7 @@ function RecordingUploadScreen({ onAddParticipant }) {
     const [participantName, setParticipantName] = useState("");
     const [participantEmail, setParticipantEmail] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+    const [isUploading, setIsUploading] = useState(false);
 
     const handleAddParticipantsClick = () => {
         setShowAddParticipants(true);
@@ -101,6 +102,7 @@ function RecordingUploadScreen({ onAddParticipant }) {
         // ensure is a MP4 file 
         if( fileExtension === "MP4"|| fileExtension === "mp4"){
             console.log("is correctttt")
+            setIsUploading(true);
             document.getElementById("filename").innerText = event.target.files[0].name;
             // form data 
             const formData = new FormData();
@@ -193,9 +195,13 @@ function RecordingUploadScreen({ onAddParticipant }) {
                         />
                     </svg>
                 </div>
+                
                 <div className={styles.summary_box} id="summary_box">
+                {isUploading && 
                     <SummaryLoader></SummaryLoader>
+                }
                 </div>
+                
                 {showAddParticipants && (
                     <div>
                         <input
