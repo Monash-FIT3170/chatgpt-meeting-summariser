@@ -3,7 +3,8 @@ const UploadModel = require("../models/upload.model");
 const UploadMiddleware = require("../middleware/multer.middleware");
 const fs = require('fs');
 const path = require('path');
-
+const {transcribedScript} = require('./transcribe')
+const axios = require("axios");
 let MeetingSummary = require("../models/meetingSummary.model");
 
 require("dotenv").config();
@@ -16,16 +17,45 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 
-const router = Router();
+const router = require("./user");
 
 
-router.post("/api/save", UploadMiddleware.single("transcript"), async (req, res) => {
-    if (!req.file || !req.file.buffer){
-        return res.status(400).send('Incorrect file uploaded.');
+router.post("/summary", async (req, res) => {
+    const transcriptChunks = transcribedScript
+    let summaryChunks = ""
+    let transcript = ""
+    console.log("no. chunks:", transcriptChunks.length)
+    for (var i = 0; i < transcriptChunks.length; i++) {
+        console.log("summarising chunk", i+1, "of", transcriptChunks.length)
+        let transcriptChunk = transcriptChunks[i].text
+        transcript = transcript.concat(transcriptChunk)
+
+        const chunkCompletion = await openai.createChatCompletion({
+            model: "gpt-3.5-turbo",
+            messages: [
+                {
+                    role: "system",
+                    content:
+                        "You are a meeting assistant that is tasked to summarize meeting transcripts.",
+                },
+                {
+                    role: "user",
+                    content:
+                        "Please generate a meeting summary for the following transcript.",
+                },
+                {
+                    role: "assistant",
+                    content: "Sure, I will generate a summary for your meeting transcript.",
+                },
+                {role: "user", content: transcriptChunk},
+            ],
+        });
+
+        let summaryChunk = chunkCompletion.data.choices[0].message.content
+        summaryChunks = summaryChunks.concat("\n", summaryChunk)
     }
-    const transcript = req.file.buffer.toString();
 
-    const completion = await openai.createChatCompletion({
+    let fullCompletion = await openai.createChatCompletion({
         model: "gpt-3.5-turbo",
         messages: [
             {
@@ -36,49 +66,34 @@ router.post("/api/save", UploadMiddleware.single("transcript"), async (req, res)
             {
                 role: "user",
                 content:
-                    "Please generate a meeting summary for the following transcript.",
+                    "In the next message I will supply summaries of several parts of a meeting. Please combine the following meeting summaries into a single cohesive meeting summary.",
             },
             {
                 role: "assistant",
-                content: "Sure, I will generate a summary for your meeting transcript.",
+                content: "Absolutely, I'm ready to assist. Please provide me with the meeting summaries that you'd like me to combine into a cohesive summary, and I'll do my best to create a comprehensive summary for you.",
             },
-            {role: "user", content: transcript},
+            {role: "user", content: summaryChunks},
         ],
     });
-    // console.log(completion.data.choices[0].message.content);
 
-    const summaryPoints = completion.data.choices[0].message.content;
+    const summaryPoints = fullCompletion.data.choices[0].message.content;
 
-    const newMeetingSummary = new MeetingSummary({transcript, summaryPoints});
-    console.log(transcript);
-    console.log(summaryPoints);
-    newMeetingSummary
+    const newMeetingSummary = new MeetingSummary({transcript: transcript, summaryPoints});
+    await newMeetingSummary
         .save()
         .then((savedMeetingSummary) => {
             const savedMeetingSummaryId = savedMeetingSummary._id;
-            console.log(`Meeting summary saved with ID: ${savedMeetingSummaryId}`);
+            console.log(savedMeetingSummaryId)
             res.json({ id: savedMeetingSummaryId });
+
           })
-        .catch((err) => res.status(400).json("Error: " + err));
+        .catch((err) => {
+            console.log("save summary failed")
+            res.status(400).json("Error: " + err)
+        });
 })
 
-// Delete a transcript
-// router.delete('/api/delete/:id', async (req, res) => {
-//     const { id } = req.params;
-//     try {
-//         const transcript = await UploadModel.findById(id);
-//         if (!transcript) {
-//             return res.status(404).send('Transcript not found');
-//         }
-//         const filePath = path.join(__dirname, '..', 'uploads', transcript.transcript);
-//         fs.unlinkSync(filePath); // Delete the file from the server
-//         await UploadModel.deleteOne({ _id: transcript._id }); // Delete the transcript from the database
-//         res.send('Transcript deleted successfully');
-//     } catch (err) {
-//         console.log(err);
-//         res.status(500).send('Internal Server Error');
-//     }
-// });
+
 
 router.delete('/api/delete/:id', async (req, res) => {
     const { id } = req.params;

@@ -1,5 +1,4 @@
 const router = require("express").Router();
-const { trusted } = require("mongoose");
 let MeetingSummary = require("../models/meetingSummary.model");
 
 require("dotenv").config();
@@ -19,7 +18,6 @@ router.route("/").get((req, res) => {
 
 router.route("/add").post(async (req, res) => {
   const transcript = req.body.transcript;
-  const attendees = req.body.attendees;
   // const summaryPoints = req.body.summaryPoints;
 
   const completion = await openai.createChatCompletion({
@@ -46,7 +44,7 @@ router.route("/add").post(async (req, res) => {
 
   const summaryPoints = completion.data.choices[0].message.content;
 
-  const newMeetingSummary = new MeetingSummary({ transcript, summaryPoints, attendees });
+  const newMeetingSummary = new MeetingSummary({ transcript, summaryPoints });
 
   newMeetingSummary
     .save()
@@ -69,19 +67,6 @@ router.route("/update/:id").post((req, res) => {
     .then((meetingSummary) => {
       meetingSummary.transcript = req.body.transcript;
       meetingSummary.summaryPoints = req.body.summaryPoints;
-      meetingSummary.attendees = req.body.attendees
-
-      meetingSummary
-        .save()
-        .then(() => res.json("Meeting summary updated!"))
-        .catch((err) => res.status(400).json("Error: " + err));
-    })
-    .catch((err) => res.status(400).json("Error: " + err));
-});
-router.route("/markAsCompleted/:id").post((req, res) => {
-  MeetingSummary.findById(req.params.id)
-    .then((meetingSummary) => {
-      meetingSummary.completed = true
 
       meetingSummary
         .save()
