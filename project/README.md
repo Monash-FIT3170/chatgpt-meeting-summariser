@@ -33,7 +33,7 @@ To run the back end server application
   npm install nodemon 
   nodemon server.js
 ```
-Note: Make sure you delcare your MongoDB URI in .env before starting the project
+Note: Make sure you delcare your MongoDB URI in .env as ATLAS_URI and your Open AI key as OPENAI_API_KEY before starting the project
 
 Start the frontend server
 
@@ -62,5 +62,3 @@ Install dependencies
 **Server:** Node, Express
 
 **Database:** Mongo
-
-
