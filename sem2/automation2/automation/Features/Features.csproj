@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Helpers\Helpers.csproj" />
+    <ProjectReference Include="..\hooks\Hooks.csproj" />
     <ProjectReference Include="..\pages\Pages.csproj" />
   </ItemGroup>
 

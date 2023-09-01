@@ -10,10 +10,4 @@
     <PackageReference Include="Selenium.WebDriver" Version="4.11.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="chromedriver.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>
