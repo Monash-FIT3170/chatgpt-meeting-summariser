@@ -1,14 +1,22 @@
-﻿using TechTalk.SpecFlow;
+﻿using System.Configuration;
+using TechTalk.SpecFlow;
+using TechTalk.SpecFlow.Infrastructure;
 
 namespace Hooks;
 
 [Binding]
 public class BeforeStep
 {
+    private readonly ISpecFlowOutputHelper _specFlowOutputHelper;
+
+    public BeforeStep(ISpecFlowOutputHelper specFlowOutputHelper)
+    {
+        _specFlowOutputHelper = specFlowOutputHelper;
+    }
+
     [BeforeStep()]
     public void BeforeStepStarts(IScenarioStepContext stepContext)
     {
-        Console.WriteLine(stepContext.StepInfo.Text);
-        Console.WriteLine("Before step");
+        _specFlowOutputHelper.WriteLine("step started");
     }
 }
