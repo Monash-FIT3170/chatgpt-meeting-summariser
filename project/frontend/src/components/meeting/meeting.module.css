@@ -1,0 +1,129 @@
+.meeting_participants_box {
+    /* width: 90rem; */
+    font-size: 1.5rem;
+    border-radius: 0.625rem;
+    margin: 2rem;
+    background: #e9f9ff;
+}
+
+.meeting_participants_header {
+    /* width: 90rem; */
+    background: #2891b9;
+    border-radius: 0.625rem 0.625rem 0rem 0rem;
+    height: 5rem;
+    color: #fff;
+    font-family: Raleway;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.meeting_participants_table {
+    /* width: 90rem; */
+    /* max-height: 60rem; */
+    background: #e9f9ff;
+    /* height: 80rem; */
+    border-radius: 0 0 0.625rem 0.625rem;
+    border-top: 1px solid #2891b9;
+    overflow-y: auto;
+}
+
+.participant_line {
+    display: flex;
+    align-items: center;
+    height: 4.1875rem;
+    border-bottom: 1px solid #2891b9;
+}
+
+.t1 {
+    float: left;
+    width: 5%;
+    text-align: center;
+}
+
+.t2 {
+    float: left;
+    width: 30%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.t3 {
+    float: left;
+    width: 60%;
+}
+
+.t4 {
+    float: left;
+    width: 5%;
+}
+
+.delete_icon {
+    background: #ff8b28;
+    border-radius: 1.25rem;
+    height: 2.5rem;
+    width: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add_icon {
+    background: #2891b9;
+    color: #FFF;
+    border-radius: 1.25rem;
+    height: 2.5rem;
+    width: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add_participant {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 1rem;
+    padding: 1rem;
+    border: 2px dashed #2891b9;
+    color: #2891b9;
+    border-radius: 0.625rem;
+}
+
+.text_input {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+}
+
+.button_container {
+    display: flex;
+    justify-content: space-between;
+    margin: 2rem;
+    padding-bottom: 2rem;
+}
+
+.button_style {
+    width: min(20.5rem, 25%);
+    padding: 1rem 0;
+    border-radius: 0.875rem;
+    color: #e9f9ff;
+    text-align: center;
+    font-family: Raleway;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    border: none;
+}
+
+.email_button {
+    background: #f4ab24;
+}

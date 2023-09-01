@@ -1,0 +1,114 @@
+.main_container {
+    height: 60vh;
+    padding-top: 1rem;
+}
+
+.inner_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.container {
+    width: 100vw;
+    display: flex;
+}
+
+.left_container {
+    width: 100vw;
+}
+
+.attendees_container {
+    width: 100vw;
+}
+
+.right_container {
+    width: 40vw;
+}
+
+.summary_box {
+    flex-shrink: 0;
+    border-radius: 0.9375rem;
+    background: #e9f9ff;
+    scroll-behavior: smooth;
+    overflow: scroll;
+    height: 40vh;
+    padding: 2rem;
+    margin: 2rem;
+    display: flex;
+}
+
+.attendees_box {
+    border-radius: 0.9375rem;
+    background: #e9f9ff;
+    scroll-behavior: smooth;
+    /* overflow-y: scroll; */
+    height: 50vh;
+    padding: 2rem;
+    margin: 2rem;
+}
+
+.summary_heading {
+    display: flex;
+    width: 100%;
+    height: 2.75rem;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    color: #fff;
+    text-align: center;
+    font-family: Raleway;
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    padding: 4rem 0 2rem 0;
+}
+
+.summary_heading_text {
+    padding: 0 2rem;
+    white-space: nowrap;
+}
+
+.summary_heading_line {
+    stroke-width: 3px;
+}
+
+.button_container {
+    display: flex;
+    justify-content: space-between;
+    margin: 2rem;
+    padding-bottom: 2rem;
+}
+
+.button_style {
+    width: min(20.5rem, 20%);
+    padding: 1rem 0;
+    border-radius: 0.875rem;
+    color: #e9f9ff;
+    text-align: center;
+    font-family: Raleway;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    border: none;
+}
+
+.delete_button {
+    background: #df4141;
+}
+
+.resend_button {
+    background: #f4ab24;
+}
+
+.mark_as_completed_button {
+    background: #f27d17;
+}
+
+.save_button {
+    background: #89c66c;
+}
