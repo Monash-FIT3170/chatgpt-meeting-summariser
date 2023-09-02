@@ -23,8 +23,6 @@ public class SharedSteps
     [Given(@"I am on the '([^']*)' page")]
     public void GivenIAmOnThePage(PageEnum page)
     {
-
-
         switch (page)
         {
             case PageEnum.Login:
@@ -34,6 +32,8 @@ public class SharedSteps
         }
     }
 
+
+    [Then(@"I remain on the '([^']*)' page")]
     [Then(@"I am redirected to the '([^']*)' page")]    
     public void ThenIAmRedirectedToThePage(PageEnum page)
     {

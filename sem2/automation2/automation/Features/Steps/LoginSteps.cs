@@ -39,11 +39,7 @@ public class LoginSteps
         throw new PendingStepException();
     }
 
-    [Then(@"I remain on the '([^']*)' page")]
-    public void ThenIRemainOnThePage(string login)
-    {
-        throw new PendingStepException();
-    }
+
 
     [Then(@"I see an error message with invalid")]
     public void ThenISeeAnErrorMessageWithInvalid(Table table)

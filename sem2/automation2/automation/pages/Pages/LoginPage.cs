@@ -7,7 +7,7 @@ public class LoginPage : BasePage
 {
     public LoginPage(IWebDriver webDriver) : base(webDriver)
     {
-        _pageUrl = "http://localhost:3000";
+        _pageUrl = "http://localhost:3000/";
     }
 
     public override bool VerifyPage()
