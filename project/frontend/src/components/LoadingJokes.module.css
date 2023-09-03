@@ -1,0 +1,24 @@
+.loading_object {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.text_item {
+  position: absolute;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.text_item_visible {
+  opacity: 1;
+  position: absolute;
+  transition: opacity 1s ease;
+}

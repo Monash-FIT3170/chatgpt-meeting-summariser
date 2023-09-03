@@ -1,0 +1,164 @@
+::-webkit-file-upload-button {
+    display: none;
+}
+
+.button {
+    border-style: solid; 
+    border-radius:10px; 
+    border-color: black;
+    background-color:#EDD7A0;
+    text-align: center;
+    color: rgb(49, 52, 69);
+    font-size: 25px;
+    height: 50px;
+    width:500px;
+    position: fixed;
+    margin-top: 260px;
+    margin-left: 125px;
+    cursor: pointer;
+}
+
+.summary {
+    border: 5px;
+    width:500px;
+    border-style: solid; 
+    border-radius:10px; 
+    border-color: black;
+    background-color:#f1e3bf;
+    color: rgb(49, 52, 69);
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.file_button {
+    border-style: solid; 
+    border-radius:10px; 
+    border-color: black;
+    background-color:#f0c1ab;
+    text-align: center;
+    color: rgb(49, 52, 69);
+    font-size: 25px;
+    height: 50px;
+    width:230px;
+    position: fixed;
+    margin-top: 330px;
+    margin-left: 125px;
+    padding: 0 5px;
+}
+
+.remove_button{
+    border-style:solid; 
+    border-radius:10px; 
+    border-color: black;
+    background-color:#c06757;
+    text-align: center;
+    color: rgb(49, 52, 69);
+    font-size: 25px;
+    height: 50px;
+    width:230px;
+    position: fixed;
+    margin-top: 330px;
+    margin-left: 390px;
+    cursor: pointer;
+}
+
+.done_button{
+    border-style: solid; 
+    border-radius:50px; 
+    background-color:rgba(145, 211, 122, 1);
+    text-align: center;
+    color:rgba(255, 255, 255, 1);
+    font-size: 25px;
+    height: 55px;
+    width:350px;
+    position: fixed;
+    margin-top: 600px;
+    margin-left: 300px;
+}
+
+.back_button{
+    border-style: solid; 
+    border-radius:50px; 
+    background-color:rgba(211, 122, 122, 1);
+    text-align: center;
+    color:rgba(255, 255, 255, 1);
+    font-size: 25px;
+    height: 55px;
+    width:150px;
+    position: fixed;
+    margin-top: 600px;
+    margin-left: 125px;
+}
+.summarise_button{
+    border-style: solid; 
+    border-radius:50px; 
+    background-color:rgba(131, 233, 255, 1);
+    text-align: center;
+    color:rgba(255, 255, 255, 1);
+    font-size: 25px;
+    height: 55px;
+    width:390px;
+    position: fixed;
+    margin-top: 420px;
+    margin-left: 180px;
+}
+
+.email_button {
+    border-style: solid;
+    border-radius: 10px;
+    border-color: black;
+    background-color: #c06757;
+    text-align: center;
+    color: rgb(49, 52, 69);
+    font-size: 25px;
+    height: 50px;
+    width: 230px;
+    position: fixed;
+    top: 590px;
+    left: 250px;
+    cursor: pointer;
+}
+
+.send_button {
+    border-style: solid;
+    border-radius: 10px;
+    border-color: black;
+    background-color: #c06757;
+    text-align: center;
+    color: rgb(49, 52, 69);
+    font-size: 25px;
+    height: 50px;
+    width: 230px;
+    position: fixed;
+    top: 590px;
+    left: 430px;
+    cursor: pointer;
+}
+
+
+.text_field {
+    border-style: solid;
+    border-radius: 10px;
+    border-color: black;
+    text-align: center;
+    color: rgb(49, 52, 69);
+    font-size: 25px;
+    height: 50px;
+    width: 310px;
+    position: fixed;
+    top: 590px;
+    left: 100px;
+    cursor: text;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.truncate-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
