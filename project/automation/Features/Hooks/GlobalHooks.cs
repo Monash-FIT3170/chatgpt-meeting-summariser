@@ -36,15 +36,18 @@ public class GlobalHooks
     public void BeforeStepStarts(ScenarioContext scenarioContext)
     {
         var stepContext = scenarioContext.StepContext;
-        _specFlowOutputHelper.WriteLine("<b>" + stepContext.StepInfo.Text + "</b>");
+        _specFlowOutputHelper.WriteLine($"<b>is this bold?</b>{stepContext.StepInfo.Text}" );
     }
 
     [AfterStep]
-    public void MakeScreenShotAfterStep()
+    public void TakeScreenShotAfterStep()
     {
-        Screenshot screenshot = ((ITakesScreenshot)_webDriver).GetScreenshot();
-        
+        var screenShot = ((ITakesScreenshot)_webDriver).GetScreenshot();
+        var fileName = RandomHealper.RandomString(10) + ".jpg" ;
+        screenShot.SaveAsFile(fileName);
+        _specFlowOutputHelper.AddAttachment(fileName);
     }
+
 
     [AfterScenario]
     public void AfterScenario()
@@ -54,7 +57,7 @@ public class GlobalHooks
     }
 
     [AfterTestRun]
-    public static void AfterTestRun()
+    public static async Task AfterTestRun()
     {
         Process proc = new Process();
         proc.StartInfo.FileName = "livingdoc";
@@ -64,8 +67,8 @@ public class GlobalHooks
         proc.StartInfo.CreateNoWindow = true;
         proc.StartInfo.UseShellExecute = false;
         proc.Start();
-        proc.WaitForExit();
-
+        await proc.WaitForExitAsync();
+        
         //open living doc
         var livingDoc = new Process();
         livingDoc.StartInfo.FileName = "LivingDoc.html";
