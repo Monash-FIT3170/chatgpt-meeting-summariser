@@ -21,7 +21,6 @@ public class GlobalDependencies
     [ScenarioDependencies]
     public static void CreateGlobalContainer(ContainerBuilder containerBuilder)
     {
-        Console.WriteLine("initializing dependencies");
         var chromeDriver = Directory.GetCurrentDirectory();
         var options = new ChromeOptions();
         options.AddArgument("start-maximized");
@@ -33,20 +32,22 @@ public class GlobalDependencies
             .WithParameter("chromeDriverDirectory", chromeDriver)
             .WithParameter("options", options);
 
-
         containerBuilder.RegisterAssemblyTypes(typeof(BasePage).Assembly)
             .Where(t => t.IsSubclassOf(typeof(BasePage)))
             .SingleInstance()
             .AsSelf();
 
+        containerBuilder.AddSpecFlowBindings(typeof(GlobalDependencies));
+
         var configuration = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json")
             .Build();
+
         containerBuilder.RegisterInstance<IConfiguration>(configuration);
 
         containerBuilder.RegisterInstance<ApiHelper>(new ApiHelper(configuration));
 
-        containerBuilder.AddSpecFlowBindings(typeof(GlobalHooks));
+        
 
         var assembly = Assembly.GetExecutingAssembly();
 
