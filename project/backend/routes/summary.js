@@ -17,7 +17,8 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 
-const router = require("./user");
+const router = require('express').Router();
+
 
 
 router.post("/summary", async (req, res) => {

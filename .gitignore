@@ -4,3 +4,7 @@ npm-debug.log
 .env
 .DS_Store
 package-lock.json
+swagger.json
+/project/automation/.vs/automation/v17/TestStore/0
+/project/automation/.vs/automation/FileContentIndex
+/project/automation/.vs
