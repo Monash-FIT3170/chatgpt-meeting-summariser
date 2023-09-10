@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "@ffprobe-installer/ffprobe": "^2.1.2",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -11,6 +13,8 @@
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "express-session": "^1.17.3",
+    "fluent-ffmpeg": "^2.1.2",
+    "mongodb-memory-server": "^8.15.1",
     "mongoose": "^7.0.4",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.2",
@@ -22,12 +26,14 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.10.0",
     "react-scripts": "5.0.1",
+    "swagger-autogen": "^2.23.5",
+    "swagger-ui-express": "^5.0.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "nodemon server.js",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

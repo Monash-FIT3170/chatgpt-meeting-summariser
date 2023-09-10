@@ -8,43 +8,23 @@ router.route('/').get((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/signup').post(async (req, res) => {
-    try {
-        const salt = await bcrypt.genSalt();
-        const hashedPassword = await bcrypt.hash(req.body.password, salt);
-        user_detail = {
-            "firstName": req.body.firstName,
-            "lastName": req.body.lastName,
-            "email": req.body.email,
-            "password": hashedPassword
-        }
-
-        const newUser = new User(user_detail);
-
-        newUser.save()
-            .then(() => res.json('User added!'))
-            .catch(err => res.status(400).json('Error: ' + err));
-    }
-    catch {
-        res.status(500).send();
-    }
-});
+async function createUser(username, email, password) {
+  const salt = await bcrypt.genSalt();
+  const hashedPassword = await bcrypt.hash(password, salt);
+  user_detail = {
+      "username": username,
+      "email": email,
+      "password": hashedPassword,
+      "salt": salt
+  }
+  return new User(user_detail);
+}
 
 router.route('/create').post(async (req, res) => {
     try {
-        const salt = await bcrypt.genSalt();
-        const hashedPassword = await bcrypt.hash(req.body.password, salt);
-        user_details = {
-            'username': req.body.username,
-            'email': req.body.email,
-            'password': hashedPassword,
-            'salt': salt
-        }
-
-        const newUser = new User(user_details);
-        newUser.save()
-            .then(() => res.json('User added!'))
-            .catch(err => res.status(400).json('Error: ' + err));
+      (await createUser(req.body.username, req.body.email, req.body.password)).save()
+      .then(() => res.json('User added!'))
+      .catch(err => res.status(400).json('Error: ' + err));
     }
     catch {
         res.status(500).send();
@@ -90,4 +70,7 @@ router.post('/logout', (req, res) => {
     });
   });
 
-    module.exports = router;
+  module.exports = {
+    createUser: createUser,
+    router: router
+  };
