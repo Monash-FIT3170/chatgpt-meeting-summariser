@@ -3,6 +3,7 @@ using Helpers.Enums;
 using Pages.Pages;
 using System.Configuration;
 using BoDi;
+using SharedData.DTOs;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Infrastructure;
 
@@ -11,13 +12,12 @@ namespace Features.Steps;
 [Binding]
 public class SharedSteps
 {
-    private LoginPage _loginPage;
-    private readonly ISpecFlowOutputHelper _specFlowOutputHelper;
+    private readonly LoginPage _loginPage;
+    private readonly WebPortalUnderTest WebPortalUnderTest = WebPortalUnderTest.GetInstance();
 
-    public SharedSteps(IObjectContainer objectContainer, LoginPage loginPage)
+    public SharedSteps(LoginPage loginPage)
     {
         _loginPage = loginPage;
-        _specFlowOutputHelper = objectContainer.Resolve<ISpecFlowOutputHelper>();
     }
 
     [Given(@"I am on the '([^']*)' page")]
@@ -28,7 +28,11 @@ public class SharedSteps
             case PageEnum.Login:
                 _loginPage.GoToUrl();
                 _loginPage.VerifyPage().Should().BeTrue();
+                WebPortalUnderTest.currentPage = PageEnum.Login;
                 break;
+            default:
+                throw new PendingStepException($"Page {page} is not implemented");
+
         }
     }
 
@@ -37,6 +41,15 @@ public class SharedSteps
     [Then(@"I am redirected to the '([^']*)' page")]    
     public void ThenIAmRedirectedToThePage(PageEnum page)
     {
-        throw new PendingStepException();
+        switch (page)
+        {
+            case PageEnum.Login:
+                _loginPage.VerifyPage();
+                break;
+            case PageEnum.Dashboard:
+                break;
+            default:
+                throw new PendingStepException($"Page {page} is not implemented");
+        }
     }
 }

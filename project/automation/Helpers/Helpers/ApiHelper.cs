@@ -10,20 +10,18 @@ namespace Helpers.Helpers
 {
     public class ApiHelper
     {
-        static HttpClient client = new HttpClient();
+        private readonly HttpClient _client;
 
-        private IConfiguration _config;
-
-
-        public ApiHelper(IConfiguration config)
+        public ApiHelper()
         {
-            _config = config;
+            _client = new HttpClient();
+            _client.BaseAddress = new Uri(AppConfiguration.ApiUrl);
         }
 
         public async Task ResetTheWorld()
         {
-            client.BaseAddress = new Uri(_config["apiUrl"]!);
-            await client.PostAsync("/test/reset-the-world", null);
+            
+            await _client.PostAsync("/test/reset-the-world", null);
         }
     }
 }

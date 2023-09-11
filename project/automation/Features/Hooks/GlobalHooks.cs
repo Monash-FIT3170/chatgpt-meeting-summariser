@@ -1,25 +1,31 @@
 ﻿using BoDi;
 using Helpers.Helpers;
+using Microsoft.Extensions.Configuration;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using System.Diagnostics;
+using Gherkin.Ast;
 using TechTalk.SpecFlow;
+using TechTalk.SpecFlow.EnvironmentAccess;
 using TechTalk.SpecFlow.Infrastructure;
 
 namespace Hooks;
 
+
+//TODO: split up into hook scopes (step, feature, scenario)
+
+
 [Binding]
 public class GlobalHooks
 {
-    private readonly IWebDriver _webDriver;
+    private IWebDriver webDriver;
     private readonly ISpecFlowOutputHelper _specFlowOutputHelper;
-    private readonly ApiHelper _apiHelper;
+    private readonly IObjectContainer _objectContainer;
 
 
-    public GlobalHooks(IWebDriver webDriver, IObjectContainer objectContainer,
-        ApiHelper apiHelper)
+    public GlobalHooks(IObjectContainer objectContainer)
     {
-        _webDriver = webDriver;
-        _apiHelper = apiHelper;
+        _objectContainer = objectContainer;
         // work around due to autofac
         _specFlowOutputHelper = objectContainer.Resolve<ISpecFlowOutputHelper>();
     }
@@ -28,22 +34,44 @@ public class GlobalHooks
     [BeforeScenario]
     public async Task BeforeTest()
     {
+        // IoC
+        var chromeDriver = Directory.GetCurrentDirectory();
+        var options = new ChromeOptions();
+        options.AddArgument("start-maximized");
+
+        //TODO: replace with a webdriver factory
+        webDriver = new ChromeDriver(options);
+        _objectContainer.RegisterInstanceAs<IWebDriver>(webDriver);
+
+        var configuration = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json")
+            .Build();
+
+        AppConfiguration.Initialize(configuration);
+
         //reset the world
-        await _apiHelper.ResetTheWorld();
+        var apiHelper = _objectContainer.Resolve<ApiHelper>();
+        await apiHelper.ResetTheWorld();
+    }
+
+    [BeforeScenario(tags:"Pending")]
+    public void SkipPendingTests()
+    {
+       ScenarioContext.StepIsPending();
     }
 
     [BeforeStep]
     public void BeforeStepStarts(ScenarioContext scenarioContext)
     {
         var stepContext = scenarioContext.StepContext;
-        _specFlowOutputHelper.WriteLine($"<b>is this bold?</b>{stepContext.StepInfo.Text}" );
+        _specFlowOutputHelper.WriteLine($"{stepContext.StepInfo.Text}" );
     }
 
     [AfterStep]
     public void TakeScreenShotAfterStep()
     {
-        var screenShot = ((ITakesScreenshot)_webDriver).GetScreenshot();
-        var fileName = RandomHealper.RandomString(10) + ".jpg" ;
+        var screenShot = ((ITakesScreenshot)webDriver).GetScreenshot();
+        var fileName = RandomHelper.RandomAlphanumericString(10) + ".jpg" ;
         screenShot.SaveAsFile(fileName);
         _specFlowOutputHelper.AddAttachment(fileName);
     }
@@ -52,12 +80,14 @@ public class GlobalHooks
     [AfterScenario]
     public void AfterScenario()
     {
-        _webDriver.Close();
-        _webDriver.Quit();
+        webDriver.Close();
+        webDriver.Quit();
     }
 
-    [AfterTestRun]
-    public static async Task AfterTestRun()
+
+    // disable as not needed for local
+    //[AfterTestRun]
+    public static void AfterTestRun()
     {
         Process proc = new Process();
         proc.StartInfo.FileName = "livingdoc";
@@ -67,8 +97,15 @@ public class GlobalHooks
         proc.StartInfo.CreateNoWindow = true;
         proc.StartInfo.UseShellExecute = false;
         proc.Start();
-        await proc.WaitForExitAsync();
-        
+        proc.WaitForExit();
+
+        Thread.Sleep(2); 
+        // ensure data is there, add proper wait later
+        // Proper wait
+        // 1. delete file previosly
+        // 2. wait for file to appear
+        // 3. run second process
+
         //open living doc
         var livingDoc = new Process();
         livingDoc.StartInfo.FileName = "LivingDoc.html";

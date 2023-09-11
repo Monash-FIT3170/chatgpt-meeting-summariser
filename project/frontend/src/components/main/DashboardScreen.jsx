@@ -40,7 +40,7 @@ function DashboardScreen({ onUploadClick, handleMeetingDetailsClick, setSelected
             
             <div className={styles.logo_container}>
                 <img className={styles.logo} src='../../img/logo.png' alt='Minute Mind' />
-                <div className={styles.welcome_back}>Welcome back</div>
+                <div className={styles.welcome_back} id="create_meeting_heading">Welcome back</div>
             </div>
             <div className={styles.dashboard_span}>
                 <div className={styles.new_meeting_box}>
