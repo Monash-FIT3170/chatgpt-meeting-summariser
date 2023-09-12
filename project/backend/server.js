@@ -57,7 +57,7 @@ app.use(cors());
 app.use(express.json());
 app.use(passport.initialize());
 app.use(usersRouter.router);
-//app.use('/meetingSummaries', meetingSummariesRouter);
+app.use('/meetingSummaries', meetingSummariesRouter);
 app.use(summaryRouter);
 app.use('/api/email', emailRoute);
 app.use(transcribeRouter.router)
