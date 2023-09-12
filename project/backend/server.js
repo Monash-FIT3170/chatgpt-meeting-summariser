@@ -56,13 +56,13 @@ app.use(passport.session());
 app.use(cors());
 app.use(express.json());
 app.use(passport.initialize());
-app.use('/users', usersRouter.router);
-app.use('/meetingSummaries', meetingSummariesRouter);
-app.use('summary', summaryRouter);
+app.use(usersRouter.router);
+//app.use('/meetingSummaries', meetingSummariesRouter);
+app.use(summaryRouter);
 app.use('/api/email', emailRoute);
 app.use(transcribeRouter.router)
 app.use("/", saveFileRouter);
-app.use(resetTheWorld);
+app.use("/", resetTheWorld);
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
