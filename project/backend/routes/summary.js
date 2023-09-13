@@ -21,7 +21,7 @@ const router = require('express').Router();
 
 
 
-router.post("/summary", async (req, res) => {
+router.route("/summary").post(async (req, res) => {
     const transcriptChunks = transcribedScript
     let summaryChunks = ""
     let transcript = ""

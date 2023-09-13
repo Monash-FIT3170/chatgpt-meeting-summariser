@@ -20,7 +20,7 @@ async function createUser(username, email, password) {
   return new User(user_detail);
 }
 
-router.route('/create').post(async (req, res) => {
+router.route('/users/create').post(async (req, res) => {
     try {
       (await createUser(req.body.username, req.body.email, req.body.password)).save()
       .then(() => res.json('User added!'))
@@ -32,7 +32,7 @@ router.route('/create').post(async (req, res) => {
 });
 
 // Login route
-router.post('/login', async (req, res) => {
+router.post('/users/login', async (req, res) => {
     try {
       const user = await User.findOne({ username: req.body.username });
       if (user) {
@@ -58,7 +58,7 @@ router.post('/login', async (req, res) => {
   });
 
 // Logout route
-router.post('/logout', (req, res) => {
+router.post('/users/logout', (req, res) => {
     // Destroy the session to log out the user
     req.session.destroy((err) => {
       if (err) {
