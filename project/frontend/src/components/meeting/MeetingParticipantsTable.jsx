@@ -1,38 +1,69 @@
 import React, { useState } from "react";
 import styles from "./meeting.module.css";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import axios from 'axios';
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import axios from "axios";
 
-var config = require('../../config.json');
+var config = require("../../config.json");
 const port = config.port || 5001;
 
-function MeetingParticipantsTable({ participants, onDeleteParticipant, onAddParticipant, showSendEmailButton = true }) {
-
+function MeetingParticipantsTable({
+    participants,
+    onDeleteParticipant,
+    onAddParticipant,
+    showSendEmailButton = true,
+}) {
     const [showAddForm, setShowAddForm] = useState(false);
-    const [newName, setNewName] = useState('');
-    const [newEmail, setNewEmail] = useState('');
+    const [newName, setNewName] = useState("");
+    const [newNameError, setNewNameError] = useState(false);
+    const [newEmail, setNewEmail] = useState("");
+    const [newEmailError, setNewEmailError] = useState(false);
 
     const handleAddNewParticipant = () => {
         if (newName && newEmail) {
             onAddParticipant(newName, newEmail);
-            setNewName('');
-            setNewEmail('');
+            setNewName("");
+            setNewEmail("");
             setShowAddForm(false);
         } else {
             alert("Please fill in both name and email fields!");
         }
-    }
+    };
+
+    const handleNameChange = (name) => {
+        setNewName(name);
+        if (newName != "") {
+            if (!newName.match(/^[a-zA-Z]+$/)) {
+                setNewNameError("Only letters");
+            } else {
+                setNewNameError("");
+            }
+        } else {
+            setNewNameError("Name cannot be empty");
+        }
+    };
+
+    const handleEmailChange = (email) => {
+        setNewEmail(email);
+        if (newEmail != "") {
+            if (!newEmail.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
+                setNewEmailError("Please use a valid email.");
+            } else {
+                setNewEmailError("");
+            }
+        } else {
+            setNewEmailError("Email cannot be empty");
+        }
+    };
 
     const sendEmail = () => {
         const data = {
-            email: participants.map(participant => participant.email)
-        }
+            email: participants.map((participant) => participant.email),
+        };
 
         axios
             .post(`http://localhost:${port}/api/email`, data)
-            .then((res) => {
-            })
+            .then((res) => {})
             .catch((err) => {
                 console.log(err);
             });
@@ -67,8 +98,12 @@ function MeetingParticipantsTable({ participants, onDeleteParticipant, onAddPart
                                     <span
                                         class="form-item-icon material-symbols-rounded"
                                         className={styles.delete_icon}
-                                        onClick={() => onDeleteParticipant(participant.email)}
-                                        style={{ cursor: 'pointer' }}
+                                        onClick={() =>
+                                            onDeleteParticipant(
+                                                participant.email
+                                            )
+                                        }
+                                        style={{ cursor: "pointer" }}
                                     >
                                         <DeleteOutlineIcon />
                                     </span>
@@ -84,7 +119,9 @@ function MeetingParticipantsTable({ participants, onDeleteParticipant, onAddPart
                                         placeholder="Name"
                                         value={newName}
                                         className={styles.text_input}
-                                        onChange={e => setNewName(e.target.value)}
+                                        onChange={(e) =>
+                                            setNewName(e.target.value)
+                                        }
                                     />
                                 </div>
                                 <div className={styles.t3}>
@@ -93,22 +130,28 @@ function MeetingParticipantsTable({ participants, onDeleteParticipant, onAddPart
                                         placeholder="Email"
                                         value={newEmail}
                                         className={styles.text_input}
-                                        onChange={e => setNewEmail(e.target.value)}
+                                        onChange={(e) =>
+                                            setNewEmail(e.target.value)
+                                        }
                                     />
                                 </div>
-                                <div className={styles.t4}>                                    
-                                <span
+                                <div className={styles.t4}>
+                                    x
+                                    <span
                                         class="form-item-icon material-symbols-rounded"
                                         className={styles.add_icon}
                                         onClick={handleAddNewParticipant}
-                                        style={{ cursor: 'pointer' }}
+                                        style={{ cursor: "pointer" }}
                                     >
                                         <CheckCircleOutlineIcon />
                                     </span>
                                 </div>
                             </div>
                         )}
-                        <div className={styles.add_participant} onClick={() => setShowAddForm(true)}>
+                        <div
+                            className={styles.add_participant}
+                            onClick={() => setShowAddForm(true)}
+                        >
                             + Add New Participant
                         </div>
                     </div>
@@ -116,9 +159,12 @@ function MeetingParticipantsTable({ participants, onDeleteParticipant, onAddPart
             </div>
             {showSendEmailButton && (
                 <div className={styles.button_container}>
-                <button className={`${styles.email_button} ${styles.button_style}`} onClick={sendEmail} >
-                            Send Email
-                </button>
+                    <button
+                        className={`${styles.email_button} ${styles.button_style}`}
+                        onClick={sendEmail}
+                    >
+                        Send Email
+                    </button>
                 </div>
             )}
         </>
