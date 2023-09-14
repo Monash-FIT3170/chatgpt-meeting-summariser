@@ -19,14 +19,30 @@ function MeetingParticipantsTable({
     const [newEmail, setNewEmail] = useState("");
     const [newEmailError, setNewEmailError] = useState(false);
 
+    const handleAddParticipantsClick = () => {
+        if (showAddForm) {
+            try {
+                handleAddNewParticipant();
+            } catch (e) {
+                alert(e);
+            }
+        } else {
+            setShowAddForm(true);
+        }
+    };
+
     const handleAddNewParticipant = () => {
-        if (newName && newEmail) {
+        if (newName && newEmail && !newNameError && !newEmailError) {
             onAddParticipant(newName, newEmail);
             setNewName("");
             setNewEmail("");
-            setShowAddForm(false);
         } else {
-            alert("Please fill in both name and email fields!");
+            if (newNameError != "") {
+                throw new Error(newNameError);
+            } else if (newEmailError != "") {
+                throw new Error(newEmailError);
+            }
+            throw new Error("Please fill in both name and email fields!");
         }
     };
 
@@ -48,15 +64,23 @@ function MeetingParticipantsTable({
         if (newEmail != "") {
             if (!newEmail.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
                 setNewEmailError("Please use a valid email.");
-            } else {
-                setNewEmailError("");
+                return;
             }
+            setNewEmailError("");
         } else {
             setNewEmailError("Email cannot be empty");
         }
     };
 
     const sendEmail = () => {
+        try {
+            handleAddNewParticipant();
+            setShowAddForm(false);
+        } catch (e) {
+            alert(e);
+            return;
+        }
+
         const data = {
             email: participants.map((participant) => participant.email),
         };
@@ -120,7 +144,7 @@ function MeetingParticipantsTable({
                                         value={newName}
                                         className={styles.text_input}
                                         onChange={(e) =>
-                                            setNewName(e.target.value)
+                                            handleNameChange(e.target.value)
                                         }
                                     />
                                 </div>
@@ -131,26 +155,15 @@ function MeetingParticipantsTable({
                                         value={newEmail}
                                         className={styles.text_input}
                                         onChange={(e) =>
-                                            setNewEmail(e.target.value)
+                                            handleEmailChange(e.target.value)
                                         }
                                     />
-                                </div>
-                                <div className={styles.t4}>
-                                    x
-                                    <span
-                                        class="form-item-icon material-symbols-rounded"
-                                        className={styles.add_icon}
-                                        onClick={handleAddNewParticipant}
-                                        style={{ cursor: "pointer" }}
-                                    >
-                                        <CheckCircleOutlineIcon />
-                                    </span>
                                 </div>
                             </div>
                         )}
                         <div
                             className={styles.add_participant}
-                            onClick={() => setShowAddForm(true)}
+                            onClick={handleAddParticipantsClick}
                         >
                             + Add New Participant
                         </div>
