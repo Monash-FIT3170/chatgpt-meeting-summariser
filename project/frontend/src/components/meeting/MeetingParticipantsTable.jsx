@@ -65,8 +65,13 @@ function MeetingParticipantsTable({
             if (!newEmail.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
                 setNewEmailError("Please use a valid email.");
                 return;
+            } else if (
+                participants.every((participant) => participant.email != email)
+            ) {
+                setNewEmailError("");
+            } else {
+                setNewEmailError("Email must be unique.");
             }
-            setNewEmailError("");
         } else {
             setNewEmailError("Email cannot be empty");
         }
