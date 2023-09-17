@@ -16,18 +16,14 @@ async function sendEmail(meetingSummary, email, res) {
         pass: 'Test2469'
       }
     });
-
+    // need database to be updated with information
     const mailOptions = {
-      from: 'minute-mind.3170@outlook.com',
-      to: email,
-      subject: 'Meeting Summary',
-      text: 'Hi,\n\nPlease find the attached meeting summary.\n\nRegards,\nThe Minute Mind',
-      attachments: [
-        {
-          filename: 'summary.txt',
-          content: meetingSummary.summaryPoints.join(' ')
-        }
-      ]
+      from: 'Minute Mind <minute-mind.3170@outlook.com>',
+      bcc: email,  // prefer to be bcc just in case of large list of attendees
+      subject: 'Meeting Summary from _date_',
+      text: `Hi,\n\n Below is a summary of the meeting that took place on _data_ \n\nSummary: ${meetingSummary.summaryPoints.join(' ')}\n\nKind regards, 
+      `
+      
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -35,6 +31,7 @@ async function sendEmail(meetingSummary, email, res) {
         console.log('Error:', error);
         res.status(500).send('An error occurred while sending the email.');
       } else {
+        console.log(meetingSummary)
         console.log('Email sent:', info.response);
         res.send('Email sent successfully!');
       }
@@ -47,8 +44,11 @@ async function sendEmail(meetingSummary, email, res) {
 
 router.post('/', async (req, res) => {
   try {
+
     const meetingSummary = await MeetingSummary.findOne().sort({ createdAt: -1 });
     const { email } = req.body;
+    
+    console.log(meetingSummary)
     sendEmail(meetingSummary, email, res);
   } catch (error) {
     console.error('Error:', error);
@@ -58,6 +58,7 @@ router.post('/', async (req, res) => {
 
 router.post('/:id', async (req, res) => {
   try {
+
     const { id } = req.params;
     const meetingSummary = await MeetingSummary.findById(id);
     console.log(meetingSummary)
