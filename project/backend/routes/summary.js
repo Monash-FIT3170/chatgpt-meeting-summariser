@@ -146,6 +146,42 @@ router.route("/update/:id").post((req, res) => {
         .catch((err) => res.status(400).json("Error: " + err));
 });
 
+// Define the translation endpoint
+router.route("/translate").post(async (req, res) => {
+    // Get the text to be translated and the target language from the request body
+    const text = req.body.text;
+    const targetLanguage = req.body.targetLanguage;
+  
+    // Validate the text and target language
+    if (!text || !targetLanguage) {
+      return res.status(400).json({ error: 'Invalid request' });
+    }
+  
+    // Create a chat conversation to translate the text
+    const chatConversation = [
+      {
+        role: 'system',
+        content: 'You are a helpful assistant that translates text.',
+      },
+      {
+        role: 'user',
+        content: `Translate the following text to ${targetLanguage}: ${text}`,
+      },
+    ];
+  
+    // Make the request to the OpenAI API using the chat/completions endpoint
+    const chatResponse = await openai.createChatCompletion({
+      model: 'gpt-3.5-turbo',
+      messages: chatConversation,
+    });
+  
+    // Extract the translated text from the response
+    const translatedText = chatResponse.data.choices[0].message.content;
+    
+    // Return the translated text to the client
+    return res.json({ translatedText });
+});
+
 module.exports = router;
 
 
