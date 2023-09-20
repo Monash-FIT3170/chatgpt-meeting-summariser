@@ -81,6 +81,7 @@ function UploadScreen() {
 }
 
 function RecordingUploadScreen({ onAddParticipant }) {
+    const [Language, setLanguage] = useState("English")
     const [showAddParticipants, setShowAddParticipants] = useState(false);
     const [participantName, setParticipantName] = useState("");
     const [participantEmail, setParticipantEmail] = useState("");
@@ -90,6 +91,10 @@ function RecordingUploadScreen({ onAddParticipant }) {
     const handleAddParticipantsClick = () => {
         setShowAddParticipants(true);
     };
+
+    const handleLanguage = (e) => {
+        setLanguage(e.target.value)
+    }
 
     const handleCancelClick = () => {
         setShowAddParticipants(false);
@@ -151,6 +156,8 @@ function RecordingUploadScreen({ onAddParticipant }) {
                     console.log(error.response);
                 });
         }
+
+
     };
 
     return (
@@ -182,7 +189,7 @@ function RecordingUploadScreen({ onAddParticipant }) {
                     Select Language
                 </div>
                 <div className={styles.language_dropdown} id="language_select">
-                    <select name="language" id="language">
+                    <select name="language" id="language" value={Language} onChange={handleLanguage}>
                         <option value="english">English</option>
                         <option value="french">French</option>
                         <option value="spanish">Spanish</option>
