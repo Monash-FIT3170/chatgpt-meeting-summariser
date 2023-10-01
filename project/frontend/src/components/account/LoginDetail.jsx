@@ -105,7 +105,7 @@ function LoginDetail() {
                         </a>
                     </span>
                     <span className={styles.create_account_span}>
-                    <a className={styles.create_account} onClick={() => setIsCreateAccountOpen(true)}>Create Account</a>
+                    <a className={styles.create_account} onClick={() => setIsCreateAccountOpen(true)} id="create_account">Create Account</a>
                     </span>
                 </div>)}
             {isCreateAccountOpen && (

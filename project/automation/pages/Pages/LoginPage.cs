@@ -13,6 +13,8 @@ public class LoginPage : BasePage
     private IWebElement LoginButton => WebDriver.FindElement(By.Id("login"));
     private IWebElement LoginError => WebDriver.FindElement(By.Id("login_error"));
 
+    private IWebElement CreateAccountButton => WebDriver.FindElement(By.Id("create_account"));
+
     public LoginPage(IWebDriver webDriver) : base(webDriver)
     {
         _pageUrl = AppConfiguration.WebPortalAddress;
@@ -46,5 +48,10 @@ public class LoginPage : BasePage
     public void Login()
     {
         LoginButton.Click();
+    }
+
+    public void ClickCreateAccount()
+    {
+        CreateAccountButton.Click();
     }
 }

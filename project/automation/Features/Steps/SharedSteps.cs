@@ -13,11 +13,13 @@ namespace Features.Steps;
 public class SharedSteps
 {
     private readonly LoginPage _loginPage;
+    private readonly CreateAccountPage _createAccountPage;
     private readonly WebPortalUnderTest WebPortalUnderTest = WebPortalUnderTest.GetInstance();
 
-    public SharedSteps(LoginPage loginPage)
+    public SharedSteps(LoginPage loginPage, CreateAccountPage createAccountPage)
     {
         _loginPage = loginPage;
+        _createAccountPage = createAccountPage;
     }
 
     [Given(@"I am on the '([^']*)' page")]
@@ -29,6 +31,12 @@ public class SharedSteps
                 _loginPage.GoToUrl();
                 _loginPage.VerifyPage().Should().BeTrue();
                 WebPortalUnderTest.currentPage = PageEnum.Login;
+                break;
+            case PageEnum.CreateAccount:
+                GivenIAmOnThePage(PageEnum.Login);
+                _loginPage.ClickCreateAccount();
+                _createAccountPage.VerifyPage().Should().BeTrue();
+                WebPortalUnderTest.currentPage = PageEnum.CreateAccount;
                 break;
             default:
                 throw new PendingStepException($"Page {page} is not implemented");

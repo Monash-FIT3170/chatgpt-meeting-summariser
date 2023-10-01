@@ -122,31 +122,31 @@ const CreateAccount = ({ setIsCreateAccountOpen }) => {
                 <div className={styles.logo_container}>
                     <img className={styles.logo} src='../../img/logo.png' alt='Minute Mind'></img>
                 </div>
-                <h2>Create Account</h2>
+                <h2 id="heading">Create Account</h2>
                 <form onSubmit={handleSubmit}>
                     <div className={styles.user_box}>
                         <span class="form-item-icon material-symbols-rounded" className={styles.icon}>
                             <PersonIcon />
                         </span>
-                        <input required type="text" placeholder="Username" onChange={handleUsernameChange}>
+                        <input id="username" required type="text" placeholder="Username" onChange={handleUsernameChange}>
                         </input>
                     </div>
                     <div className={styles.user_box}>
                         <span class="form-item-icon material-symbols-rounded" className={styles.icon}>
                             <EmailIcon />
                         </span>
-                        <input required type="text" placeholder="Email" onChange={handleEmailChange}>
+                        <input id="email" required type="text" placeholder="Email" onChange={handleEmailChange}>
                         </input>
                     </div>
                     <div className={styles.user_box}>
                         <span class="form-item-icon material-symbols-rounded" className={styles.icon}>
                             <LockIcon />
                         </span>
-                        <input required type="password" placeholder="Password" onChange={handlePasswordChange}>
+                        <input id="password" required type="password" placeholder="Password" onChange={handlePasswordChange}>
                         </input>
                     </div>
                     {createError && <p className={styles.textorange} id="create_error"> {createError}</p>}
-                    <button className={styles.submit} onClick={handleSubmit}  style={{backgroundColor: 'transparent', border: "none"}}>
+                    <button className={styles.submit} onClick={handleSubmit} id="create_account"  style={{backgroundColor: 'transparent', border: "none"}}>
                         <span></span>
                         <span></span>
                         <span></span>
@@ -155,6 +155,9 @@ const CreateAccount = ({ setIsCreateAccountOpen }) => {
                     </button>
                 </form>
                 <hr className={styles.hr_colour}></hr>
+                <span className={styles.create_account_span}>
+                    <a className={styles.create_account} onClick={handleClose}>already have an account?</a>
+                </span>
                 <span className={styles.alt_login}>
                 <span className={styles.alt_login}>
                         <a href='#' id='g_id_onload' className={styles.alt_login_icon}>
