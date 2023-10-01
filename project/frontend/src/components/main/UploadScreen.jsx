@@ -189,10 +189,10 @@ function RecordingUploadScreen({ onAddParticipant }) {
                     Select Language
                 </div>
                 <div className={styles.language_dropdown} id="language_select">
-                    <select name="language" id="language" value={Language} onChange={handleLanguage}>
-                        <option value="english">English</option>
-                        <option value="french">French</option>
-                        <option value="spanish">Spanish</option>
+                    <select className={styles.dropdown} name="language" id="language" value={Language} onChange={handleLanguage}>
+                        <option value="english" className={styles.dropdown_option}>English</option>
+                        <option value="french" className={styles.dropdown_option}>French</option>
+                        <option value="spanish" className={styles.dropdown_option}>Spanish</option>
                     </select>
                 </div>
                 <div className={styles.summary_heading}>

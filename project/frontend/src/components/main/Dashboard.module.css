@@ -15,7 +15,7 @@
     flex-shrink: 0;
 }
 
-.upload_logo{
+.upload_logo {
     width: 4rem;
     height: 4rem;
     flex-shrink: 0;
@@ -236,7 +236,7 @@
     font-style: normal;
     font-weight: 700;
     line-height: normal;
-    width:30rem;
+    width: 30rem;
 }
 
 .file_upload_box {
@@ -359,7 +359,7 @@ label:hover {
 
 .summary_box {
     width: 90rem;
-    max-height: 28rem;
+    max-height: 24rem;
     flex-shrink: 0;
     border-radius: 0.9375rem;
     background: #e9f9ff;
@@ -414,9 +414,9 @@ label:hover {
     background: #8fc5e0;
 }
 
-.buttons_container{
-    display: flex ;
-    gap:2rem;
+.buttons_container {
+    display: flex;
+    gap: 2rem;
     align-items: flex-start;
 }
 
@@ -508,4 +508,33 @@ label:hover {
     stroke-width: 3px;
 }
 
+select {
+    appearance: none;
+    background-color: transparent;
+    border: none;
+    padding: 0 1em 0 0;
+    margin: 0;
+    width: 100%;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: inherit;
+    line-height: inherit;
+}
 
+.dropdown {
+    width: 100%;
+    min-width: 15ch;
+    max-width: 30ch;
+    border: 1px solid var(--select-border);
+    border-radius: 0.25em;
+    padding: 0.25em 0.5em;
+    font-size: 1.25rem;
+    cursor: pointer;
+    line-height: 1.1;
+    background: rgba(238, 238, 238, 0.8);
+    font-family: Raleway;
+    font-size: 0.92888rem;
+    font-style: normal;
+    font-weight: 400;
+    padding: 0.5rem;
+}
