@@ -20,3 +20,11 @@ Scenario: Create an account fails with weak password
 	Then I see an error telling me I have an invalid 'password'
 	And I cannot log into my new account
 	
+
+Scenario: Create an accoutn fails with an invalid email
+	Given I am on the 'create account' page
+	And I have have filled in a weak password
+	When I try and creat my account
+	Then I see an error telling me I have an invalid 'password'
+	And I cannot log into my new account
+	

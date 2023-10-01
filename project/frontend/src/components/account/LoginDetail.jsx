@@ -84,13 +84,13 @@ function LoginDetail() {
                         </div>
                         {/*Adding error info*/ }
                         {loginError && <p class={`${styles.textorange}`} id="login_error">{loginError}</p>}         
-                        <a className={styles.submit} onClick={handleSubmit} id="login">
+                        <button className={styles.submit} onClick={handleSubmit} style={{backgroundColor: 'transparent', border: "none"}} id="login">
                             <span></span>
                             <span></span>
                             <span></span>
                             <span></span>
                             Login
-                        </a>
+                        </button>
                     </form>
                     <hr className={styles.hr_colour}></hr>
                     <span className={styles.alt_login}>
