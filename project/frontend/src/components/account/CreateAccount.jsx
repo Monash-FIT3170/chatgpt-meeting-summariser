@@ -9,7 +9,7 @@ import axios from "axios";
 import React, { useRef, useState, useEffect } from 'react';
 
 var config = require('../../config.json');
-const port = config.port || 5000;
+const port = config.port || 5001;
 const client_id = config.web.client_id;
 
 const CreateAccount = ({ setIsCreateAccountOpen }) => {

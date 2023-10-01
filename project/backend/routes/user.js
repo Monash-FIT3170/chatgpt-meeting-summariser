@@ -21,8 +21,7 @@ async function createUser(username, email, password) {
 }
 
 
-router.route('/create').post(async (req, res) => {
-
+router.route('/users/create').post(async (req, res) => {
   let body = req.body;  
   if (!(body.username && body.email && body.password && validateEmail(body.email))) {
     res.status(400).json("invalid details")
@@ -38,7 +37,7 @@ router.route('/create').post(async (req, res) => {
 });
 
 // Login route
-router.post('/login', async (req, res) => {
+router.post('/users/login', async (req, res) => {
     try {
       const user = await User.findOne({ username: req.body.username });
       if (user) {
@@ -64,7 +63,7 @@ router.post('/login', async (req, res) => {
   });
 
 // Logout route
-router.post('/logout', (req, res) => {
+router.post('/users/logout', (req, res) => {
     // Destroy the session to log out the user
     req.session.destroy((err) => {
       if (err) {

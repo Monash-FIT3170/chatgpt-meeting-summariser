@@ -5,11 +5,9 @@ import loaderStyle from "./Loader.module.css";
 import { MeetingParticipantsTable } from "../meeting/MeetingParticipantsTable";
 import { BorderedHeading } from "../BorderedHeading";
 import LoadingJokes from "../LoadingJokes";
-import axios from "axios"; 
-var config = require('../../config.json');
-const port = config.port ||5001;
-
-
+import axios from "axios";
+var config = require("../../config.json");
+const port = config.port || 5001;
 
 function UploadScreen() {
     const [activeScreen, setActiveScreen] = useState("RecordingUpload");
@@ -24,18 +22,30 @@ function UploadScreen() {
     const addParticipant = (name, email) => {
         const newParticipant = {
             name: name,
-            email: email
+            email: email,
         };
-        setParticipants(prev => [...prev, newParticipant]);
+        setParticipants((prev) => [...prev, newParticipant]);
     };
 
     const deleteParticipant = (email) => {
-        setParticipants(prev => prev.filter(participant => participant.email !== email));
+        setParticipants((prev) =>
+            prev.filter((participant) => participant.email !== email)
+        );
     };
 
     const screenComponents = {
-        RecordingUpload: <RecordingUploadScreen onAddParticipant={handleMeetingParticipantsClick} />,
-        MeetingParticipants: <MeetingParticipantsScreen participants={participants} onAddParticipant={addParticipant} onDeleteParticipant={deleteParticipant} />,
+        RecordingUpload: (
+            <RecordingUploadScreen
+                onAddParticipant={handleMeetingParticipantsClick}
+            />
+        ),
+        MeetingParticipants: (
+            <MeetingParticipantsScreen
+                participants={participants}
+                onAddParticipant={addParticipant}
+                onDeleteParticipant={deleteParticipant}
+            />
+        ),
     };
 
     return (
@@ -53,7 +63,11 @@ function UploadScreen() {
                         onClick={handleRecordingUploadClick}
                         isActive={activeScreen === "RecordingUpload"}
                     ></HeaderPill>
-                    <img className={styles.upload_logo} src='../../img/logo.png' alt='Minute Mind' />
+                    <img
+                        className={styles.upload_logo}
+                        src="../../img/logo.png"
+                        alt="Minute Mind"
+                    />
                     <HeaderPill
                         name="Meeting Participants"
                         onClick={handleMeetingParticipantsClick}
@@ -67,7 +81,7 @@ function UploadScreen() {
 }
 
 function RecordingUploadScreen({ onAddParticipant }) {
-
+    const [Language, setLanguage] = useState("English")
     const [showAddParticipants, setShowAddParticipants] = useState(false);
     const [participantName, setParticipantName] = useState("");
     const [participantEmail, setParticipantEmail] = useState("");
@@ -77,6 +91,10 @@ function RecordingUploadScreen({ onAddParticipant }) {
     const handleAddParticipantsClick = () => {
         setShowAddParticipants(true);
     };
+
+    const handleLanguage = (e) => {
+        setLanguage(e.target.value)
+    }
 
     const handleCancelClick = () => {
         setShowAddParticipants(false);
@@ -98,49 +116,49 @@ function RecordingUploadScreen({ onAddParticipant }) {
 
     const changeHandler = async (event) => {
         var meetingid = "";
-        const fileExtension = event.target.files[0].name.split('.').pop();
-        // ensure is a MP4 file 
-        if( fileExtension === "MP4"|| fileExtension === "mp4"){
-            console.log("is correctttt")
+        const fileExtension = event.target.files[0].name.split(".").pop();
+        // ensure is a MP4 file
+        if (fileExtension === "MP4" || fileExtension === "mp4") {
+            console.log("is correctttt");
             setIsUploading(true);
-            document.getElementById("filename").innerText = event.target.files[0].name;
-            // form data 
+            document.getElementById("filename").innerText =
+                event.target.files[0].name;
+            // form data
             const formData = new FormData();
             formData.append("mp4File", event.target.files[0]);
-            console.log("tryyyy")
-            // save to database 
-            try{
-                const response = await axios.post(`http://localhost:${port}/saveFile`, formData);
+            console.log("tryyyy");
+            // save to database
+            try {
+                const response = await axios.post(
+                    `http://localhost:${port}/saveFile`,
+                    formData
+                );
                 meetingid = response.data.id;
                 console.log(meetingid);
                 console.log("successs");
-            }
-            catch (error){
-                console.log("FAILED")
+            } catch (error) {
+                console.log("FAILED");
                 console.log(error.response);
-
             }
+        } else {
+            console.log("Wrong File format");
         }
-        else{
-            console.log("Wrong File format")
-        }
-        if (meetingid!==""){
+        if (meetingid !== "") {
             console.log("there is meeting");
-            axios.get(`http://localhost:${port}/${meetingid}`)
-                .then(res=>{
+            axios
+                .get(`http://localhost:${port}/${meetingid}`)
+                .then((res) => {
                     console.log(res.data.summaryPoints);
                     var summary_box = document.getElementById("summary_box");
-                    summary_box.innerText= res.data.summaryPoints;
+                    summary_box.innerText = res.data.summaryPoints;
                 })
-                .catch(error=>{
+                .catch((error) => {
                     console.log(error.response);
-                })
+                });
         }
 
 
     };
-
-
 
     return (
         <>
@@ -163,65 +181,56 @@ function RecordingUploadScreen({ onAddParticipant }) {
                             type="file"
                             id="upload-btn"
                             hidden
-                            onChange={changeHandler}/>
+                            onChange={changeHandler}
+                        />
                     </div>
                 </div>
-                <div className={styles.summary_heading}  >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="656"
-                        height="16"
-                        viewBox="0 0 656 16"
-                        className={styles.summary_heading_line}
-                    >
-                        <path
-                            d="M639.993 8.03713C640.014 12.4554 643.612 16.0204 648.03 15.9999C652.448 15.9795 656.013 12.3812 655.993 7.96294C655.972 3.54471 652.374 -0.0203682 647.956 0.000118163C643.538 0.0206045 639.973 3.6189 639.993 8.03713ZM1.00696 12.5L648 9.50002L647.986 6.50005L0.993045 9.50002L1.00696 12.5Z"
-                            fill="#E9F9FF"
-                            fill-opacity="0.25"
-                        />
-                    </svg>
+                <div className={styles.summary_heading}>
+                    Select Language
+                </div>
+                <div className={styles.language_dropdown} id="language_select">
+                    <select className={styles.dropdown} name="language" id="language" value={Language} onChange={handleLanguage}>
+                        <option value="english" className={styles.dropdown_option}>English</option>
+                        <option value="french" className={styles.dropdown_option}>French</option>
+                        <option value="spanish" className={styles.dropdown_option}>Spanish</option>
+                    </select>
+                </div>
+                <div className={styles.summary_heading}>
                     Meeting Summary
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="651"
-                        height="16"
-                        viewBox="0 0 651 16"
-                        className={styles.summary_heading_line}
-                    >
-                        <path
-                            d="M3.86238e-05 7.97508C-0.0137254 12.3933 3.55682 15.9862 7.97508 16C12.3933 16.0137 15.9862 12.4432 16 8.02492C16.0137 3.60667 12.4432 0.0138027 8.02492 3.86238e-05C3.60667 -0.0137254 0.0138027 3.55682 3.86238e-05 7.97508ZM7.99533 9.49999L649.995 11.5L650.005 8.50001L8.00467 6.50001L7.99533 9.49999Z"
-                            fill="#E9F9FF"
-                            fill-opacity="0.25"
-                        />
-                    </svg>
                 </div>
-                
                 <div className={styles.summary_box} id="summary_box">
-                {isUploading && 
-                    <SummaryLoader></SummaryLoader>
-                }
+                    {isUploading && <SummaryLoader></SummaryLoader>}
                 </div>
-                
+
                 {showAddParticipants && (
                     <div>
                         <input
                             type="text"
                             placeholder="Name"
                             value={participantName}
-                            onChange={e => setParticipantName(e.target.value)}
+                            onChange={(e) => setParticipantName(e.target.value)}
                         />
                         <input
                             type="email"
                             placeholder="Email"
                             value={participantEmail}
-                            onChange={e => setParticipantEmail(e.target.value)}
+                            onChange={(e) =>
+                                setParticipantEmail(e.target.value)
+                            }
                         />
-                        <button onClick={handleSubmitParticipant}>Submit</button>
+                        <button onClick={handleSubmitParticipant}>
+                            Submit
+                        </button>
                         <button onClick={handleCancelClick}>Cancel</button>
-                        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+                        {errorMessage && (
+                            <p style={{ color: "red" }}>{errorMessage}</p>
+                        )}
                     </div>
                 )}
-                <button className={styles.add_participants_button} onClick={onAddParticipant}>
+                <button
+                    className={styles.add_participants_button}
+                    onClick={onAddParticipant}
+                >
                     Add Meeting Participants
                 </button>
             </div>
@@ -229,25 +238,32 @@ function RecordingUploadScreen({ onAddParticipant }) {
     );
 }
 
-function MeetingParticipantsScreen({ participants, onDeleteParticipant, onAddParticipant }) {
-
+function MeetingParticipantsScreen({
+    participants,
+    onDeleteParticipant,
+    onAddParticipant,
+}) {
     return (
         <>
             <BorderedHeading name="Edit Meeting Participants" />
-            <MeetingParticipantsTable participants={participants} onDeleteParticipant={onDeleteParticipant} onAddParticipant={onAddParticipant} />
+            <MeetingParticipantsTable
+                participants={participants}
+                onDeleteParticipant={onDeleteParticipant}
+                onAddParticipant={onAddParticipant}
+            />
         </>
     );
 }
 
-function SummaryLoader({ }) {
+function SummaryLoader({}) {
     return (
         <>
             <div className={loaderStyle.container}>
                 <div className={loaderStyle.loader}></div>
-            <LoadingJokes/>
+                <LoadingJokes />
             </div>
         </>
-    )
+    );
 }
 
 export { UploadScreen };
