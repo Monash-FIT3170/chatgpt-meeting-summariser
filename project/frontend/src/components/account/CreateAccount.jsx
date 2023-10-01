@@ -156,7 +156,7 @@ const CreateAccount = ({ setIsCreateAccountOpen }) => {
                 </form>
                 <hr className={styles.hr_colour}></hr>
                 <span className={styles.create_account_span}>
-                    <a className={styles.create_account} onClick={handleClose}>already have an account?</a>
+                    <a className={styles.create_account} onClick={handleClose}>Already have an account?</a>
                 </span>
                 <span className={styles.alt_login}>
                 <span className={styles.alt_login}>
