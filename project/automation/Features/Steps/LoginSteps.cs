@@ -1,4 +1,6 @@
-﻿using Pages.Pages;
+﻿using FluentAssertions;
+using Helpers.Helpers;
+using Pages.Pages;
 using TechTalk.SpecFlow;
 
 namespace Features.Steps;
@@ -17,33 +19,53 @@ public class LoginSteps
     [Given(@"I have filled in valid login details")]
     public void GivenIHaveFilledInValidLoginDetails()
     {
-        throw new PendingStepException();
+        _loginPage.EnterUsername(AppConfiguration.DefaultUserName);
+        _loginPage.EnterPassword(AppConfiguration.DefaultPassword);
     }
+
+    [Given(@"I have not filled in (username|password)")]
+    public void GivenIHaveNotFilledInUsername(string detail)
+    {
+        switch (detail)
+        {
+            case "username":
+                _loginPage.EnterPassword(RandomHelper.RandomAsciiString(10));
+                break;
+            case "password":
+                _loginPage.EnterUsername(RandomHelper.RandomAsciiString(10));
+                break;
+        }
+    }
+
 
     [When(@"I submit")]
+    [When(@"I try and submit")]
     public void WhenISubmit()
     {
-        throw new PendingStepException();
+        _loginPage.Login();
     }
 
 
-    [Given(@"I have filled invalid <detail>")]
-    public void GivenIHaveFilledInvalidDetail()
+    [Given(@"I have filled an invalid (username|password)")]
+    public void GivenIHaveFilledInvalid(string detail)
     {
-        throw new PendingStepException();
+        GivenIHaveFilledInValidLoginDetails();
+
+        switch (detail)
+        {
+            case "username":
+                _loginPage.EnterUsername(RandomHelper.RandomAsciiString(10));
+                break;
+            case "password":
+                _loginPage.EnterPassword(RandomHelper.RandomAsciiString(10));
+                break;
+        }
     }
 
-    [When(@"try and submit")]
-    public void WhenTryAndSubmit()
+    [Then(@"I see an error message saying invalid login")]
+    public void ThenISeeAnErrorMessageWithInvalid()
     {
-        throw new PendingStepException();
+        _loginPage.GetErrorMessage().Should().Be("Invalid username or password");
     }
-
-
-    [Then(@"I see an error message with invalid")]
-    public void ThenISeeAnErrorMessageWithInvalid(Table table)
-    {
-        throw new PendingStepException();
-    }
-
+            
 }

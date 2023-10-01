@@ -20,15 +20,20 @@ async function createUser(username, email, password) {
   return new User(user_detail);
 }
 
+
 router.route('/users/create').post(async (req, res) => {
-    try {
-      (await createUser(req.body.username, req.body.email, req.body.password)).save()
-      .then(() => res.json('User added!'))
-      .catch(err => res.status(400).json('Error: ' + err));
-    }
-    catch {
-        res.status(500).send();
-    }
+  let body = req.body;  
+  if (!(body.username && body.email && body.password && validateEmail(body.email))) {
+    res.status(400).json("invalid details")
+  }
+
+  try {
+    (await createUser(req.body.username, req.body.email, req.body.password)).save()
+    .then(() => res.json('User added!'))
+  }
+  catch {
+      res.status(500).send();
+  }
 });
 
 // Login route
@@ -74,3 +79,13 @@ router.post('/users/logout', (req, res) => {
     createUser: createUser,
     router: router
   };
+
+
+  // written by chatGpt
+  function validateEmail(email) {
+    // Regular expression for a valid email address
+    const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
+  
+    // Test the provided email against the regex pattern
+    return emailRegex.test(email);
+  }
