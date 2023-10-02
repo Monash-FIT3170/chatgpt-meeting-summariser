@@ -12,6 +12,8 @@ const port = config.port || 5001;
 function UploadScreen() {
     const [activeScreen, setActiveScreen] = useState("RecordingUpload");
     const [participants, setParticipants] = useState([]);
+    
+
     const handleRecordingUploadClick = () => {
         setActiveScreen("RecordingUpload");
     };
@@ -87,7 +89,12 @@ function RecordingUploadScreen({ onAddParticipant }) {
     const [participantEmail, setParticipantEmail] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [isUploading, setIsUploading] = useState(false);
+    const [innerText, setInnerText] = useState("")
 
+
+    const handleInnerText = (text) => {
+        setInnerText(text)
+    };
     const handleAddParticipantsClick = () => {
         setShowAddParticipants(true);
     };
@@ -145,36 +152,43 @@ function RecordingUploadScreen({ onAddParticipant }) {
             console.log("Wrong File format");
         }
         if (meetingid !== "") {
-            console.log("there is meeting");
-
-            axios
-                .get(`http://localhost:${port}/${meetingid}`)
+            var summary_box = document.getElementById("summary_box");
+            console.log("there is a meeting");
+        
+            // Get the summaryPoints from the first API request
+            let summaryPoints;
+        
+            axios.get(`http://localhost:${port}/${meetingid}`)
                 .then((res) => {
-                    console.log(res.data.summaryPoints);
+                    summaryPoints = res.data.summaryPoints;
+                    console.log(summaryPoints);
+        
                     if (Language !== "English") {
-                        console.log("Translating text!")
+                        console.log("Translating text!");
                         const translateBody = {
-                            text: res.data.summaryPoints,
-                            targetLanguage: Language
+                            text: summaryPoints,
+                            targetLanguage: Language,
                         };
-
-                        axios.post(`http://localhost:${port}/translate`, translateBody)
-                            .then((res) => {
-                                const translatedText = res.data.translatedText
-                               
-                            })
-                            .catch((error) => {
-                                console.error('Error:', error);
-                              });    
+                        console.log("Posting now: " + summaryPoints);
+        
+                        // Return the axios POST promise for the translation (that's if it is going to occur anyways)
+                        return axios.post(`http://localhost:${port}/translate`, translateBody);
                     }
-                    var summary_box = document.getElementById("summary_box");
-                    summary_box.innerText = res.data.summaryPoints;
+        
+                    // if english, resolve w/ the original sumpoints
+                    return Promise.resolve({ data: { translatedText: summaryPoints } });
+                })
+                .then((res) => {
+                    const translatedText = res.data.translatedText;
+                    console.log("Translated Text: " + translatedText);
+                    summary_box.innerText=translatedText
                 })
                 .catch((error) => {
-                    console.log(error.response);
+                    console.log(error.response) //idk what to do for error here;
                 });
+                  
         }
-
+        
     };
     return (
         <>
