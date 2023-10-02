@@ -42,7 +42,7 @@ router.route("/summary").post(async (req, res) => {
                 {
                     role: "user",
                     content:
-                        "Please generate a meeting summary for the following transcript.",
+                        `Please generate a meeting summary for the following transcript .`,
                 },
                 {
                     role: "assistant",

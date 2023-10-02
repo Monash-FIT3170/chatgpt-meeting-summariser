@@ -127,11 +127,12 @@ function RecordingUploadScreen({ onAddParticipant }) {
             const formData = new FormData();
             formData.append("mp4File", event.target.files[0]);
             console.log("tryyyy");
+        
             // save to database
             try {
                 const response = await axios.post(
                     `http://localhost:${port}/saveFile`,
-                    formData
+                    formData,
                 );
                 meetingid = response.data.id;
                 console.log(meetingid);
@@ -145,10 +146,27 @@ function RecordingUploadScreen({ onAddParticipant }) {
         }
         if (meetingid !== "") {
             console.log("there is meeting");
+
             axios
                 .get(`http://localhost:${port}/${meetingid}`)
                 .then((res) => {
                     console.log(res.data.summaryPoints);
+                    if (Language !== "English") {
+                        console.log("Translating text!")
+                        const translateBody = {
+                            text: res.data.summaryPoints,
+                            targetLanguage: Language
+                        };
+
+                        axios.post(`http://localhost:${port}/translate`, translateBody)
+                            .then((res) => {
+                                const translatedText = res.data.translatedText
+                               
+                            })
+                            .catch((error) => {
+                                console.error('Error:', error);
+                              });    
+                    }
                     var summary_box = document.getElementById("summary_box");
                     summary_box.innerText = res.data.summaryPoints;
                 })
@@ -157,9 +175,7 @@ function RecordingUploadScreen({ onAddParticipant }) {
                 });
         }
 
-
     };
-
     return (
         <>
             <div className={styles.upload_page}>
