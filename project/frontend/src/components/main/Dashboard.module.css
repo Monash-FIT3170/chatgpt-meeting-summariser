@@ -387,11 +387,35 @@ label:hover {
     font-weight: 700;
     line-height: normal;
     border: none;
+    margin-left: 100px;
+    margin-bottom: 25px;
 
 }
 
 .add_participants_button:hover {
     background: #95d876;
+}
+
+.add_meetinginfo_button {
+    width: 22.5rem;
+    height: 3.625rem;
+    flex-shrink: 0;
+    border-radius: 0.875rem;
+    background: #1a3cd3;
+    color: #e9f9ff;
+    text-align: center;
+    font-family: Raleway;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    border: none;
+    margin-right: 100px;
+    margin-bottom: 25px;
+}
+
+.add_meetinginfo_button:hover {
+    background: #2f65d7;
 }
 
 .add_meeting_button {
@@ -412,6 +436,55 @@ label:hover {
 
 .add_meeting_button:hover {
     background: #8fc5e0;
+}
+
+.add_meetinginfo_popup_modal{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add_meetinginfo_popup_modal_content {
+    font-family: Raleway;
+    font-style: normal;
+    font-weight:bold;
+    font-size:xx-large;
+    background: rgb(228, 231, 234);
+    width:50%;
+    height:50%;
+    padding: 40px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+.add_meetinginfo_popup_modal_input{
+    margin-top: 40px;
+    margin-bottom: 30px;
+    margin-left: 30px;
+    width: 70%;
+}
+
+.add_meetinginfo_popup_modal_headline{
+    margin-right: 20px;
+    font-size:x-large;
+}
+
+.save_meetinginfo_button{
+    width: 30%;
+    height:10%; 
+    font-size: medium;
+    margin-left: 35%;
+    margin-top: 25px;
+    background-color: #fbf723;
+    border-radius: 10px;
+    border-color:transparent ;
+    color: rgb(14, 14, 14);
+    font-weight: bold;
 }
 
 .buttons_container {

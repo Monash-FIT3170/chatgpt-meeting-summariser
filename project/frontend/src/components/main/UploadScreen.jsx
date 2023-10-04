@@ -89,6 +89,7 @@ function RecordingUploadScreen({ onAddParticipant }) {
     const [participantEmail, setParticipantEmail] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [isUploading, setIsUploading] = useState(false);
+    const [isUploaded, setIsUploaded] = useState(false); 
     const [innerText, setInnerText] = useState("")
 
 
@@ -144,6 +145,7 @@ function RecordingUploadScreen({ onAddParticipant }) {
                 meetingid = response.data.id;
                 console.log(meetingid);
                 console.log("successs");
+                setIsUploaded(true); 
             } catch (error) {
                 console.log("FAILED");
                 console.log(error.response);
@@ -186,7 +188,7 @@ function RecordingUploadScreen({ onAddParticipant }) {
                 .catch((error) => {
                     console.log(error.response) //idk what to do for error here;
                 });
-                  
+            
         }
         
     };
@@ -257,12 +259,19 @@ function RecordingUploadScreen({ onAddParticipant }) {
                         )}
                     </div>
                 )}
+                <div >
+                <button                     
+                className={styles.add_meetinginfo_button}> 
+                    Add Meeting Details
+                    </button>
                 <button
                     className={styles.add_participants_button}
-                    onClick={onAddParticipant}
-                >
+                    onClick={onAddParticipant}>
                     Add Meeting Participants
                 </button>
+                </div>
+                <MeetingInfoScreen></MeetingInfoScreen>
+
             </div>
         </>
     );
@@ -291,6 +300,28 @@ function SummaryLoader({}) {
             <div className={loaderStyle.container}>
                 <div className={loaderStyle.loader}></div>
                 <LoadingJokes />
+            </div>
+        </>
+    );
+}
+
+function MeetingInfoScreen({}) {
+
+    return(
+        <>
+            <div  className={styles.add_meetinginfo_popup_modal} id="add_meetinginfo_popup">
+                <div  className={styles.add_meetinginfo_popup_modal_content}>
+                    Meeting Details
+                    <div className={styles.add_meetinginfo_popup_modal_headline}>
+                    Meeting Title : 
+                    <input type="text" placeholder="Meeting Title" className={styles.add_meetinginfo_popup_modal_input}/>
+                    </div>
+                    <div className={styles.add_meetinginfo_popup_modal_headline}>
+                    Meeting Date :
+                    <input type="date" className={styles.add_meetinginfo_popup_modal_input} />
+                    </div>
+                    <button  className={styles.save_meetinginfo_button}>Save</button>
+                </div>
             </div>
         </>
     );
