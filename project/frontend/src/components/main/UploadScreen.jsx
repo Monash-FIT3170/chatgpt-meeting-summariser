@@ -92,6 +92,7 @@ function RecordingUploadScreen({ onAddParticipant }) {
     const [isUploaded, setIsUploaded] = useState(false); 
     const [innerText, setInnerText] = useState("");
     const [showMeetingInfoPopUp , setShowMeetingInfoPopUp ] = useState(false);
+    const [meetingID, setMeetingID] = useState("")
 
     const handleMeetingInfoClick= ()=>{
         if (isUploaded){
@@ -136,7 +137,6 @@ function RecordingUploadScreen({ onAddParticipant }) {
         const fileExtension = event.target.files[0].name.split(".").pop();
         // ensure is a MP4 file
         if (fileExtension === "MP4" || fileExtension === "mp4") {
-            console.log("is correctttt");
             setIsUploading(true);
             document.getElementById("filename").innerText =
                 event.target.files[0].name;
@@ -152,7 +152,6 @@ function RecordingUploadScreen({ onAddParticipant }) {
                     formData,
                 );
                 meetingid = response.data.id;
-                console.log(meetingid);
                 console.log("successs");
                 setIsUploaded(true); 
             } catch (error) {
@@ -163,6 +162,7 @@ function RecordingUploadScreen({ onAddParticipant }) {
             console.log("Wrong File format");
         }
         if (meetingid !== "") {
+            setMeetingID(meetingid);
             var summary_box = document.getElementById("summary_box");
             console.log("there is a meeting");
         
@@ -276,7 +276,8 @@ function RecordingUploadScreen({ onAddParticipant }) {
                 </button>
                 {showMeetingInfoPopUp && (
                     <MeetingInfoScreen
-                    closeMeetingInfo={closeMeetingInfo}/> )}
+                    closeMeetingInfo={closeMeetingInfo}
+                    meetingID={meetingID}/> )}
                 <button
                     className={styles.add_participants_button}
                     onClick={onAddParticipant}>
@@ -316,9 +317,51 @@ function SummaryLoader({}) {
     );
 }
 
-function MeetingInfoScreen({closeMeetingInfo}) {
-    const handleSaveButton=()=>{
+function MeetingInfoScreen({closeMeetingInfo, meetingID}) {
+    const [meetingTitle, setMeetingTitle] = useState("");
+    const [meetingDate, setMeetingDate] = useState("");
+
+    const handleSaveButton= async()=>{
+        if ((meetingTitle!== "") && (meetingDate !== "")){
+            // get the database details using meeting id 
+            try{
+                const res = await axios.get(`http://localhost:${port}/${meetingID}`)
+                console.log("success")
+                const meetingDetails = res.data
+                console.log(meetingDetails)
+
+                const updatedDetails = {
+                    ...meetingDetails,              // Spread the existing properties
+                    meetingTitle: meetingTitle,     // Update the title
+                    meetingDate: meetingDate,       // Update the date
+                  };
+                                
+                  // put this back to database 
+                  saveUpdatedDetails(updatedDetails)
+            }
+            catch (error) {
+                console.error('Error fetching meeting details:', error);
+                throw error; // You can handle the error as needed
+              }
+            
+            console.log("in save button")
+            console.log(meetingTitle, meetingDate)
+
+        }
+
         closeMeetingInfo();
+    }
+
+    const saveUpdatedDetails = async(updatedDetails)=>{
+        try {
+            await axios.post(`http://localhost:${port}/meetingInfo/${meetingID}`, updatedDetails)
+
+                console.log('Meeting details updated ');
+            } 
+            catch (error) {
+                console.error('Error updating :', error);
+                // throw error; // You can handle the error as needed
+            }
     }
 
     return(
@@ -328,11 +371,11 @@ function MeetingInfoScreen({closeMeetingInfo}) {
                     Meeting Details
                     <div className={styles.add_meetinginfo_popup_modal_headline}>
                     Meeting Title : 
-                    <input type="text" placeholder="Meeting Title" className={styles.add_meetinginfo_popup_modal_input}/>
+                    <input type="text" placeholder="Meeting Title" className={styles.add_meetinginfo_popup_modal_input} onChange={(e) => setMeetingTitle(e.target.value)}/>
                     </div>
                     <div className={styles.add_meetinginfo_popup_modal_headline}>
                     Meeting Date :
-                    <input type="date" className={styles.add_meetinginfo_popup_modal_input} />
+                    <input type="date" className={styles.add_meetinginfo_popup_modal_input} onChange={(e) => setMeetingDate(e.target.value)}  />
                     </div>
                     <button  className={styles.save_meetinginfo_button} onClick={handleSaveButton}>Save</button>
                 </div>
@@ -342,3 +385,4 @@ function MeetingInfoScreen({closeMeetingInfo}) {
 }
 
 export { UploadScreen };
+
