@@ -354,8 +354,7 @@ function MeetingInfoScreen({closeMeetingInfo, meetingID}) {
 
     const saveUpdatedDetails = async(updatedDetails)=>{
         try {
-            await axios.post(`http://localhost:${port}/meetingInfo/${meetingID}`, updatedDetails)
-
+            await axios.post(`http://localhost:${port}/update/${meetingID}`, updatedDetails)
                 console.log('Meeting details updated ');
             } 
             catch (error) {

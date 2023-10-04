@@ -71,6 +71,7 @@ router.route("/update/:id").post((req, res) => {
       meetingSummary.transcript = req.body.transcript;
       meetingSummary.summaryPoints = req.body.summaryPoints;
       meetingSummary.attendees = req.body.attendees;
+
       meetingSummary
         .save()
         .then(() => res.json("Meeting summary updated!"))
@@ -91,20 +92,5 @@ router.route("/markAsCompleted/:id").post((req, res) => {
     })
     .catch((err) => res.status(400).json("Error: " + err));
 });
-
-router.route("/meetingInfo/:id").post((req, res) => {
-  MeetingSummary.findById(req.params.id)
-    .then((meetingSummary) => {
-      meetingSummary.meetingTitle = req.body.meetingTitle;
-      meetingSummary.meetingDate= req.body.meetingDate
-
-      meetingSummary
-        .save()
-        .then(() => res.json("Meeting summary updated!"))
-        .catch((err) => res.status(400).json("Error: " + err));
-    })
-    .catch((err) => res.status(400).json("Error: " + err));
-});
-
 
 module.exports = router;

@@ -137,7 +137,8 @@ router.route("/update/:id").post((req, res) => {
         .then((meetingSummary) => {
             meetingSummary.transcript = req.body.transcript;
             meetingSummary.summaryPoints = req.body.summaryPoints;
-
+            meetingSummary.meetingTitle = req.body.meetingTitle;
+            meetingSummary.meetingDate= req.body.meetingDate
             meetingSummary
                 .save()
                 .then(() => res.json("Meeting summary updated!"))
