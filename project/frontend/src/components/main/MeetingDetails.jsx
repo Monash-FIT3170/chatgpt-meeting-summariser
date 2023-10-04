@@ -6,23 +6,37 @@ import { BorderedHeading } from '../BorderedHeading';
 import { MeetingParticipantsTable } from '../meeting/MeetingParticipantsTable';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import EditNoteIcon from '@mui/icons-material/EditNote';
+import TaskAltIcon from '@mui/icons-material/TaskAlt';
 
 var config = require('../../config.json');
 const port = config.port || 5000;
 
 function MeetingDetails({ meetingId, handleYourMeetingsClick }) {
     const [meetingDetails, setMeetingDetails] = useState(null)
-
     const [participants, setParticipants] = useState([]);
+    const [isEditMode, setIsEditMode] = useState(false);
+
+    const toggleEditMode = () => {
+        setIsEditMode(!isEditMode);
+    };
+
+    const handleSummaryPointsChange = (e) => {
+        setMeetingDetails({ ...meetingDetails, summaryPoints: e.target.value })
+    };
+
     const addParticipant = (name, email) => {
         const newParticipant = {
             name: name,
             email: email
         };
+        handleSaveForParticipants([...participants, newParticipant], 'A new participant has been added')
         setParticipants(prev => [...prev, newParticipant]);
     };
 
     const deleteParticipant = (email) => {
+        const updatedParticipants = participants.filter(participant => participant.email !== email)
+        handleSaveForParticipants(updatedParticipants, 'The participant has been removed')
         setParticipants(prev => prev.filter(participant => participant.email !== email));
     };
 
@@ -65,7 +79,7 @@ function MeetingDetails({ meetingId, handleYourMeetingsClick }) {
         axios
             .post(`http://localhost:${port}/meetingSummaries/markAsCompleted/${meetingId}`)
             .then((res) => {
-                setMeetingDetails({...meetingDetails, completed: true})
+                setMeetingDetails({ ...meetingDetails, completed: true })
                 toast.success('Marked as completed');
             })
             .catch((err) => {
@@ -75,9 +89,31 @@ function MeetingDetails({ meetingId, handleYourMeetingsClick }) {
 
     const handleSave = () => {
         axios
-            .post(`http://localhost:${port}/meetingSummaries/update/${meetingId}`, { ...meetingDetails, attendees: participants })
+            .post(`http://localhost:${port}/meetingSummaries/update/${meetingId}`, { ...meetingDetails, summaryPoints: meetingDetails?.summaryPoints, attendees: participants })
             .then((res) => {
                 toast.success('Your changes have been saved');
+            })
+            .catch((err) => {
+                toast.error('Something went wrong')
+            });
+    };
+
+    const handleSaveForSummmary = (summary, message) => {
+        axios
+            .post(`http://localhost:${port}/meetingSummaries/update/${meetingId}`, { ...meetingDetails, summaryPoints: summary })
+            .then((res) => {
+                toast.success(message);
+            })
+            .catch((err) => {
+                toast.error('Something went wrong')
+            });
+    };
+
+    const handleSaveForParticipants = (participants, message) => {
+        axios
+            .post(`http://localhost:${port}/meetingSummaries/update/${meetingId}`, { ...meetingDetails, attendees: participants })
+            .then((res) => {
+                toast.success(message);
             })
             .catch((err) => {
                 toast.error('Something went wrong')
@@ -106,9 +142,24 @@ function MeetingDetails({ meetingId, handleYourMeetingsClick }) {
                         <BorderedHeading name={meetingDetails?.meeting_name ?? "Meeting Details"} />
                         <div className={styles.container}>
                             <div className={styles.left_container}>
-                                <div className={styles.summary_box}>
-                                    {meetingDetails?.summaryPoints}
-                                </div>
+                                {isEditMode ? (
+                                    <div className={styles.edit_box}>
+                                        <textarea
+                                            type="text"
+                                            value={meetingDetails?.summaryPoints}
+                                            onChange={handleSummaryPointsChange}
+                                            className={styles.input_box}
+                                            autoFocus={isEditMode} // Apply autoFocus when isEditMode is true
+                                        />
+                                        <button className={styles.edit_icon} onClick={ () => {
+                                            toggleEditMode()
+                                            handleSaveForSummmary(meetingDetails?.summaryPoints, "Meeting summary has been updated")
+                                        }}><TaskAltIcon style={{ fontSize: '2rem' }} /></button>
+                                    </div>) : (
+                                    <div className={styles.summary_box}>
+                                        {meetingDetails?.summaryPoints}
+                                        <button className={styles.edit_icon} onClick={toggleEditMode}><EditNoteIcon style={{ fontSize: '2rem' }}/></button>
+                                    </div>)}
                             </div>
                         </div>
                     </div>
