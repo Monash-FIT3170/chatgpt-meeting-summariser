@@ -90,8 +90,17 @@ function RecordingUploadScreen({ onAddParticipant }) {
     const [errorMessage, setErrorMessage] = useState("");
     const [isUploading, setIsUploading] = useState(false);
     const [isUploaded, setIsUploaded] = useState(false); 
-    const [innerText, setInnerText] = useState("")
+    const [innerText, setInnerText] = useState("");
+    const [showMeetingInfoPopUp , setShowMeetingInfoPopUp ] = useState(false);
 
+    const handleMeetingInfoClick= ()=>{
+        if (isUploaded){
+            setShowMeetingInfoPopUp(true);
+        }
+    }
+    const closeMeetingInfo =()=>{
+        setShowMeetingInfoPopUp(false);
+    }
 
     const handleInnerText = (text) => {
         setInnerText(text)
@@ -261,17 +270,19 @@ function RecordingUploadScreen({ onAddParticipant }) {
                 )}
                 <div >
                 <button                     
-                className={styles.add_meetinginfo_button}> 
+                    className={styles.add_meetinginfo_button} 
+                    onClick={handleMeetingInfoClick}> 
                     Add Meeting Details
-                    </button>
+                </button>
+                {showMeetingInfoPopUp && (
+                    <MeetingInfoScreen
+                    closeMeetingInfo={closeMeetingInfo}/> )}
                 <button
                     className={styles.add_participants_button}
                     onClick={onAddParticipant}>
                     Add Meeting Participants
                 </button>
                 </div>
-                <MeetingInfoScreen></MeetingInfoScreen>
-
             </div>
         </>
     );
@@ -305,7 +316,10 @@ function SummaryLoader({}) {
     );
 }
 
-function MeetingInfoScreen({}) {
+function MeetingInfoScreen({closeMeetingInfo}) {
+    const handleSaveButton=()=>{
+        closeMeetingInfo();
+    }
 
     return(
         <>
@@ -320,7 +334,7 @@ function MeetingInfoScreen({}) {
                     Meeting Date :
                     <input type="date" className={styles.add_meetinginfo_popup_modal_input} />
                     </div>
-                    <button  className={styles.save_meetinginfo_button}>Save</button>
+                    <button  className={styles.save_meetinginfo_button} onClick={handleSaveButton}>Save</button>
                 </div>
             </div>
         </>
