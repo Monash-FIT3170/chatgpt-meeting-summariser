@@ -8,6 +8,7 @@ import LoadingJokes from "../LoadingJokes";
 import axios from "axios";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 var config = require("../../config.json");
