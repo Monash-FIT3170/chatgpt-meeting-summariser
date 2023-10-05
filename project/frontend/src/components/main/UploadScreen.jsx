@@ -112,11 +112,9 @@ function RecordingUploadScreen({ onAddParticipant }) {
         axios
             .post(`http://localhost:${port}/meetingSummaries/update/${mId}`, { ...meetingDetails, summaryPoints: summary })
             .then((res) => {
-                console.log("success")
                 toast.success(message);
             })
             .catch((err) => {
-                console.log("error");
                 toast.error('Something went wrong')
             });
     };
@@ -193,7 +191,6 @@ function RecordingUploadScreen({ onAddParticipant }) {
                 .then((res) => {
                     summaryPoints = res.data.summaryPoints;
                     setMeetingDetails(res.data);
-                    console.log(meetingDetails);
                     console.log(summaryPoints);
         
                     if (Language !== "English") {
