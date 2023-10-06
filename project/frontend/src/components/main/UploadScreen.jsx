@@ -6,6 +6,11 @@ import { MeetingParticipantsTable } from "../meeting/MeetingParticipantsTable";
 import { BorderedHeading } from "../BorderedHeading";
 import LoadingJokes from "../LoadingJokes";
 import axios from "axios";
+import EditNoteIcon from "@mui/icons-material/EditNote";
+import TaskAltIcon from "@mui/icons-material/TaskAlt";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 var config = require("../../config.json");
 const port = config.port || 5001;
 
@@ -93,6 +98,30 @@ function RecordingUploadScreen({ onAddParticipant }) {
     const [innerText, setInnerText] = useState("");
     const [showMeetingInfoPopUp , setShowMeetingInfoPopUp ] = useState(false);
     const [meetingID, setMeetingID] = useState("")
+  
+    const [isEditMode, setIsEditMode] = useState(false);
+    const [meetingDetails, setMeetingDetails] = useState(null)
+    const [mId, setMId] = useState("");
+    const [isSummaryAvailable, setIsSummaryAvailable] = useState(false);
+
+    const toggleEditMode = () => {
+        setIsEditMode(!isEditMode);
+    };
+
+    const handleSummaryPointsChange = (e) => {
+        setMeetingDetails({ ...meetingDetails, summaryPoints: e.target.value })
+    };
+
+    const handleSaveForSummmary = (summary, message) => {
+        axios
+            .post(`http://localhost:${port}/meetingSummaries/update/${mId}`, { ...meetingDetails, summaryPoints: summary })
+            .then((res) => {
+                toast.success(message);
+            })
+            .catch((err) => {
+                toast.error('Something went wrong')
+            });
+    };
 
     const handleMeetingInfoClick= ()=>{
         if (isUploaded){
@@ -152,6 +181,8 @@ function RecordingUploadScreen({ onAddParticipant }) {
                     formData,
                 );
                 meetingid = response.data.id;
+                setMId(meetingid);
+                console.log(meetingid);
                 console.log("successs");
                 setIsUploaded(true); 
             } catch (error) {
@@ -172,6 +203,7 @@ function RecordingUploadScreen({ onAddParticipant }) {
             axios.get(`http://localhost:${port}/${meetingid}`)
                 .then((res) => {
                     summaryPoints = res.data.summaryPoints;
+                    setMeetingDetails(res.data);
                     console.log(summaryPoints);
         
                     if (Language !== "English") {
@@ -192,7 +224,8 @@ function RecordingUploadScreen({ onAddParticipant }) {
                 .then((res) => {
                     const translatedText = res.data.translatedText;
                     console.log("Translated Text: " + translatedText);
-                    summary_box.innerText=translatedText
+                    summary_box.innerText = translatedText
+                    setIsSummaryAvailable(true);
                 })
                 .catch((error) => {
                     console.log(error.response) //idk what to do for error here;
@@ -239,9 +272,34 @@ function RecordingUploadScreen({ onAddParticipant }) {
                 <div className={styles.summary_heading}>
                     Meeting Summary
                 </div>
-                <div className={styles.summary_box} id="summary_box">
-                    {isUploading && <SummaryLoader></SummaryLoader>}
-                </div>
+
+                {isSummaryAvailable && (
+                    <>
+                        {isEditMode ? (
+                            <div className={styles.edit_box}>
+                                <textarea
+                                    type="text"
+                                    value={meetingDetails?.summaryPoints}
+                                    onChange={handleSummaryPointsChange}
+                                    className={styles.input_box}
+                                    autoFocus={isEditMode}
+                                />
+                                <button className={styles.edit_icon} onClick={() => {
+                                    toggleEditMode()
+                                    handleSaveForSummmary(meetingDetails?.summaryPoints, "Meeting summary has been updated")
+                                }}><TaskAltIcon style={{ fontSize: '2rem' }} /></button>
+                            </div>) : (
+                            <div className={styles.edit_box}>
+                                {meetingDetails?.summaryPoints}
+                                <button className={styles.edit_icon} onClick={toggleEditMode}><EditNoteIcon style={{ fontSize: '2rem' }} /></button>
+                            </div>)}
+                    </>
+                )}
+                {!isSummaryAvailable && (
+                    <div className={styles.summary_box} id="summary_box">
+                        {isUploading && <SummaryLoader></SummaryLoader>}
+                    </div>
+                )}
 
                 {showAddParticipants && (
                     <div>

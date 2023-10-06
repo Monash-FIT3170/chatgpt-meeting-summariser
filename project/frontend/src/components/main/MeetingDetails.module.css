@@ -37,6 +37,46 @@
     padding: 2rem;
     margin: 2rem;
     display: flex;
+    position: relative;
+}
+
+.edit_box {
+    flex-shrink: 0;
+    border-radius: 0.9375rem;
+    background: #e9f9ff;
+    scroll-behavior: smooth;
+    overflow: scroll;
+    height: 40vh;
+    padding: 2rem;
+    margin: 2rem;
+    /* display: flex; */
+    position: relative;
+}
+
+textarea {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+}
+
+.input_box {
+    border: none;
+    overflow: auto;
+    outline: none;
+    padding: 0px;
+    resize: none;
+    background: none;
+    width: 100%;
+    height: 100%;
+}
+
+.edit_icon {
+    display: block;
+    position: absolute;
+    right: 2rem;
+    bottom: 2rem;
+    background: none;
+    border: none;
+    outline: none !important;
 }
 
 .attendees_box {
