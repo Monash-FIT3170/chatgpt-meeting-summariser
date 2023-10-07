@@ -6,12 +6,19 @@ import { MeetingParticipantsTable } from "../meeting/MeetingParticipantsTable";
 import { BorderedHeading } from "../BorderedHeading";
 import LoadingJokes from "../LoadingJokes";
 import axios from "axios";
+import EditNoteIcon from "@mui/icons-material/EditNote";
+import TaskAltIcon from "@mui/icons-material/TaskAlt";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 var config = require("../../config.json");
 const port = config.port || 5001;
 
 function UploadScreen() {
     const [activeScreen, setActiveScreen] = useState("RecordingUpload");
     const [participants, setParticipants] = useState([]);
+    
+
     const handleRecordingUploadClick = () => {
         setActiveScreen("RecordingUpload");
     };
@@ -81,15 +88,60 @@ function UploadScreen() {
 }
 
 function RecordingUploadScreen({ onAddParticipant }) {
+    const [Language, setLanguage] = useState("English")
     const [showAddParticipants, setShowAddParticipants] = useState(false);
     const [participantName, setParticipantName] = useState("");
     const [participantEmail, setParticipantEmail] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [isUploading, setIsUploading] = useState(false);
+    const [isUploaded, setIsUploaded] = useState(false); 
+    const [innerText, setInnerText] = useState("");
+    const [showMeetingInfoPopUp , setShowMeetingInfoPopUp ] = useState(false);
+    const [meetingID, setMeetingID] = useState("")
+  
+    const [isEditMode, setIsEditMode] = useState(false);
+    const [meetingDetails, setMeetingDetails] = useState(null)
+    const [mId, setMId] = useState("");
+    const [isSummaryAvailable, setIsSummaryAvailable] = useState(false);
 
+    const toggleEditMode = () => {
+        setIsEditMode(!isEditMode);
+    };
+
+    const handleSummaryPointsChange = (e) => {
+        setMeetingDetails({ ...meetingDetails, summaryPoints: e.target.value })
+    };
+
+    const handleSaveForSummmary = (summary, message) => {
+        axios
+            .post(`http://localhost:${port}/meetingSummaries/update/${mId}`, { ...meetingDetails, summaryPoints: summary })
+            .then((res) => {
+                toast.success(message);
+            })
+            .catch((err) => {
+                toast.error('Something went wrong')
+            });
+    };
+
+    const handleMeetingInfoClick= ()=>{
+        if (isUploaded){
+            setShowMeetingInfoPopUp(true);
+        }
+    }
+    const closeMeetingInfo =()=>{
+        setShowMeetingInfoPopUp(false);
+    }
+
+    const handleInnerText = (text) => {
+        setInnerText(text)
+    };
     const handleAddParticipantsClick = () => {
         setShowAddParticipants(true);
     };
+
+    const handleLanguage = (e) => {
+        setLanguage(e.target.value)
+    }
 
     const handleCancelClick = () => {
         setShowAddParticipants(false);
@@ -114,7 +166,6 @@ function RecordingUploadScreen({ onAddParticipant }) {
         const fileExtension = event.target.files[0].name.split(".").pop();
         // ensure is a MP4 file
         if (fileExtension === "MP4" || fileExtension === "mp4") {
-            console.log("is correctttt");
             setIsUploading(true);
             document.getElementById("filename").innerText =
                 event.target.files[0].name;
@@ -122,15 +173,18 @@ function RecordingUploadScreen({ onAddParticipant }) {
             const formData = new FormData();
             formData.append("mp4File", event.target.files[0]);
             console.log("tryyyy");
+        
             // save to database
             try {
                 const response = await axios.post(
                     `http://localhost:${port}/saveFile`,
-                    formData
+                    formData,
                 );
                 meetingid = response.data.id;
+                setMId(meetingid);
                 console.log(meetingid);
                 console.log("successs");
+                setIsUploaded(true); 
             } catch (error) {
                 console.log("FAILED");
                 console.log(error.response);
@@ -139,20 +193,47 @@ function RecordingUploadScreen({ onAddParticipant }) {
             console.log("Wrong File format");
         }
         if (meetingid !== "") {
-            console.log("there is meeting");
-            axios
-                .get(`http://localhost:${port}/${meetingid}`)
+            setMeetingID(meetingid);
+            var summary_box = document.getElementById("summary_box");
+            console.log("there is a meeting");
+        
+            // Get the summaryPoints from the first API request
+            let summaryPoints;
+        
+            axios.get(`http://localhost:${port}/${meetingid}`)
                 .then((res) => {
-                    console.log(res.data.summaryPoints);
-                    var summary_box = document.getElementById("summary_box");
-                    summary_box.innerText = res.data.summaryPoints;
+                    summaryPoints = res.data.summaryPoints;
+                    setMeetingDetails(res.data);
+                    console.log(summaryPoints);
+        
+                    if (Language !== "English") {
+                        console.log("Translating text!");
+                        const translateBody = {
+                            text: summaryPoints,
+                            targetLanguage: Language,
+                        };
+                        console.log("Posting now: " + summaryPoints);
+        
+                        // Return the axios POST promise for the translation (that's if it is going to occur anyways)
+                        return axios.post(`http://localhost:${port}/translate`, translateBody);
+                    }
+        
+                    // if english, resolve w/ the original sumpoints
+                    return Promise.resolve({ data: { translatedText: summaryPoints } });
+                })
+                .then((res) => {
+                    const translatedText = res.data.translatedText;
+                    console.log("Translated Text: " + translatedText);
+                    summary_box.innerText = translatedText
+                    setIsSummaryAvailable(true);
                 })
                 .catch((error) => {
-                    console.log(error.response);
+                    console.log(error.response) //idk what to do for error here;
                 });
+            
         }
+        
     };
-
     return (
         <>
             <div className={styles.upload_page}>
@@ -182,18 +263,43 @@ function RecordingUploadScreen({ onAddParticipant }) {
                     Select Language
                 </div>
                 <div className={styles.language_dropdown} id="language_select">
-                    <select name="language" id="language">
-                        <option value="english">English</option>
-                        <option value="french">French</option>
-                        <option value="spanish">Spanish</option>
+                    <select className={styles.dropdown} name="language" id="language" value={Language} onChange={handleLanguage}>
+                        <option value="english" className={styles.dropdown_option}>English</option>
+                        <option value="french" className={styles.dropdown_option}>French</option>
+                        <option value="spanish" className={styles.dropdown_option}>Spanish</option>
                     </select>
                 </div>
                 <div className={styles.summary_heading}>
                     Meeting Summary
                 </div>
-                <div className={styles.summary_box} id="summary_box">
-                    {isUploading && <SummaryLoader></SummaryLoader>}
-                </div>
+
+                {isSummaryAvailable && (
+                    <>
+                        {isEditMode ? (
+                            <div className={styles.edit_box}>
+                                <textarea
+                                    type="text"
+                                    value={meetingDetails?.summaryPoints}
+                                    onChange={handleSummaryPointsChange}
+                                    className={styles.input_box}
+                                    autoFocus={isEditMode}
+                                />
+                                <button className={styles.edit_icon} onClick={() => {
+                                    toggleEditMode()
+                                    handleSaveForSummmary(meetingDetails?.summaryPoints, "Meeting summary has been updated")
+                                }}><TaskAltIcon style={{ fontSize: '2rem' }} /></button>
+                            </div>) : (
+                            <div className={styles.edit_box}>
+                                {meetingDetails?.summaryPoints}
+                                <button className={styles.edit_icon} onClick={toggleEditMode}><EditNoteIcon style={{ fontSize: '2rem' }} /></button>
+                            </div>)}
+                    </>
+                )}
+                {!isSummaryAvailable && (
+                    <div className={styles.summary_box} id="summary_box">
+                        {isUploading && <SummaryLoader></SummaryLoader>}
+                    </div>
+                )}
 
                 {showAddParticipants && (
                     <div>
@@ -220,12 +326,22 @@ function RecordingUploadScreen({ onAddParticipant }) {
                         )}
                     </div>
                 )}
+                <div >
+                <button                     
+                    className={styles.add_meetinginfo_button} 
+                    onClick={handleMeetingInfoClick}> 
+                    Add Meeting Details
+                </button>
+                {showMeetingInfoPopUp && (
+                    <MeetingInfoScreen
+                    closeMeetingInfo={closeMeetingInfo}
+                    meetingID={meetingID}/> )}
                 <button
                     className={styles.add_participants_button}
-                    onClick={onAddParticipant}
-                >
+                    onClick={onAddParticipant}>
                     Add Meeting Participants
                 </button>
+                </div>
             </div>
         </>
     );
@@ -259,4 +375,71 @@ function SummaryLoader({}) {
     );
 }
 
+function MeetingInfoScreen({closeMeetingInfo, meetingID}) {
+    const [meetingTitle, setMeetingTitle] = useState("");
+    const [meetingDate, setMeetingDate] = useState("");
+
+    const handleSaveButton= async()=>{
+        if ((meetingTitle!== "") && (meetingDate !== "")){
+            // get the database details using meeting id 
+            try{
+                const res = await axios.get(`http://localhost:${port}/${meetingID}`)
+                console.log("success")
+                const meetingDetails = res.data
+                console.log(meetingDetails)
+
+                const updatedDetails = {
+                    ...meetingDetails,              // Spread the existing properties
+                    meetingTitle: meetingTitle,     // Update the title
+                    meetingDate: meetingDate,       // Update the date
+                  };
+                                
+                  // put this back to database 
+                  saveUpdatedDetails(updatedDetails)
+            }
+            catch (error) {
+                console.error('Error fetching meeting details:', error);
+                throw error; // You can handle the error as needed
+              }
+            
+            console.log("in save button")
+            console.log(meetingTitle, meetingDate)
+
+        }
+
+        closeMeetingInfo();
+    }
+
+    const saveUpdatedDetails = async(updatedDetails)=>{
+        try {
+            await axios.post(`http://localhost:${port}/update/${meetingID}`, updatedDetails)
+                console.log('Meeting details updated ');
+            } 
+            catch (error) {
+                console.error('Error updating :', error);
+                // throw error; // You can handle the error as needed
+            }
+    }
+
+    return(
+        <>
+            <div  className={styles.add_meetinginfo_popup_modal} id="add_meetinginfo_popup">
+                <div  className={styles.add_meetinginfo_popup_modal_content}>
+                    Meeting Details
+                    <div className={styles.add_meetinginfo_popup_modal_headline}>
+                    Meeting Title : 
+                    <input type="text" placeholder="Meeting Title" className={styles.add_meetinginfo_popup_modal_input} onChange={(e) => setMeetingTitle(e.target.value)}/>
+                    </div>
+                    <div className={styles.add_meetinginfo_popup_modal_headline}>
+                    Meeting Date :
+                    <input type="date" className={styles.add_meetinginfo_popup_modal_input} onChange={(e) => setMeetingDate(e.target.value)}  />
+                    </div>
+                    <button  className={styles.save_meetinginfo_button} onClick={handleSaveButton}>Save</button>
+                </div>
+            </div>
+        </>
+    );
+}
+
 export { UploadScreen };
+

@@ -2,5 +2,7 @@
 
 public enum PageEnum
 {
-    Login
+    Login,
+    Dashboard,
+    CreateAccount
 }

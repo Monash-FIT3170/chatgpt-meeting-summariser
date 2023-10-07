@@ -42,7 +42,7 @@ router.route("/summary").post(async (req, res) => {
                 {
                     role: "user",
                     content:
-                        "Please generate a meeting summary for the following transcript.",
+                        `Please generate a meeting summary for the following transcript .`,
                 },
                 {
                     role: "assistant",
@@ -63,6 +63,79 @@ router.route("/summary").post(async (req, res) => {
                 role: "system",
                 content:
                     "You are a meeting assistant that is tasked to summarize meeting transcripts.",
+            },
+            {
+                role: "user",
+                content:
+                    "In the next message I will supply summaries of several parts of a meeting. Please combine the following meeting summaries into a single cohesive meeting summary.",
+            },
+            {
+                role: "assistant",
+                content: "Absolutely, I'm ready to assist. Please provide me with the meeting summaries that you'd like me to combine into a cohesive summary, and I'll do my best to create a comprehensive summary for you.",
+            },
+            {role: "user", content: summaryChunks},
+        ],
+    });
+
+    const summaryPoints = fullCompletion.data.choices[0].message.content;
+
+    const newMeetingSummary = new MeetingSummary({transcript: transcript, summaryPoints});
+    await newMeetingSummary
+        .save()
+        .then((savedMeetingSummary) => {
+            const savedMeetingSummaryId = savedMeetingSummary._id;
+            console.log(savedMeetingSummaryId)
+            res.json({ id: savedMeetingSummaryId });
+
+          })
+        .catch((err) => {
+            console.log("save summary failed")
+            res.status(400).json("Error: " + err)
+        });
+})
+
+router.route("/summaryDotPoints").post(async (req, res) => {
+    const transcriptChunks = transcribedScript
+    let summaryChunks = ""
+    let transcript = ""
+    console.log("no. chunks:", transcriptChunks.length)
+    for (var i = 0; i < transcriptChunks.length; i++) {
+        console.log("summarising chunk", i+1, "of", transcriptChunks.length)
+        let transcriptChunk = transcriptChunks[i].text
+        transcript = transcript.concat(transcriptChunk)
+
+        const chunkCompletion = await openai.createChatCompletion({
+            model: "gpt-3.5-turbo",
+            messages: [
+                {
+                    role: "system",
+                    content:
+                        "You are a meeting assistant that is tasked to summarize meeting transcripts.",
+                },
+                {
+                    role: "user",
+                    content:
+                        `Please generate a meeting summary for the following transcript .`,
+                },
+                {
+                    role: "assistant",
+                    content: "Sure, I will generate a summary for your meeting transcript.",
+                },
+                {role: "user", content: transcriptChunk},
+            ],
+        });
+
+        let summaryChunk = chunkCompletion.data.choices[0].message.content
+        summaryChunks = summaryChunks.concat("\n", summaryChunk)
+    }
+
+    let fullCompletion = await openai.createChatCompletion({
+        model: "gpt-3.5-turbo",
+        messages: [
+            {
+                role: "system",
+                content:
+                    "You are a meeting assistant that is tasked to summarize meeting transcripts in dot points.",
             },
             {
                 role: "user",
@@ -137,7 +210,8 @@ router.route("/update/:id").post((req, res) => {
         .then((meetingSummary) => {
             meetingSummary.transcript = req.body.transcript;
             meetingSummary.summaryPoints = req.body.summaryPoints;
-
+            meetingSummary.meetingTitle = req.body.meetingTitle;
+            meetingSummary.meetingDate= req.body.meetingDate
             meetingSummary
                 .save()
                 .then(() => res.json("Meeting summary updated!"))

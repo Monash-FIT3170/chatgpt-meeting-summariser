@@ -72,25 +72,25 @@ function LoginDetail() {
                             <span className={`form-item-icon material-symbols-rounded ${styles.icon}`}>
                                 <PersonIcon />
                             </span>
-                            <input type="text" placeholder="Username" onChange={handleUsernameChange}>
+                            <input type="text" placeholder="Username" onChange={handleUsernameChange} id="username_input">
                             </input>
                         </div>
                         <div className={styles.user_box}>
                             <span className={`form-item-icon material-symbols-rounded ${styles.icon}`}>
                                 <LockIcon />
                             </span>
-                            <input type="password" placeholder="Password" onChange={handlePasswordChange}>
+                            <input type="password" placeholder="Password" onChange={handlePasswordChange} id="password_input">
                             </input>
                         </div>
                         {/*Adding error info*/ }
-                        {loginError && <p class={`${styles.textorange}`}>{loginError}</p>}         
-                        <a className={styles.submit} onClick={handleSubmit}>
+                        {loginError && <p class={`${styles.textorange}`} id="login_error">{loginError}</p>}         
+                        <button className={styles.submit} onClick={handleSubmit} style={{backgroundColor: 'transparent', border: "none"}} id="login">
                             <span></span>
                             <span></span>
                             <span></span>
                             <span></span>
                             Login
-                        </a>
+                        </button>
                     </form>
                     <hr className={styles.hr_colour}></hr>
                     <span className={styles.alt_login}>
@@ -105,7 +105,7 @@ function LoginDetail() {
                         </a>
                     </span>
                     <span className={styles.create_account_span}>
-                    <a className={styles.create_account} onClick={() => setIsCreateAccountOpen(true)}>Create Account</a>
+                    <a className={styles.create_account} onClick={() => setIsCreateAccountOpen(true)} id="create_account">Create Account</a>
                     </span>
                 </div>)}
             {isCreateAccountOpen && (

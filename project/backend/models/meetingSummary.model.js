@@ -22,7 +22,9 @@ const meetingSummarySchema = new Schema(
     transcript: { type: String, required: true },
     summaryPoints: { type: [String], required: true },
     attendees: { type: [attendeeSchema], required: false },
-    completed: { type: Boolean, required: false }
+    completed: { type: Boolean, required: false },
+    meetingTitle: { type: String, required: false }, // Add meetingTitle field
+    meetingDate: { type: Date, required: false },   // Add meetingDate field
   },
   {
     timestamps: true,

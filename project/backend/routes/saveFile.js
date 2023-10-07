@@ -20,13 +20,13 @@ router.post("/saveFile", upload.single("mp4File"), (req, res) => {
      // Rename the uploaded file
      const newFileName = "test" + path.extname(req.file.originalname);
      const newPath = path.join(destinationPath, "uploads/", newFileName);
- 
      fs.rename(req.file.path, newPath, (err) => {
          if (err) {
              console.error("Error renaming file:", err);
              return res.status(500).json({ error: "Error renaming file." });
          }
      });
+
 
      console.log("File uploaded successfully:", req.file.originalname);
      axios.post(`http://localhost:${port}/transcribe`)
