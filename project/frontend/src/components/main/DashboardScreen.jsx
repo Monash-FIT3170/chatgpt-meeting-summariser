@@ -44,7 +44,7 @@ function DashboardScreen({ onUploadClick, handleMeetingDetailsClick, setSelected
             </div>
             <div className={styles.dashboard_span}>
                 <div className={styles.new_meeting_box}>
-                    <div className={styles.create_new_meeting} onClick={onUploadClick}>
+                    <div className={styles.create_new_meeting} onClick={onUploadClick} id="create_new_meeting">
                         Click to create new meeting summary
                     </div>
                 </div>

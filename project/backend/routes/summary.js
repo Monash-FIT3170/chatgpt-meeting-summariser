@@ -26,12 +26,13 @@ router.route("/summary").post(async (req, res) => {
     let summaryChunks = ""
     let transcript = ""
     console.log("no. chunks:", transcriptChunks.length)
+    let allChunks = []
     for (var i = 0; i < transcriptChunks.length; i++) {
         console.log("summarising chunk", i+1, "of", transcriptChunks.length)
         let transcriptChunk = transcriptChunks[i].text
         transcript = transcript.concat(transcriptChunk)
 
-        const chunkCompletion = await openai.createChatCompletion({
+        allChunks.push(openai.createChatCompletion({
             model: "gpt-3.5-turbo",
             messages: [
                 {
@@ -50,11 +51,18 @@ router.route("/summary").post(async (req, res) => {
                 },
                 {role: "user", content: transcriptChunk},
             ],
-        });
+        }));
 
-        let summaryChunk = chunkCompletion.data.choices[0].message.content
-        summaryChunks = summaryChunks.concat("\n", summaryChunk)
+        // let summaryChunk = chunkCompletion.data.choices[0].message.content
+        // summaryChunks = summaryChunks.concat("\n", summaryChunk)
     }
+
+    await Promise.all(allChunks).then((values) => {
+        summaryChunks = values.reduce((acc, reducer) => acc + reducer.data.choices[0].message.content + "\n", "")
+    })
+
+    console.log(summaryChunks)
+
 
     let fullCompletion = await openai.createChatCompletion({
         model: "gpt-3.5-turbo",
