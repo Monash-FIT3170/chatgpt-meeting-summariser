@@ -70,4 +70,6 @@ router.post('/:id', async (req, res) => {
   }
 });
 
+router.sendEmail = sendEmail; // Add this line before exporting the router
+
 module.exports = router;
