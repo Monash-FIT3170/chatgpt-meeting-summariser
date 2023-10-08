@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "./meeting.module.css";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import TextField from '@mui/material/TextField';
 import axios from "axios";
 
 var config = require("../../config.json");
@@ -18,6 +19,8 @@ function MeetingParticipantsTable({
     const [newNameError, setNewNameError] = useState(false);
     const [newEmail, setNewEmail] = useState("");
     const [newEmailError, setNewEmailError] = useState(false);
+    const [scheduledDate, setScheduledDate] = useState(""); 
+    const [scheduledTime, setScheduledTime] = useState("");
 
     const handleAddParticipantsClick = () => {
         if (showAddForm) {
@@ -95,6 +98,26 @@ function MeetingParticipantsTable({
             .then((res) => {})
             .catch((err) => {
                 console.log(err);
+            });
+    };
+
+    const scheduleEmail = () => {
+        const dateTimeString = `${scheduledDate}T${scheduledTime}:00`;
+        const scheduleDateTime = new Date(dateTimeString).toISOString();
+
+        const data = {
+            email: participants.map((participant) => participant.email),
+            scheduleTime: scheduleDateTime,
+        };
+
+        axios
+            .post(`http://localhost:${port}/api/schedule`, data)
+            .then((res) => {
+                alert("Email scheduled successfully!");
+            })
+            .catch((err) => {
+                console.log(err);
+                alert("Error scheduling the email.");
             });
     };
 
@@ -176,15 +199,15 @@ function MeetingParticipantsTable({
                 </div>
             </div>
             {showSendEmailButton && (
-                <div className={styles.button_container}>
-                    <button
-                        className={`${styles.email_button} ${styles.button_style}`}
-                        onClick={sendEmail}
-                    >
-                        Send Email
-                    </button>
-                </div>
-            )}
+            <div className={styles.button_container}>
+                <button
+                    className={`${styles.email_button} ${styles.button_style}`}
+                    onClick={sendEmail}
+                >
+                    Send Email
+                </button>
+            </div>
+        )}
         </>
     );
 }
