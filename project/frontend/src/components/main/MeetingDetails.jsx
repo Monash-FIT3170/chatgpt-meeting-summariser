@@ -148,7 +148,7 @@ function MeetingDetails({ meetingId, handleYourMeetingsClick }) {
                 />
                 <div className={styles.inner_container}>
                     <div className={styles.meeting_box}>
-                        <BorderedHeading name={meetingDetails?.meeting_name ?? "Meeting Details"} />
+                        <BorderedHeading name={meetingDetails?.meetingTitle ?? "Meeting Details"} />
                         <div className={styles.container}>
                             <div className={styles.left_container}>
                                 {isEditMode ? (
