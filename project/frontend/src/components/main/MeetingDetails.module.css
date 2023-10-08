@@ -124,7 +124,7 @@ textarea {
 }
 
 .button_style {
-    width: min(20.5rem, 20%);
+    width: min(20.5rem, 17%);
     padding: 1rem 0;
     border-radius: 0.875rem;
     color: #e9f9ff;
@@ -151,4 +151,8 @@ textarea {
 
 .save_button {
     background: #89c66c;
+}
+
+.modify_button {
+    background: #e08d36;
 }
