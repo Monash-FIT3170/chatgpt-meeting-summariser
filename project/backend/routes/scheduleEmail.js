@@ -10,9 +10,13 @@ router.post('/schedule', async (req, res) => {
         const { email, scheduleTime } = req.body;
 
         // Convert scheduleTime into a cron format
-        const date = new Date(scheduleTime); // Convert the scheduleTime into a Date object
-        const cronTime = `${date.getMinutes()} ${date.getHours()} ${date.getDate()} ${date.getMonth() + 1} *`; // Runs every day at the specified time
-
+        const date1 = new Date(scheduleTime).toLocaleString('en-GB', { timeZone: 'Australia/Melbourne' });
+        const date = new Date(date1)
+        console.log(date)
+       
+        
+        const cronTime = `${date.getMinutes()} ${date.getHours()-1} ${date.getDate() - 1} ${date.getMonth() + 2} ${date.getDay()+1}`; // Runs every day at the specified time
+        console.log(cronTime)
         cron.schedule(cronTime, async () => {
             try {
                 const meetingSummary = await MeetingSummary.findOne().sort({ createdAt: -1 }); // Get the latest meeting summary
