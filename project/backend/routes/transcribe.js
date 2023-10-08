@@ -1,13 +1,13 @@
 const axios = require("axios");
 const fs = require("fs");
-const path= require("path");
+const path = require("path");
 const FormData = require("form-data");
 const router = require('express').Router();
 const filesize = require('filesize');
 const ffmpeg = require('fluent-ffmpeg');
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
 const ffprobePath = require('@ffprobe-installer/ffprobe').path;
-const {Router} = require('express');
+const { Router } = require('express');
 const port = 5001;
 
 
@@ -17,125 +17,135 @@ ffmpeg.setFfprobePath(ffprobePath);
 
 
 
-const OPENAI_API_KEY= process.env.OPENAI_API_KEY;
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const destinationPath = path.resolve(__dirname, '..');
-const filePath = path.join(destinationPath,"uploads/", "test.mp4");
+const filePath = path.join(destinationPath, "uploads/", "test.mp4");
 const model = "whisper-1";
 var transcribedScript = [];
 
 router.post("/transcribe", async (req, res) => {
-    const inputFilePath = filePath;
-    const chunkSizeInMB = 23; // Split into 10 MB chunks
+  const inputFilePath = filePath;
+  const chunkSizeInMB = 23; // Split into 10 MB chunks
 
-    var chunknum = await splitVideoBySize(inputFilePath, chunkSizeInMB);
+  var chunknum = await splitVideoBySize(inputFilePath, chunkSizeInMB);
 
-    for (var i = 1; i < chunknum; i++) {
-        const formData = new FormData();
-        let chunkPath = path.join(destinationPath,`uploads/chunks/chunk_${i}.mp4`)
+  for (var i = 1; i < chunknum; i++) {
+    const formData = new FormData();
+    let chunkPath = path.join(destinationPath, `uploads/chunks/chunk_${i}.mp4`)
 
-        //check chunk length
-        // Use ffprobe to get video metadata
-        const metadata = await new Promise((resolve, reject) => {
-            ffmpeg.ffprobe(chunkPath, (err, metadata) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(metadata);
-                }
-            });
-        });
-
-        if (metadata.format.duration < 1) {
-            console.log(metadata.format.duration)
-            continue
-        } 
-
-        formData.append("model", model);
-        formData.append("file", fs.createReadStream(chunkPath));
-        console.log(`transcribing chunk_${i}.mp4`)
-        await axios.post("https://api.openai.com/v1/audio/transcriptions", formData, {
-            headers: {
-                Authorization: `Bearer ${OPENAI_API_KEY}`,
-                "Content-Type": `multipart/form-data; boundary = ${formData._boundary}`,
-            },
-            maxContentLength: 100000000,
-            maxBodyLength: 1000000000
-        })
-        .then((res) => {
-            console.log(res.data);
-
-            transcribedScript.push(res.data)
-        })
-
-        if (i%3 === 0) {
-            console.log("API call break")
-            await sleep(60000)
-        }
-
-        if (i == chunknum - 1){
-          console.log(" === done ===")
-        }
-    }
-    fs.unlink(filePath, (err) => {
+    //check chunk length
+    // Use ffprobe to get video metadata
+    const metadata = await new Promise((resolve, reject) => {
+      ffmpeg.ffprobe(chunkPath, (err, metadata) => {
         if (err) {
-          console.error("Error deleting file:", err);
+          reject(err);
         } else {
-          console.log("File deleted successfully!");
+          resolve(metadata);
         }
       });
-      
-      for (var i=1; i<chunknum; i++) {
-          let chunkPath = path.join(destinationPath,`uploads/chunks/chunk_${i}.mp4`)
+    });
 
-          fs.unlink(chunkPath, (err) => {
-            if (err) {
-              console.error("Error deleting file:", err);
-            } else {
-              console.log("File deleted successfully!");
-            }
-          });
-      }
+    if (metadata.format.duration < 1) {
+      console.log(metadata.format.duration)
+      continue
+    }
 
+    formData.append("model", model);
+    formData.append("file", fs.createReadStream(chunkPath));
+    console.log(`transcribing chunk_${i}.mp4`)
+    await axios.post("https://api.openai.com/v1/audio/transcriptions", formData, {
+      headers: {
+        Authorization: `Bearer ${OPENAI_API_KEY}`,
+        "Content-Type": `multipart/form-data; boundary = ${formData._boundary}`,
+      },
+      maxContentLength: 100000000,
+      maxBodyLength: 1000000000
+    })
+      .then((res) => {
+        console.log(res.data);
 
-      axios.post(`http://localhost:${port}/summary`)
-      .then((response) => {
-          const savedMeetingSummaryId = response.data.id;
-          res.json({ id: savedMeetingSummaryId });
-          // Now you have the savedMeetingSummaryId, you can use it as needed
+        transcribedScript.push(res.data)
       })
-      .catch((error) => {
-          console.error("Error while fetching meeting summary ID:", error);
-      });
-  
+
+    if (i % 3 === 0) {
+      console.log("API call break")
+      await sleep(60000)
+    }
+
+    if (i == chunknum - 1) {
+      console.log(" === done ===")
+    }
+  }
+  fs.unlink(filePath, (err) => {
+    if (err) {
+      console.error("Error deleting file:", err);
+    } else {
+      console.log("File deleted successfully!");
+    }
+  });
+
+  for (var i = 1; i < chunknum; i++) {
+    let chunkPath = path.join(destinationPath, `uploads/chunks/chunk_${i}.mp4`)
+
+    fs.unlink(chunkPath, (err) => {
+      if (err) {
+        console.error("Error deleting file:", err);
+      } else {
+        console.log("File deleted successfully!");
+      }
+    });
+  }
+
+  let summaryType = ""
+
+  if (req.body.summaryType === "Dot Points") {
+    summaryType = "summaryDotPoints"
+  } else if (req.body.summaryType === "Action Items") {
+    summaryType = "summaryActionItems"
+  } else {
+    summaryType = "summary"
+  }
+
+
+  axios.post(`http://localhost:${port}/${summaryType}`,)
+    .then((response) => {
+      const savedMeetingSummaryId = response.data.id;
+      res.json({ id: savedMeetingSummaryId });
+      // Now you have the savedMeetingSummaryId, you can use it as needed
+    })
+    .catch((error) => {
+      console.error("Error while fetching meeting summary ID:", error);
+    });
+
 })
 
 
 
 function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 async function splitVideoBySize(inputFilePath, chunkSizeInMB) {
-    try {
-      // Create a folder to store the video chunks
-  
-      var durationInSeconds;
-      durationInSeconds = await getVideoDuration(inputFilePath);
+  try {
+    // Create a folder to store the video chunks
 
-      const chunkSizeInBytes = chunkSizeInMB * 1000 * 1000;
-  
-      let startTime = 0;
-      let chunkNumber = 1;
-      const chunkPromises = [];
-    
+    var durationInSeconds;
+    durationInSeconds = await getVideoDuration(inputFilePath);
+
+    const chunkSizeInBytes = chunkSizeInMB * 1000 * 1000;
+
+    let startTime = 0;
+    let chunkNumber = 1;
+    const chunkPromises = [];
+
     while (startTime < durationInSeconds) {
-      const outputFilePath = path.join(destinationPath,"uploads/", `chunks/chunk_${chunkNumber}.mp4`);
+      const outputFilePath = path.join(destinationPath, "uploads/", `chunks/chunk_${chunkNumber}.mp4`);
 
       const promise = new Promise((resolve, reject) => {
         ffmpeg(inputFilePath)
-          .setStartTime(startTime)          
+          .setStartTime(startTime)
           .outputOptions('-vn') // Disable video processing
-          .outputOptions('-acodec', 'libmp3lame') 
+          .outputOptions('-acodec', 'libmp3lame')
           .outputOptions('-fs', chunkSizeInBytes)
           .output(outputFilePath)
           .on('end', () => {
@@ -151,12 +161,12 @@ async function splitVideoBySize(inputFilePath, chunkSizeInMB) {
       await promise;
 
       chunkPromises.push(promise);
-     
+
       startTime += await getVideoDuration(outputFilePath);
 
       chunkNumber++;
 
-      
+
     }
 
     function getVideoDuration(videoFilePath) {
@@ -176,12 +186,12 @@ async function splitVideoBySize(inputFilePath, chunkSizeInMB) {
     await Promise.all(chunkPromises);
 
     console.log('Video splitting completed');
-      return chunkNumber
-    } catch (error) {
-      console.error('Error occurred:', error);
-    }
+    return chunkNumber
+  } catch (error) {
+    console.error('Error occurred:', error);
   }
-  
+}
+
 
 
 

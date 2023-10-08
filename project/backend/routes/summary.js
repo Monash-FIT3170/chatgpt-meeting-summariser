@@ -43,7 +43,7 @@ router.route("/summary").post(async (req, res) => {
                 {
                     role: "user",
                     content:
-                        `Please generate a meeting summary for the following transcript .`,
+                        `Please generate a meeting summary for the following transcript.`,
                 },
                 {
                     role: "assistant",
@@ -123,7 +123,7 @@ router.route("/summaryDotPoints").post(async (req, res) => {
                 {
                     role: "user",
                     content:
-                        `Please generate a meeting summary for the following transcript .`,
+                        `Please generate a meeting summary for the following transcript.`,
                 },
                 {
                     role: "assistant",
@@ -148,7 +148,7 @@ router.route("/summaryDotPoints").post(async (req, res) => {
             {
                 role: "user",
                 content:
-                    "In the next message I will supply summaries of several parts of a meeting. Please combine the following meeting summaries into a single cohesive meeting summary.",
+                    "In the next message I will supply summaries of several parts of a meeting. Please combine the following meeting summaries into a single cohesive meeting summary in dot points. Please only include the dot points in your response.",
             },
             {
                 role: "assistant",
@@ -175,7 +175,78 @@ router.route("/summaryDotPoints").post(async (req, res) => {
         });
 })
 
+router.route("/summaryActionItems").post(async (req, res) => {
+    const transcriptChunks = transcribedScript
+    let summaryChunks = ""
+    let transcript = ""
+    console.log("no. chunks:", transcriptChunks.length)
+    for (var i = 0; i < transcriptChunks.length; i++) {
+        console.log("summarising chunk", i+1, "of", transcriptChunks.length)
+        let transcriptChunk = transcriptChunks[i].text
+        transcript = transcript.concat(transcriptChunk)
 
+        const chunkCompletion = await openai.createChatCompletion({
+            model: "gpt-3.5-turbo",
+            messages: [
+                {
+                    role: "system",
+                    content:
+                        "You are a meeting assistant that is tasked to summarize meeting transcripts.",
+                },
+                {
+                    role: "user",
+                    content:
+                        `Please generate a meeting summary for the following transcript.`,
+                },
+                {
+                    role: "assistant",
+                    content: "Sure, I will generate a summary for your meeting transcript.",
+                },
+                {role: "user", content: transcriptChunk},
+            ],
+        });
+
+        let summaryChunk = chunkCompletion.data.choices[0].message.content
+        summaryChunks = summaryChunks.concat("\n", summaryChunk)
+    }
+
+    let actionItemsCompletion = await openai.createChatCompletion({
+        model: "gpt-3.5-turbo",
+        messages: [
+            {
+                role: "system",
+                content:
+                    "You are a meeting assistant that is tasked to extract action items from a meeting.",
+            },
+            {
+                role: "user",
+                content:
+                    "In the next message I will supply summaries of several parts of a meeting. Please extract the action items from the meeting. Please only include the action items in your response.",
+            },
+            {
+                role: "assistant",
+                content: "Of course, I can help you extract action items from the meeting summaries you provide. Please go ahead and provide the summaries, and I'll assist you in identifying the action items.",
+            },
+            {role: "user", content: summaryChunks},
+        ],
+    });
+
+    const summaryPoints = actionItemsCompletion.data.choices[0].message.content;
+
+    const newMeetingSummary = new MeetingSummary({transcript: transcript, summaryPoints});
+    await newMeetingSummary
+        .save()
+        .then((savedMeetingSummary) => {
+            const savedMeetingSummaryId = savedMeetingSummary._id;
+            console.log(savedMeetingSummaryId)
+            res.json({ id: savedMeetingSummaryId });
+
+          })
+        .catch((err) => {
+            console.log("save summary failed")
+            res.status(400).json("Error: " + err)
+        });
+})
 
 router.delete('/api/delete/:id', async (req, res) => {
     const { id } = req.params;

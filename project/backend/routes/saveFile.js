@@ -17,6 +17,9 @@ router.post("/saveFile", upload.single("mp4File"), (req, res) => {
         return res.status(400).json({ error: "No file provided." });
     }
 
+    const additionalParam = req.body.summaryType;
+    console.log(additionalParam)
+
      // Rename the uploaded file
      const newFileName = "test" + path.extname(req.file.originalname);
      const newPath = path.join(destinationPath, "uploads/", newFileName);
@@ -29,7 +32,7 @@ router.post("/saveFile", upload.single("mp4File"), (req, res) => {
 
 
      console.log("File uploaded successfully:", req.file.originalname);
-     axios.post(`http://localhost:${port}/transcribe`)
+     axios.post(`http://localhost:${port}/transcribe`, {"summaryType": req.body.summaryType})
         .then((response) => {
             const savedMeetingSummaryId = response.data.id;
             console.log(`Received Meeting Summary ID for save fileee: ${savedMeetingSummaryId}`);
