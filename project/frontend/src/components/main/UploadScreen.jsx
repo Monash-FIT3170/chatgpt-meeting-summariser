@@ -353,6 +353,7 @@ function RecordingUploadScreen({ onAddParticipant }) {
                         />
                     </div>
                 </div>
+                
                 <div className={styles.summary_heading}>Meeting Summary</div>
 
                 {isSummaryAvailable && (
