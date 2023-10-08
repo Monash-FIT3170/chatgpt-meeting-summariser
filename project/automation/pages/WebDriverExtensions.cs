@@ -35,7 +35,23 @@ namespace WebDriver
 
         public static bool WaitUntilElementExists(this IWebDriver webDriver, By selector)
         {
-            return WaitUntilElementExists(webDriver, webDriver.FindElement(selector));
+            var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(_maxTimeout));
+            wait.Until(condition =>
+            {
+                try
+                {
+                    return webDriver.FindElement(selector).Displayed;
+                }
+                catch (StaleElementReferenceException)
+                {
+                    return false;
+                }
+                catch (NoSuchElementException)
+                {
+                    return false;
+                }
+            });
+            return true;
         }
 
         public static bool WaitUntilElementIsClickable(this IWebDriver webDriver, IWebElement element)
@@ -95,5 +111,33 @@ namespace WebDriver
             });
             return true;
         }
+
+        public static bool WaitUntilElementContainsText(this IWebDriver webDriver, IWebElement webElement, string text)
+        {
+            return WaitUntilElementContainsText(webDriver, webElement, text, _maxTimeout);
+        }
+
+
+        public static bool WaitUntilElementContainsText(this IWebDriver webDriver, IWebElement webElement, string text, int timeoutSeconds)
+        {
+            var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(timeoutSeconds));
+            wait.Until(condition =>
+            {
+                try
+                {
+                    return webElement.Text.Contains(text);
+                }
+                catch (StaleElementReferenceException)
+                {
+                    return false;
+                }
+                catch (NoSuchElementException)
+                {
+                    return false;
+                }
+            });
+            return true;
+        }
+
     }
 }

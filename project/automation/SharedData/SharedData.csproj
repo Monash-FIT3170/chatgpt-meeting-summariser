@@ -14,4 +14,10 @@
     <ProjectReference Include="..\Helpers\Helpers.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Meetings\large.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
