@@ -246,9 +246,9 @@ function MeetingInfoScreen({closeMeetingInfo, meetingID}) {
                     Meeting Title : 
                     <input type="text" placeholder="Meeting Title" className={style.add_meetinginfo_popup_modal_input} onChange={(e) => setMeetingTitle(e.target.value)}/>
                     </div>
-                    <div className={styles.add_meetinginfo_popup_modal_headline}>
+                    <div className={style.add_meetinginfo_popup_modal_headline}>
                     Meeting Date :
-                    <input type="date" className={styles.add_meetinginfo_popup_modal_input} onChange={(e) => setMeetingDate(e.target.value)}  />
+                    <input type="date" className={style.add_meetinginfo_popup_modal_input} onChange={(e) => setMeetingDate(e.target.value)}  />
                     </div>
                     <button  className={style.save_meetinginfo_button} onClick={handleSaveButton}>Save</button>
                 </div>
