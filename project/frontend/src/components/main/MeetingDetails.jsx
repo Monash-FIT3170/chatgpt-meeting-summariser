@@ -148,7 +148,7 @@ function MeetingDetails({ meetingId, handleYourMeetingsClick }) {
                 />
                 <div className={styles.inner_container}>
                     <div className={styles.meeting_box}>
-                        <BorderedHeading name={meetingDetails?.meeting_name ?? "Meeting Details"} />
+                        <BorderedHeading name={meetingDetails?.meetingTitle ?? "Meeting Details"} />
                         <div className={styles.container}>
                             <div className={styles.left_container}>
                                 {isEditMode ? (
@@ -183,7 +183,7 @@ function MeetingDetails({ meetingId, handleYourMeetingsClick }) {
                             Resend Emails
                         </button>
                         <button className={`${styles.modify_button} ${styles.button_style}`} onClick={handleMeetingInfoClick}>
-                            Edit Meeting Title
+                            Edit Meeting Details
                         </button>
                         {showMeetingInfoPopUp && (
                             <MeetingInfoScreen
@@ -204,6 +204,7 @@ function MeetingDetails({ meetingId, handleYourMeetingsClick }) {
 
 function MeetingInfoScreen({closeMeetingInfo, meetingID}) {
     const [meetingTitle, setMeetingTitle] = useState("");
+    const [meetingDate, setMeetingDate] = useState("");
 
     const handleSaveButton= async()=>{
         try{
@@ -212,6 +213,7 @@ function MeetingInfoScreen({closeMeetingInfo, meetingID}) {
             const updatedDetails = {
                 ...meetingDetails,              // Spread the existing properties
                 meetingTitle: meetingTitle,     // Update the title
+                meetingDate: meetingDate,
                 };
                             
                 // put this back to database 
@@ -221,7 +223,7 @@ function MeetingInfoScreen({closeMeetingInfo, meetingID}) {
             toast.error('Error updating meeting title');
             }
         closeMeetingInfo();
-        toast.success('Meeting title has been updated');
+        toast.success('Meeting details has been updated');
     }
 
     const saveUpdatedDetails = async(updatedDetails)=>{
@@ -243,6 +245,10 @@ function MeetingInfoScreen({closeMeetingInfo, meetingID}) {
                     <div className={style.add_meetinginfo_popup_modal_headline}>
                     Meeting Title : 
                     <input type="text" placeholder="Meeting Title" className={style.add_meetinginfo_popup_modal_input} onChange={(e) => setMeetingTitle(e.target.value)}/>
+                    </div>
+                    <div className={style.add_meetinginfo_popup_modal_headline}>
+                    Meeting Date :
+                    <input type="date" className={style.add_meetinginfo_popup_modal_input} onChange={(e) => setMeetingDate(e.target.value)}  />
                     </div>
                     <button  className={style.save_meetinginfo_button} onClick={handleSaveButton}>Save</button>
                 </div>

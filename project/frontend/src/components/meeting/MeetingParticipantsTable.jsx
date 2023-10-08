@@ -23,6 +23,7 @@ function MeetingParticipantsTable({
     const [scheduledDate, setScheduledDate] = useState(""); 
     const [scheduledTime, setScheduledTime] = useState("");
     const [showScheduleForm, setShowScheduleForm] = useState(false);
+    const [pressedEnter, setPressedEnter] = useState(false);
 
     const handleAddParticipantsClick = () => {
         if (showAddForm) {
@@ -79,6 +80,27 @@ function MeetingParticipantsTable({
             }
         } else {
             setNewEmailError("Email cannot be empty");
+        }
+    };
+
+    const handleEmailKeyPress = (e) => {
+        if (e.key === "Enter") {
+            if (!pressedEnter) {
+                handleParticipantEnter();
+            }
+            setPressedEnter(true);
+        } else {
+            setPressedEnter(false);
+        }
+    };
+
+    const handleParticipantEnter = () => {
+        try {
+            handleAddNewParticipant();
+            setShowAddForm(false);
+        } catch (e) {
+            alert(e);
+            return;
         }
     };
 
@@ -187,6 +209,8 @@ function MeetingParticipantsTable({
                                         onChange={(e) =>
                                             handleEmailChange(e.target.value)
                                         }
+                                        onBlur={handleParticipantEnter}
+                                        onKeyDown={handleEmailKeyPress}
                                     />
                                 </div>
                             </div>

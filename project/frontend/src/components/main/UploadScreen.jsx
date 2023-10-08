@@ -257,6 +257,16 @@ function RecordingUploadScreen({ onAddParticipant }) {
     return (
         <>
             <div className={styles.upload_page}>
+                <ToastContainer
+                    position="top-right"
+                    autoClose={3000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnHover={false}
+                    pauseOnFocusLoss
+                />
                 <BorderedHeading name="Upload new recording" />
                 <div className={styles.file_upload_box}>
                     <div className={styles.file_upload_header_1}>
