@@ -21,6 +21,7 @@ function MeetingParticipantsTable({
     const [newEmailError, setNewEmailError] = useState(false);
     const [scheduledDate, setScheduledDate] = useState(""); 
     const [scheduledTime, setScheduledTime] = useState("");
+    const [showScheduleForm, setShowScheduleForm] = useState(false);
 
     const handleAddParticipantsClick = () => {
         if (showAddForm) {
@@ -206,6 +207,41 @@ function MeetingParticipantsTable({
                 >
                     Send Email
                 </button>
+                    <button
+    className={`${styles.schedule_button} ${styles.button_style}`}
+    onClick={() => setShowScheduleForm(!showScheduleForm)}
+>
+    Schedule Email
+</button>
+{showScheduleForm && (
+    <>
+        <TextField
+            type="date"
+            value={scheduledDate}
+            onChange={e => setScheduledDate(e.target.value)}
+            className={`${styles.date_input} ${styles.date_time_input_bg}`}
+            InputProps={{
+                className: styles.text_input,
+            }}
+        />
+        <TextField
+            type="time"
+            value={scheduledTime}
+            onChange={e => setScheduledTime(e.target.value)}
+            className={`${styles.time_input} ${styles.date_time_input_bg}`}
+            InputProps={{
+                className: styles.text_input,
+            }}
+        />
+        <button
+            className={`${styles.ok_button} ${styles.button_style}`}
+            onClick={scheduleEmail}
+        >
+            Confirm
+        </button>
+    </>
+)}
+
             </div>
         )}
         </>
