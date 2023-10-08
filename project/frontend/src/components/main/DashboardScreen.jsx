@@ -58,7 +58,7 @@ function DashboardScreen({ onUploadClick, handleMeetingDetailsClick, setSelected
                     {latestMeetings.map(meeting => (
                             <MeetingCard
                                 id={meeting._id}
-                                card_title={meeting.meeting_name ? meeting.meeting_name : `Meeting ${meeting.createdAt.slice(0, 10)}`}
+                                meeting={meeting}
                                 completed={meeting.completed}
                                 onCardClick={handleMeetingCardClick}
                             />
