@@ -254,7 +254,7 @@ function RecordingUploadScreen({ onAddParticipant }) {
                         <input
                             type="file"
                             id="upload-btn"
-                            hidden
+                            style={{width: 0, height: 0}}
                             onChange={changeHandler}
                         />
                     </div>

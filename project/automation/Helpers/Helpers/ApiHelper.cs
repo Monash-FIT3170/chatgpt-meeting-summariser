@@ -20,8 +20,7 @@ namespace Helpers.Helpers
 
         public async Task ResetTheWorld()
         {
-            
-            await _client.PostAsync("/test/reset-the-world", null);
+                await _client.PostAsync("/test/reset-the-world", null);
         }
     }
 }

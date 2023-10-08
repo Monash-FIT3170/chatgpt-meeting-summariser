@@ -78,12 +78,14 @@ function MeetingParticipantsTable({
     };
 
     const sendEmail = () => {
-        try {
-            handleAddNewParticipant();
-            setShowAddForm(false);
-        } catch (e) {
-            alert(e);
-            return;
+        if (showAddForm) {
+            try {
+                handleAddNewParticipant();
+                setShowAddForm(false);
+            } catch (e) {
+                alert(e);
+                return;
+            }
         }
 
         const data = {

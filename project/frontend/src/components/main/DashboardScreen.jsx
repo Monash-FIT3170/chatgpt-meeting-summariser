@@ -44,7 +44,7 @@ function DashboardScreen({ onUploadClick, handleMeetingDetailsClick, setSelected
             </div>
             <div className={styles.dashboard_span}>
                 <div className={styles.new_meeting_box}>
-                    <div className={styles.create_new_meeting} onClick={onUploadClick}>
+                    <div className={styles.create_new_meeting} onClick={onUploadClick} id="create_new_meeting">
                         Click to create new meeting summary
                     </div>
                 </div>
@@ -58,7 +58,7 @@ function DashboardScreen({ onUploadClick, handleMeetingDetailsClick, setSelected
                     {latestMeetings.map(meeting => (
                             <MeetingCard
                                 id={meeting._id}
-                                card_title={meeting.meeting_name ? meeting.meeting_name : `Meeting ${meeting.createdAt.slice(0, 10)}`}
+                                meeting={meeting}
                                 completed={meeting.completed}
                                 onCardClick={handleMeetingCardClick}
                             />

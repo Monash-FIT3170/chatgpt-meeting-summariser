@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styles from './MeetingDetails.module.css';
+import style from "./Dashboard.module.css";
 import axios from 'axios';
 import { useEffect } from 'react';
 import { BorderedHeading } from '../BorderedHeading';
@@ -16,6 +17,7 @@ function MeetingDetails({ meetingId, handleYourMeetingsClick }) {
     const [meetingDetails, setMeetingDetails] = useState(null)
     const [participants, setParticipants] = useState([]);
     const [isEditMode, setIsEditMode] = useState(false);
+    const [showMeetingInfoPopUp , setShowMeetingInfoPopUp ] = useState(false);
 
     const toggleEditMode = () => {
         setIsEditMode(!isEditMode);
@@ -120,6 +122,13 @@ function MeetingDetails({ meetingId, handleYourMeetingsClick }) {
             });
     };
 
+    const handleMeetingInfoClick= ()=>{
+        setShowMeetingInfoPopUp(true);
+    }
+    const closeMeetingInfo =()=>{
+        setShowMeetingInfoPopUp(false);
+    }
+
     useEffect(() => {
         fetchMeetingDetails();
     }, []);
@@ -173,6 +182,13 @@ function MeetingDetails({ meetingId, handleYourMeetingsClick }) {
                         <button className={`${styles.resend_button} ${styles.button_style}`} onClick={handleResend}>
                             Resend Emails
                         </button>
+                        <button className={`${styles.modify_button} ${styles.button_style}`} onClick={handleMeetingInfoClick}>
+                            Edit Meeting Title
+                        </button>
+                        {showMeetingInfoPopUp && (
+                            <MeetingInfoScreen
+                            closeMeetingInfo={closeMeetingInfo}
+                            meetingID={meetingId}/> )}
                         {!meetingDetails?.completed && <button className={`${styles.mark_as_completed_button} ${styles.button_style}`} onClick={handleMarkAsCompleted}>
                             Mark as Completed
                         </button>}
@@ -184,6 +200,55 @@ function MeetingDetails({ meetingId, handleYourMeetingsClick }) {
             </div>
         </>
     )
+}
+
+function MeetingInfoScreen({closeMeetingInfo, meetingID}) {
+    const [meetingTitle, setMeetingTitle] = useState("");
+
+    const handleSaveButton= async()=>{
+        try{
+            const res = await axios.get(`http://localhost:${port}/${meetingID}`)
+            const meetingDetails = res.data
+            const updatedDetails = {
+                ...meetingDetails,              // Spread the existing properties
+                meetingTitle: meetingTitle,     // Update the title
+                };
+                            
+                // put this back to database 
+                saveUpdatedDetails(updatedDetails)
+        }
+        catch (error) {
+            toast.error('Error updating meeting title');
+            }
+        closeMeetingInfo();
+        toast.success('Meeting title has been updated');
+    }
+
+    const saveUpdatedDetails = async(updatedDetails)=>{
+        try {
+            await axios.post(`http://localhost:${port}/update/${meetingID}`, updatedDetails)
+                console.log('Meeting details updated ');
+            } 
+            catch (error) {
+                console.error('Error updating :', error);
+                // throw error; // You can handle the error as needed
+            }
+    }
+
+    return(
+        <>
+            <div  className={style.add_meetinginfo_popup_modal} id="add_meetinginfo_popup">
+                <div  className={style.add_meetinginfo_popup_modal_content}>
+                    Meeting Details
+                    <div className={style.add_meetinginfo_popup_modal_headline}>
+                    Meeting Title : 
+                    <input type="text" placeholder="Meeting Title" className={style.add_meetinginfo_popup_modal_input} onChange={(e) => setMeetingTitle(e.target.value)}/>
+                    </div>
+                    <button  className={style.save_meetinginfo_button} onClick={handleSaveButton}>Save</button>
+                </div>
+            </div>
+        </>
+    );
 }
 
 export { MeetingDetails }
