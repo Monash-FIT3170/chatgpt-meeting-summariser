@@ -14,12 +14,15 @@ public class SharedSteps
 {
     private readonly LoginPage _loginPage;
     private readonly CreateAccountPage _createAccountPage;
+    private readonly DashboardPage _dashboardPage;
     private readonly WebPortalUnderTest WebPortalUnderTest = WebPortalUnderTest.GetInstance();
+    private readonly UserUnderTest UserUnderTest = WebPortalUnderTest.GetInstance().UserUnderTest;
 
-    public SharedSteps(LoginPage loginPage, CreateAccountPage createAccountPage)
+    public SharedSteps(LoginPage loginPage, CreateAccountPage createAccountPage, DashboardPage dashboardPage)
     {
         _loginPage = loginPage;
         _createAccountPage = createAccountPage;
+        _dashboardPage = dashboardPage;
     }
 
     [Given(@"I am on the '([^']*)' page")]
@@ -38,15 +41,21 @@ public class SharedSteps
                 _createAccountPage.VerifyPage().Should().BeTrue();
                 WebPortalUnderTest.currentPage = PageEnum.CreateAccount;
                 break;
+            case PageEnum.Dashboard:
+                GivenIAmOnThePage(PageEnum.Login);
+                _loginPage.EnterUsername(UserUnderTest.UserName);
+                _loginPage.EnterPassword(UserUnderTest.Password);
+                _loginPage.Login();
+                _dashboardPage.VerifyPage();
+                break;
             default:
                 throw new PendingStepException($"Page {page} is not implemented");
-
         }
     }
 
 
     [Then(@"I remain on the '([^']*)' page")]
-    [Then(@"I am redirected to the '([^']*)' page")]    
+    [Then(@"I am redirected to the '([^']*)' page")]
     public void ThenIAmRedirectedToThePage(PageEnum page)
     {
         switch (page)
@@ -55,6 +64,7 @@ public class SharedSteps
                 _loginPage.VerifyPage();
                 break;
             case PageEnum.Dashboard:
+                _dashboardPage.VerifyPage();
                 break;
             default:
                 throw new PendingStepException($"Page {page} is not implemented");
