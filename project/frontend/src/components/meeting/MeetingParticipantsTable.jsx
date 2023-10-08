@@ -103,23 +103,30 @@ function MeetingParticipantsTable({
     };
 
     const scheduleEmail = () => {
+        
         const dateTimeString = `${scheduledDate}T${scheduledTime}:00`;
-        const scheduleDateTime = new Date(dateTimeString).toISOString();
+        const scheduleDateTime = new Date(dateTimeString);
 
-        const data = {
-            email: participants.map((participant) => participant.email),
-            scheduleTime: scheduleDateTime,
-        };
+    // Validation check for past date and time
+    if (scheduleDateTime < new Date()) {
+        alert("Selected date and time cannot be in the past!");
+        return;
+    }
 
-        axios
-            .post(`http://localhost:${port}/api/schedule`, data)
-            .then((res) => {
-                alert("Email scheduled successfully!");
-            })
-            .catch((err) => {
-                console.log(err);
-                alert("Error scheduling the email.");
-            });
+    const data = {
+        email: participants.map((participant) => participant.email),
+        scheduleTime: scheduleDateTime.toISOString(),
+    };
+
+    axios
+        .post(`http://localhost:${port}/api/schedule`, data)
+        .then((res) => {
+            alert("Email scheduled successfully!");
+        })
+        .catch((err) => {
+            console.log(err);
+            alert("Error scheduling the email.");
+        });
     };
 
     return (
@@ -214,7 +221,7 @@ function MeetingParticipantsTable({
     Schedule Email
 </button>
 {showScheduleForm && (
-    <>
+    <>  
         <TextField
             type="date"
             value={scheduledDate}
