@@ -127,3 +127,19 @@
 .email_button {
     background: #f4ab24;
 }
+
+.schedule_button {
+    background: #2891b9;
+}
+
+.ok_button {
+    width: min(10rem, 25%);
+    background: #2891b9;
+}
+
+.date_time_input_bg {
+    width: 12%;
+    background-color: #e9f9ff;
+    border-radius: 0.400rem;
+    height: 1%;
+}

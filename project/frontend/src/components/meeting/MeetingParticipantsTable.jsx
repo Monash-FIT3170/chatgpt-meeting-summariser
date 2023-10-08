@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "./meeting.module.css";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import TextField from '@mui/material/TextField';
 import axios from "axios";
 
 var config = require("../../config.json");
@@ -19,6 +20,9 @@ function MeetingParticipantsTable({
     const [newNameError, setNewNameError] = useState(false);
     const [newEmail, setNewEmail] = useState("");
     const [newEmailError, setNewEmailError] = useState(false);
+    const [scheduledDate, setScheduledDate] = useState(""); 
+    const [scheduledTime, setScheduledTime] = useState("");
+    const [showScheduleForm, setShowScheduleForm] = useState(false);
     const [pressedEnter, setPressedEnter] = useState(false);
 
     const handleAddParticipantsClick = () => {
@@ -114,6 +118,33 @@ function MeetingParticipantsTable({
         handleEmailSend();
     };
 
+    const scheduleEmail = () => {
+        
+        const dateTimeString = `${scheduledDate}T${scheduledTime}:00`;
+        const scheduleDateTime = new Date(dateTimeString);
+
+    // Validation check for past date and time
+    if (scheduleDateTime < new Date()) {
+        alert("Selected date and time cannot be in the past!");
+        return;
+    }
+
+    const data = {
+        email: participants.map((participant) => participant.email),
+        scheduleTime: scheduleDateTime.toISOString(),
+    };
+
+    axios
+        .post(`http://localhost:${port}/api/schedule`, data)
+        .then((res) => {
+            alert("Email scheduled successfully!");
+        })
+        .catch((err) => {
+            console.log(err);
+            alert("Error scheduling the email.");
+        });
+    };
+
     return (
         <>
             <div
@@ -194,15 +225,50 @@ function MeetingParticipantsTable({
                 </div>
             </div>
             {showSendEmailButton && (
-                <div className={styles.button_container}>
+            <div className={styles.button_container}>
+                <button
+                    className={`${styles.email_button} ${styles.button_style}`}
+                    onClick={sendEmail}
+                >
+                    Send Email
+                </button>
                     <button
-                        className={`${styles.email_button} ${styles.button_style}`}
-                        onClick={sendEmail}
-                    >
-                        Send Email
-                    </button>
-                </div>
-            )}
+    className={`${styles.schedule_button} ${styles.button_style}`}
+    onClick={() => setShowScheduleForm(!showScheduleForm)}
+>
+    Schedule Email
+</button>
+{showScheduleForm && (
+    <>  
+        <TextField
+            type="date"
+            value={scheduledDate}
+            onChange={e => setScheduledDate(e.target.value)}
+            className={`${styles.date_input} ${styles.date_time_input_bg}`}
+            InputProps={{
+                className: styles.text_input,
+            }}
+        />
+        <TextField
+            type="time"
+            value={scheduledTime}
+            onChange={e => setScheduledTime(e.target.value)}
+            className={`${styles.time_input} ${styles.date_time_input_bg}`}
+            InputProps={{
+                className: styles.text_input,
+            }}
+        />
+        <button
+            className={`${styles.ok_button} ${styles.button_style}`}
+            onClick={scheduleEmail}
+        >
+            Confirm
+        </button>
+    </>
+)}
+
+            </div>
+        )}
         </>
     );
 }

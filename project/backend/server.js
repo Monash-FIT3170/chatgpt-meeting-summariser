@@ -11,6 +11,7 @@ const saveFileRouter = require('./routes/saveFile')
 const summaryRouter = require('./routes/summary');
 const emailRoute = require('./routes/sendEmail');
 const resetTheWorld = require('./routes/resetTheWorld')
+const scheduleRouter = require('./routes/scheduleEmail');
 
 
 // swagger 
@@ -63,6 +64,7 @@ app.use('/api/email', emailRoute);
 app.use(transcribeRouter.router)
 app.use("/", saveFileRouter);
 app.use("/", resetTheWorld);
+app.use("/api", scheduleRouter);
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
