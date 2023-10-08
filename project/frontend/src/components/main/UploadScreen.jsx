@@ -102,6 +102,7 @@ function UploadScreen() {
 
 function RecordingUploadScreen({ onAddParticipant }) {
     const [Language, setLanguage] = useState("English");
+    const [SummaryType, setSummaryType] = useState("English");
     const [showAddParticipants, setShowAddParticipants] = useState(false);
     const [participantName, setParticipantName] = useState("");
     const [participantEmail, setParticipantEmail] = useState("");
@@ -159,6 +160,10 @@ function RecordingUploadScreen({ onAddParticipant }) {
         setLanguage(e.target.value);
     };
 
+    const handleSummaryType = (e) => {
+        setSummaryType(e.target.value);
+    };
+
     const handleCancelClick = () => {
         setShowAddParticipants(false);
         setParticipantName("");
@@ -188,6 +193,7 @@ function RecordingUploadScreen({ onAddParticipant }) {
             // form data
             const formData = new FormData();
             formData.append("mp4File", event.target.files[0]);
+            formData.append("summaryType", SummaryType);
             console.log("tryyyy");
 
             // save to database
@@ -258,26 +264,34 @@ function RecordingUploadScreen({ onAddParticipant }) {
         <>
             <div className={styles.upload_page}>
                 <BorderedHeading name="Upload new recording" />
-                <div className={styles.file_upload_box}>
-                    <div className={styles.file_upload_header_1}>
-                        Upload Recording
-                        <div className={styles.file_upload_header_2}>
-                            in .mp4 or .mp3
-                        </div>
-                    </div>
-                    <div className={styles.file_upload}>
-                        <div className={styles.upload_microphone}></div>
-                        <div className={styles.file_name} id="filename">
-                            filename.mp4
-                        </div>
-                        <label for="upload-btn">Browse</label>
-                        <input
-                            type="file"
-                            id="upload-btn"
-                            style={{ width: 0, height: 0 }}
-                            onChange={changeHandler}
-                        />
-                    </div>
+                <div className={styles.summary_heading}>Select Summary Type</div>
+                <div className={styles.language_dropdown} id="summaryType_select">
+                    <select
+                        className={styles.dropdown}
+                        name="summaryType"
+                        id="summaryType"
+                        value={SummaryType}
+                        onChange={handleSummaryType}
+                    >
+                        <option
+                            value="Standard"
+                            className={styles.dropdown_option}
+                        >
+                            Standard
+                        </option>
+                        <option
+                            value="Action Items"
+                            className={styles.dropdown_option}
+                        >
+                            Action Items
+                        </option>
+                        <option
+                            value="Dot Points"
+                            className={styles.dropdown_option}
+                        >
+                            Dot Points
+                        </option>
+                    </select>
                 </div>
                 <div className={styles.summary_heading}>Select Language</div>
                 <div className={styles.language_dropdown} id="language_select">
@@ -307,6 +321,27 @@ function RecordingUploadScreen({ onAddParticipant }) {
                             Spanish
                         </option>
                     </select>
+                </div>
+                <div className={styles.file_upload_box}>
+                    <div className={styles.file_upload_header_1}>
+                        Upload Recording
+                        <div className={styles.file_upload_header_2}>
+                            in .mp4 or .mp3
+                        </div>
+                    </div>
+                    <div className={styles.file_upload}>
+                        <div className={styles.upload_microphone}></div>
+                        <div className={styles.file_name} id="filename">
+                            filename.mp4
+                        </div>
+                        <label for="upload-btn">Browse</label>
+                        <input
+                            type="file"
+                            id="upload-btn"
+                            style={{ width: 0, height: 0 }}
+                            onChange={changeHandler}
+                        />
+                    </div>
                 </div>
                 <div className={styles.summary_heading}>Meeting Summary</div>
 
