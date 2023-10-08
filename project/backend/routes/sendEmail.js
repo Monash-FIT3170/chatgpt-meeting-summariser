@@ -20,8 +20,8 @@ async function sendEmail(meetingSummary, email, res) {
     const mailOptions = {
       from: 'Minute Mind <minute-mind.3170@outlook.com>',
       bcc: email,  // prefer to be bcc just in case of large list of attendees
-      subject: `Meeting Summary from ${meetingSummary.meetingDate.toLocaleDateString('pt-PT')}`,
-      text: `Hello,\n\n Below is a summary from ${meetingSummary.meetingTitle} that took place on ${meetingSummary.meetingDate.toLocaleDateString('pt-PT')} \n\nSummary: ${meetingSummary.summaryPoints.join(' ')}\n\nKind regards, 
+      subject: `Meeting Summary from ${meetingSummary?.meetingDate?.toLocaleDateString('pt-PT') ?? meetingSummary.createdAt.toLocaleDateString('pt-PT')}`,
+      text: `Hello,\n\nBelow is a summary from ${meetingSummary?.meetingTitle ?? "Meeting"} that took place on ${meetingSummary?.meetingDate?.toLocaleDateString('pt-PT') ?? meetingSummary.createdAt.toLocaleDateString('pt-PT')} \n\nSummary: ${meetingSummary.summaryPoints.join(' ')}\n\nKind regards, 
       `
       
     };
