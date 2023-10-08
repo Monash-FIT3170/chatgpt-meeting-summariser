@@ -11,6 +11,7 @@ function MeetingParticipantsTable({
     participants,
     onDeleteParticipant,
     onAddParticipant,
+    handleEmailSend,
     showSendEmailButton = true,
 }) {
     const [showAddForm, setShowAddForm] = useState(false);
@@ -88,16 +89,7 @@ function MeetingParticipantsTable({
             }
         }
 
-        const data = {
-            email: participants.map((participant) => participant.email),
-        };
-
-        axios
-            .post(`http://localhost:${port}/api/email`, data)
-            .then((res) => {})
-            .catch((err) => {
-                console.log(err);
-            });
+        handleEmailSend();
     };
 
     return (
