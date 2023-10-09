@@ -101,6 +101,7 @@ function UploadScreen() {
 }
 
 function RecordingUploadScreen({ onAddParticipant }) {
+    let b
     const [Language, setLanguage] = useState("English");
     const [SummaryType, setSummaryType] = useState("English");
     const [showAddParticipants, setShowAddParticipants] = useState(false);
@@ -202,6 +203,7 @@ function RecordingUploadScreen({ onAddParticipant }) {
                     `http://localhost:${port}/saveFile`,
                     formData
                 );
+                
                 meetingid = response.data.id;
                 setMId(meetingid);
                 console.log(meetingid);
@@ -214,50 +216,73 @@ function RecordingUploadScreen({ onAddParticipant }) {
         } else {
             console.log("Wrong File format");
         }
-        if (meetingid !== "") {
-            setMeetingID(meetingid);
-            var summary_box = document.getElementById("summary_box");
-            console.log("there is a meeting");
 
-            // Get the summaryPoints from the first API request
-            let summaryPoints;
+        //updating the text if the translation is required
+        if (Language !== "English") {
+            console.log("Translating text"); 
+        // Create a promise to handle the translation process
+        // basically it just creates a "function" where our translated text variable won't be assigned
+        // until the translation has finished. Helps w/ rendering
+        const translationPromise = new Promise(async (resolve, reject) => {
+            try {
+                // First retrieve the text from the database using the "get" route
+                const response = await axios.get(`http://localhost:${port}/${meetingid}`);
+                const originalMeeting = response.data;
+                const meetingData = response.data.summaryPoints;
+    
+                // Create a new translated text using our "translate" route
+                const translateSchema = {
+                    text: meetingData,
+                    targetLanguage: Language
+                };
+                console.log("translating text");
+                const translationResponse = await axios.post(`http://localhost:${port}/translate`, translateSchema);
+                const translatedText = translationResponse.data.translatedText;
+                console.log("translation: " + translatedText);
+    
+                // Update the meetingData object with the translated text
+                originalMeeting.summaryPoints = translatedText;
+    
+                // Update the data in the database using the "update" route
+                console.log("updating text into db");
+                await axios.post(`http://localhost:${port}/update/${meetingid}`, originalMeeting);
+    
+                // Resolve the promise with the translated text
+                resolve(translatedText);
+            } catch (error) {
+                console.log("An error has occurred:", error);
+                reject(error);
+            }
+        });
+        
+            // wait for the promise to resolve
+            translationPromise.then((translatedText) => {
+                // now can use translated text variable cos translation has finished execution
+                console.log("Translated text:", translatedText);
+        
+                //update the innerText of summarybox to display 
+                var summary_box = document.getElementById("summary_box");
+                summary_box.innerText = translatedText;
+            });
 
-            axios
+        } 
+        else {  
+            if (meetingid !== "") {
+                setMeetingID(meetingid);
+                var summary_box = document.getElementById("summary_box");
+                console.log("there is a meeting");
+                // get the summaryPoints from the first API req
+                axios
                 .get(`http://localhost:${port}/${meetingid}`)
                 .then((res) => {
-                    summaryPoints = res.data.summaryPoints;
-                    setMeetingDetails(res.data);
-                    console.log(summaryPoints);
-
-                    if (Language !== "English") {
-                        console.log("Translating text!");
-                        const translateBody = {
-                            text: summaryPoints,
-                            targetLanguage: Language,
-                        };
-                        console.log("Posting now: " + summaryPoints);
-
-                        // Return the axios POST promise for the translation (that's if it is going to occur anyways)
-                        return axios.post(
-                            `http://localhost:${port}/translate`,
-                            translateBody
-                        );
-                    }
-
-                    // if english, resolve w/ the original sumpoints
-                    return Promise.resolve({
-                        data: { translatedText: summaryPoints },
-                    });
-                })
-                .then((res) => {
-                    const translatedText = res.data.translatedText;
-                    console.log("Translated Text: " + translatedText);
-                    summary_box.innerText = translatedText;
-                    setIsSummaryAvailable(true);
+                    // update the summarybox.innerText with non-translated data
+                    console.log(res.data.summar)
+                    summary_box.innerText = res.data.summaryPoints;
                 })
                 .catch((error) => {
-                    console.log(error.response); //idk what to do for error here;
+                    console.log("An error has occurred:", error);
                 });
+            }
         }
     };
     return (
