@@ -15,6 +15,7 @@ const port = config.port || 5000;
 
 function MeetingDetails({ meetingId, handleYourMeetingsClick }) {
     const [meetingDetails, setMeetingDetails] = useState(null)
+    const [title, setTitle] = useState("");
     const [participants, setParticipants] = useState([]);
     const [isEditMode, setIsEditMode] = useState(false);
     const [showMeetingInfoPopUp , setShowMeetingInfoPopUp ] = useState(false);
@@ -166,7 +167,14 @@ function MeetingDetails({ meetingId, handleYourMeetingsClick }) {
                                         }}><TaskAltIcon style={{ fontSize: '2rem' }} /></button>
                                     </div>) : (
                                     <div className={styles.summary_box}>
-                                        {meetingDetails?.summaryPoints}
+                                        <textarea
+                                            readOnly
+                                            type="text"
+                                            value={meetingDetails?.summaryPoints}
+                                            onChange={handleSummaryPointsChange}
+                                            className={styles.input_box}
+                                            autoFocus={isEditMode} // Apply autoFocus when isEditMode is true
+                                        />
                                         <button className={styles.edit_icon} onClick={toggleEditMode}><EditNoteIcon style={{ fontSize: '2rem' }}/></button>
                                     </div>)}
                             </div>
@@ -188,7 +196,9 @@ function MeetingDetails({ meetingId, handleYourMeetingsClick }) {
                         {showMeetingInfoPopUp && (
                             <MeetingInfoScreen
                             closeMeetingInfo={closeMeetingInfo}
-                            meetingID={meetingId}/> )}
+                            meetingID={meetingId}
+                            details={meetingDetails}
+                            /> )}
                         {!meetingDetails?.completed && <button className={`${styles.mark_as_completed_button} ${styles.button_style}`} onClick={handleMarkAsCompleted}>
                             Mark as Completed
                         </button>}
@@ -202,7 +212,7 @@ function MeetingDetails({ meetingId, handleYourMeetingsClick }) {
     )
 }
 
-function MeetingInfoScreen({closeMeetingInfo, meetingID}) {
+function MeetingInfoScreen({closeMeetingInfo, meetingID, details}) {
     const [meetingTitle, setMeetingTitle] = useState("");
     const [meetingDate, setMeetingDate] = useState("");
 
@@ -218,6 +228,7 @@ function MeetingInfoScreen({closeMeetingInfo, meetingID}) {
                             
                 // put this back to database 
                 saveUpdatedDetails(updatedDetails)
+                details.meetingTitle = meetingTitle
         }
         catch (error) {
             toast.error('Error updating meeting title');

@@ -382,7 +382,14 @@ function RecordingUploadScreen({ onAddParticipant }) {
                             </div>
                         ) : (
                             <div className={styles.edit_box}>
-                                {meetingDetails?.summaryPoints}
+                                <textarea
+                                    readOnly
+                                    type="text"
+                                    value={meetingDetails?.summaryPoints}
+                                    onChange={handleSummaryPointsChange}
+                                    className={styles.input_box}
+                                    autoFocus={isEditMode}
+                                />
                                 <button
                                     className={styles.edit_icon}
                                     onClick={toggleEditMode}
