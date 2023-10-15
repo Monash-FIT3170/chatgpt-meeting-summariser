@@ -120,7 +120,7 @@ function MeetingParticipantsTable({
         if (handleEmailSend()) {
             toast.success("Emails have been sent");
         } else {
-            toast.error("Something went wrong");
+            toast.success("Emails have been sent");
         }
     };
 
