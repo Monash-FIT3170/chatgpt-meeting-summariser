@@ -5,17 +5,26 @@ const MeetingSummary = require('../models/meetingSummary.model');
 const sendEmailRouter = require('../routes/sendEmail');
 const sendEmail = sendEmailRouter.sendEmail;
 
+
+
+
 router.post('/schedule', async (req, res) => {
     try {
         const { email, scheduleTime } = req.body;
 
         // Convert scheduleTime into a cron format
-        const date1 = new Date(scheduleTime).toLocaleString('en-GB', { timeZone: 'Australia/Melbourne' });
-        const date = new Date(date1)
-        console.log(date)
+        
        
         
-        const cronTime = `${date.getMinutes()} ${date.getHours()} ${date.getDate() - 1} ${date.getMonth() + 2} ${date.getDay()+1}`; // Runs every day at the specified time
+
+        const date1 = new Date(scheduleTime).toLocaleString('en-US', { timeZone: 'Australia/Melbourne' });
+     
+        const date = new Date(date1);
+      
+        console.log(date1)
+       
+        
+        const cronTime = `${date.getMinutes()} ${date.getHours()-1} ${date.getDate() - 1} ${date.getMonth() + 2} ${date.getDay()+1}`; // Runs every day at the specified time
         console.log(cronTime)
         cron.schedule(cronTime, async () => {
             try {
