@@ -4,6 +4,8 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import TextField from "@mui/material/TextField";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 var config = require("../../config.json");
 const port = config.port || 5001;
@@ -116,9 +118,9 @@ function MeetingParticipantsTable({
         }
 
         if (handleEmailSend()) {
-            alert("Email successfully sent");
+            toast.success("Emails have been sent");
         } else {
-            alert("Sorry, there was an problem in sending the email");
+            toast.error("Something went wrong");
         }
     };
 
@@ -156,6 +158,16 @@ function MeetingParticipantsTable({
                     justifyContent: "center",
                 }}
             >
+                <ToastContainer
+                    position="top-right"
+                    autoClose={3000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnHover={false}
+                    pauseOnFocusLoss
+                />
                 <div className={styles.meeting_participants_box}>
                     <div className={styles.meeting_participants_header}>
                         <div className={styles.t1}>#</div>
