@@ -24,7 +24,7 @@ router.post('/schedule', async (req, res) => {
         console.log(date1)
        
         
-        const cronTime = `${date.getMinutes()} ${date.getHours()} ${date.getDate() - 1} ${date.getMonth() + 2} ${date.getDay()+1}`; // Runs every day at the specified time
+        const cronTime = `${date.getMinutes()} ${date.getHours()} ${date.getDate() } ${date.getMonth() + 1} ${date.getDay()+1}`; // Runs every day at the specified time
         console.log(cronTime)
         cron.schedule(cronTime, async () => {
             try {
